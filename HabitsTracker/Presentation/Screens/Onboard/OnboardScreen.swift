@@ -23,11 +23,11 @@ struct OnboardScreen: View {
                     PrimaryButton(label: "Continue") {
                         
                     }
-                    .padding(.bottom)
                 }
             }
-            .padding(.horizontal)
+            .padding()
             .radialGradientBackground(
+                center: .topLeading,
                 startRadius: size * Constants.Sizes.radialGradientStartPercent,
                 endRadius: size * Constants.Sizes.radialGradientEndPercent
             )
