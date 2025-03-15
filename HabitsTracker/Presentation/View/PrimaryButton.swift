@@ -19,12 +19,11 @@ struct PrimaryButton: View {
                 .foregroundStyle(Color.textInvert)
         }
         .frame(maxWidth: .infinity, maxHeight: Constants.Sizes.bottomHeight)
-        .frame(width: .infinity, height: Constants.Sizes.bottomHeight)
-        .backgroundStyle(Color.buttonBackground)
+        .background(Color.buttonBackground)
         .clipShape(RoundedRectangle(cornerRadius: Constants.Sizes.bottomCornerRadius))
     }
 }
 
 #Preview {
-    PrimaryButton(label: "", action: {})
+    PrimaryButton(label: "Continue", action: {})
 }
