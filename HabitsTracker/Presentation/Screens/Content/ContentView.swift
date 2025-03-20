@@ -12,22 +12,22 @@ struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme
     // сохраним-загрузим выбранную тему
     @AppStorage("appTheme") private var appTheme = AppTheme.device
+    // user name
+    @AppStorage("userName") private var userName = ""
     
     @Environment(\.diManager) private var di
     
-    @State private var initialized = false
-    
     var body: some View {
-        if initialized {
-//            MainScreen(viewModel: di.resolve())
+        if userName.isEmpty {
+            OnboardScreen(name: $userName)
+                .preferredColorScheme(appTheme.scheme(colorScheme))
         } else {
-            FirstScreen()
-//            OnboardScreen()
-//                .preferredColorScheme(appTheme.scheme(colorScheme))
+            MainScreen(viewModel: di.resolve())
+                .environment(\.diManager, di)
         }
     }
 }
 
 #Preview {
-//    ContentView()
+    //    ContentView()
 }
