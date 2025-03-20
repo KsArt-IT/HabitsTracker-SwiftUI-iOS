@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct HabitsTrackerApp: App {
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
     }
+    
+    init() {
+        debugPrint(URL.applicationSupportDirectory.path(percentEncoded: false))
+    }
+    
 }
