@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PrimaryButton: View {
     let label: LocalizedStringKey
+    let disabled: Bool
     let action: () -> Void
     
     var body: some View {
@@ -18,6 +19,7 @@ struct PrimaryButton: View {
             Text(label)
                 .foregroundStyle(Color.textInvert)
         }
+        .disabled(disabled)
         .frame(maxWidth: .infinity, maxHeight: Constants.Sizes.bottomHeight)
         .background(Color.buttonBackground)
         .clipShape(RoundedRectangle(cornerRadius: Constants.Sizes.bottomCornerRadius))
@@ -25,5 +27,5 @@ struct PrimaryButton: View {
 }
 
 #Preview {
-    PrimaryButton(label: "Continue", action: {})
+    PrimaryButton(label: "Continue", disabled: false, action: {})
 }
