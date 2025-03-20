@@ -9,6 +9,12 @@ import Foundation
 import SwiftUICore
 
 enum Constants {
+    // app name from Bundle
+    static let appName: String = {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ??
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "HabitCurrent"
+    }()
+
     enum Sizes {
         static let small: CGFloat = 8
         static let medium: CGFloat = 16
@@ -20,8 +26,11 @@ enum Constants {
         static let bottomHeight: CGFloat = 54
         static let bottomCornerRadius: CGFloat = bottomHeight / 2
         
-        static let radialGradientStartPercent = 0.7
+        static let radialGradientStartPercent = 0.3
         static let radialGradientEndPercent = 1.1
+        
+        static let shadowRadius: CGFloat = 4
+        static let shadowOffset: CGFloat = shadowRadius / 2
     }
     
     enum Fonts {
