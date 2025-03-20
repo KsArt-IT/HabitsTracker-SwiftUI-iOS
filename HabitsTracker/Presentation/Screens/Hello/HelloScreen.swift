@@ -7,9 +7,12 @@
 
 import SwiftUI
 
-struct FirstScreen: View {
-    @State private var name: String = ""
-    
+struct HelloScreen: View {
+    @Environment(\.dismiss) var dismiss
+    @State private var inputName: String = ""
+
+    @Binding var name: String
+
     var body: some View {
         GeometryReader { geometry in
             let start = min(geometry.size.width, geometry.size.height)
@@ -26,11 +29,12 @@ struct FirstScreen: View {
                 VStack {
                     CustomTextField(
                         hint: "Enter your name",
-                        text: $name
+                        text: $inputName
                     )
                     .padding(.vertical)
-                    PrimaryButton(label: "Continue") {
-                    
+                    PrimaryButton(label: "Continue", disabled: inputName.isEmpty) {
+                        name = inputName
+                        dismiss()
                     }
                 }
             }
@@ -47,5 +51,5 @@ struct FirstScreen: View {
 }
 
 #Preview {
-    FirstScreen()
+//    HelloScreen()
 }
