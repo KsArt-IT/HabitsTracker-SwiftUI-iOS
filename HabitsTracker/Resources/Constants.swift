@@ -42,5 +42,11 @@ enum Constants {
         
         static let captionRegular = Font.system(size: 14, weight: .regular)
         static let captionLight = Font.system(size: 14, weight: .light)
+        
+        static let appTab = Font.system(size: 14, weight: .medium)
+    }
+    
+    enum Namespace {
+        static let appTabGeometryId = "APPTAB.ID"
     }
 }
