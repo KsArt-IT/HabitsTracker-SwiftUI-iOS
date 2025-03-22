@@ -1,5 +1,5 @@
 //
-//  HabitFlowScreen.swift
+//  HabitDayScreen.swift
 //  HabitCurrent-SUI
 //
 //  Created by KsArT on 11.03.2025.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct HabitFlowScreen: View {
-    @StateObject var viewModel: HabitFlowViewModel
+struct HabitDayScreen: View {
+    @StateObject var viewModel: HabitDayViewModel
 
     var body: some View {
         VStack{
-            TitleTextView("Habit Flow")
+            TitleTextView("Habit Day")
         }
         .frame(maxHeight: .infinity, alignment: .top)
         .padding(.horizontal, Constants.Sizes.small)
@@ -20,5 +20,5 @@ struct HabitFlowScreen: View {
 }
 
 #Preview {
-//    HabitFlowScreen()
+//    HabitDayScreen()
 }
