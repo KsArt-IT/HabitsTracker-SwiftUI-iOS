@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct OnboardScreen: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     @State private var isHelloVisible = false
     
+    @StateObject var viewModel: OnboardViewModel
     @Binding var name: String
+    @Binding var initialized: Bool
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,8 +27,10 @@ struct OnboardScreen: View {
                 VStack {
                     Image(.hello)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                    PrimaryButton(label: "Continue", disabled: false) {
-                        isHelloVisible = true
+                    if viewModel.needName {
+                        PrimaryButton(label: "Continue", disabled: false) {
+                            isHelloVisible = true
+                        }
                     }
                 }
             }
@@ -37,16 +41,23 @@ struct OnboardScreen: View {
                 endRadius: size * Constants.Sizes.radialGradientEndPercent
             )
         }
+        .task(id: name) {
+            debugPrint("OnboardScreen task name=\(name)")
+            viewModel.initialize(name: name)
+        }
+        .onChange(of: viewModel.initialized) { _, newValue in
+            debugPrint("OnboardScreen dissmis")
+                initialized = true
+                dismiss()
+        }
         .fullScreenCover(isPresented: $isHelloVisible) {
-            dismiss()
-        } content: {
             HelloScreen(name: $name)
         }
-
+        
     }
 }
 
 #Preview {
-    @Previewable @State var name = ""
-    OnboardScreen(name: $name)
+    //    @Previewable @State var name = ""
+    //    OnboardScreen(name: $name)
 }
