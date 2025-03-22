@@ -16,14 +16,15 @@ struct ContentView: View {
     @AppStorage("userName") private var userName = ""
     
     @Environment(\.diManager) private var di
+    @State private var initialized = false
     
     var body: some View {
-        if userName.isEmpty {
-            OnboardScreen(name: $userName)
-                .preferredColorScheme(appTheme.scheme(colorScheme))
-        } else {
-            MainScreen(viewModel: di.resolve())
+        if initialized {
+            MainScreen()
                 .environment(\.diManager, di)
+        } else {
+            OnboardScreen(viewModel: di.resolve(), name: $userName, initialized: $initialized)
+                .preferredColorScheme(appTheme.scheme(colorScheme))
         }
     }
 }
