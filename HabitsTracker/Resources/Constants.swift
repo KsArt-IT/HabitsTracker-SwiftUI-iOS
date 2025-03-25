@@ -12,10 +12,11 @@ enum Constants {
     // app name from Bundle
     static let appName: String = {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ??
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "HabitCurrent"
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "HabitsTracker"
     }()
 
     enum Sizes {
+        static let tiny: CGFloat = 4
         static let small: CGFloat = 8
         static let medium: CGFloat = 16
         
@@ -44,6 +45,10 @@ enum Constants {
         static let captionLight = Font.system(size: 14, weight: .light)
         
         static let appTab = Font.system(size: 14, weight: .medium)
+    }
+    
+    enum Times {
+        static let appTabAnimation = 0.15
     }
     
     enum Namespace {
