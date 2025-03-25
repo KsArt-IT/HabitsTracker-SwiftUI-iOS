@@ -14,8 +14,9 @@ struct ContentView: View {
     @AppStorage("appTheme") private var appTheme = AppTheme.device
     // user name
     @AppStorage("userName") private var userName = ""
-    
+    // создаем diManager и передаем его ниже
     @Environment(\.diManager) private var di
+    // для проверки имени
     @State private var initialized = false
     
     var body: some View {
@@ -30,5 +31,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    //    ContentView()
+    ContentView()
 }
