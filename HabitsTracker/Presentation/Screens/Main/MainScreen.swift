@@ -15,7 +15,7 @@ struct MainScreen: View {
         NavigationView {
             VStack(spacing: 0) {
                 // Segmented Control
-                SegmentedView(selection: $selectedTab)
+                TabSegmentedView(selection: $selectedTab)
                 .padding(.horizontal)
 
                 // Content
