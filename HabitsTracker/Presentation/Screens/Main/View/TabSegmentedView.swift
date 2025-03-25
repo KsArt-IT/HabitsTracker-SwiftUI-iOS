@@ -7,36 +7,36 @@
 
 import SwiftUI
 
-struct SegmentedView: View {
-    @Namespace private var namespace
-
+struct TabSegmentedView: View {
+    @Namespace private var animation
+    
     @Binding var selection: AppTab
-
+    
     var body: some View {
         HStack(spacing: 0) {
             ForEach(AppTab.allCases) { tab in
                 Button {
-                    withAnimation(.spring(duration)) {
+                    withAnimation(.linear(duration: Constants.Times.appTabAnimation)) {
                         selection = tab
                     }
                 } label: {
                     Text(tab.rawValue)
-                        .font(Constants.Fonts.appTab)
                         .padding(.vertical, Constants.Sizes.small)
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(selection == tab ? Color.white : Color.primary)
+                        .foregroundColor(selection == tab ? .textInvert : .text)
                 }
                 .background {
                     if selection == tab {
                         Capsule()
-                            .fill(.black)
-                            .matchedGeometryEffect(id: Constants.Namespace.appTab, in: namespace)
+                            .fill(.tabSelected)
+                            .matchedGeometryEffect(id: Constants.Namespace.appTabGeometryId, in: animation)
                     }
                 }
             }
         }
-        .padding(4)
-        .background(Color.gray.opacity(0.1))
+        .font(Constants.Fonts.appTab)
+        .padding(Constants.Sizes.tiny)
+        .background(Color.tabBackground)
         .clipShape(Capsule())
     }
     
