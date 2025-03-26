@@ -32,10 +32,14 @@ enum Constants {
         
         static let shadowRadius: CGFloat = 4
         static let shadowOffset: CGFloat = shadowRadius / 2
+        
+        static let appTabPaddingVertical: CGFloat = 12
     }
     
     enum Fonts {
         static let largeTitle = Font.system(size: 48, weight: .semibold)
+        
+        static let mediumTitle = Font.system(size: 32, weight: .semibold)
         
         static let normalLabel = Font.system(size: 20, weight: .regular)
         
