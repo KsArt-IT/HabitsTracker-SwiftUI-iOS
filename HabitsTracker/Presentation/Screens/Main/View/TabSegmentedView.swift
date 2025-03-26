@@ -21,7 +21,7 @@ struct TabSegmentedView: View {
                     }
                 } label: {
                     Text(tab.rawValue)
-                        .padding(.vertical, Constants.Sizes.small)
+                        .padding(.vertical, Constants.Sizes.appTabPaddingVertical)
                         .frame(maxWidth: .infinity)
                         .foregroundColor(selection == tab ? .textInvert : .text)
                 }
