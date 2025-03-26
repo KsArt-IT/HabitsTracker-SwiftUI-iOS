@@ -10,43 +10,44 @@ import SwiftUI
 struct MainScreen: View {
     @Environment(\.diManager) private var di
     @State private var selectedTab: AppTab = AppTab.day
-
+    @State private var isShowHabitAdd = false
+    
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
-                // Segmented Control
-                TabSegmentedView(selection: $selectedTab)
-                .padding(.horizontal)
+        VStack(spacing: 0) {
+            // Title
+            TabTitleView(title: "Hi, \(Profile.user?.name ?? "")") {
+                isShowHabitAdd = true
+            }
+            .padding(.vertical, Constants.Sizes.tiny)
 
-                // Content
-                TabView(selection: $selectedTab) {
-                    HabitDayScreen(viewModel: di.resolve())
-                        .tag(AppTab.day)
-//                        .transition(.slide)
-                    HabitWeekScreen(viewModel: di.resolve())
-                        .tag(AppTab.week)
-                        .transition(.slide)
-                    HabitMonthScreen(viewModel: di.resolve())
-                        .tag(AppTab.month)
-                        .transition(.slide)
-                }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                .animation(.spring(), value: selectedTab)
+            // Segmented Control
+            TabSegmentedView(selection: $selectedTab)
+            
+            // Content
+            TabView(selection: $selectedTab) {
+                HabitDayScreen(viewModel: di.resolve())
+                    .tag(AppTab.day)
+                    .transition(.slide)
+                HabitWeekScreen(viewModel: di.resolve())
+                    .tag(AppTab.week)
+                    .transition(.slide)
+                HabitMonthScreen(viewModel: di.resolve())
+                    .tag(AppTab.month)
+                    .transition(.slide)
             }
-            .navigationTitle("Hi, \(Profile.user?.name ?? "")")
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                    } label: {
-                        Image(systemName: "plus")
-                            .font(.title2)
-                    }
-                }
-            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .animation(.spring, value: selectedTab)
+        }
+        .padding(.horizontal, Constants.Sizes.medium)
+        .background(Color.brandGray)
+        .fullScreenCover(isPresented: $isShowHabitAdd) {
+            
+        } content: {
+            
         }
     }
 }
 
 #Preview {
-    // MainScreen(viewModel: MainViewModel(habitRepository: PreviewHabitRepository()))
+    MainScreen()
 }
