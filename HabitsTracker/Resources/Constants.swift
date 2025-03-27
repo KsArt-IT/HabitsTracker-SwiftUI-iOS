@@ -20,6 +20,8 @@ enum Constants {
         static let small: CGFloat = 8
         static let medium: CGFloat = 16
         
+        static let icon: CGFloat = 20
+        
         static let textFieldPaddingHorizontal: CGFloat = 16
         static let textFieldPaddingVertical: CGFloat = 12
         static let textFieldCornerRadius: CGFloat = 24
