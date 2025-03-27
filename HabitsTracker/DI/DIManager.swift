@@ -17,6 +17,9 @@ final class DIManager {
         registerDataRepository()
         
         registerOnboardViewModel()
+        
+        registerHabitCreateViewModel()
+        
         registerHabitDayViewModel()
         registerHabitWeekViewModel()
         registerHabitMonthViewModel()
@@ -52,6 +55,12 @@ final class DIManager {
     private func registerOnboardViewModel() {
         container.register(OnboardViewModel.self) { resolver in
             OnboardViewModel(repository: resolver.resolve(UserRepository.self)!)
+        }.inObjectScope(.weak)
+    }
+    
+    private func registerHabitCreateViewModel() {
+        container.register(HabitCreateViewModel.self) { resolver in
+            HabitCreateViewModel(repository: resolver.resolve(HabitRepository.self)!)
         }.inObjectScope(.weak)
     }
     
