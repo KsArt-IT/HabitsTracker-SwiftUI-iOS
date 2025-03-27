@@ -15,17 +15,19 @@ struct TabTitleView: View {
         HStack {
             Text(title)
                 .font(Constants.Fonts.mediumTitle)
-            Spacer()
+                .lineLimit(1)
+                .truncationMode(.tail)
+            Spacer(minLength: Constants.Sizes.medium)
             Button {
                 action()
             } label: {
                 Image("add")
-                    .font(.system(size: 20))
+                    .font(.system(size: Constants.Sizes.icon))
                     .foregroundStyle(Color.text)
             }
             .padding(Constants.Sizes.appTabPaddingVertical)
             .background(Color.tabBackground)
-            .clipShape(Capsule())
+            .clipShape(Capsule(style: .circular))
         }
     }
 }
