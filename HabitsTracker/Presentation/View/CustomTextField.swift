@@ -15,6 +15,8 @@ struct CustomTextField: View {
         TextField(hint, text: $text)
             .font(Constants.Fonts.normalRegular)
             .textFieldStyle(CustomTextFieldStyle())
+            .textContentType(.name)
+
     }
 }
 
