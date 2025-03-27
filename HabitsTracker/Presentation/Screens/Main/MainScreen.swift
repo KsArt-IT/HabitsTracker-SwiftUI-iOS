@@ -43,7 +43,7 @@ struct MainScreen: View {
         .fullScreenCover(isPresented: $isShowHabitAdd) {
             
         } content: {
-            
+            HabitCreateScreen(viewModel: di.resolve())
         }
     }
 }
