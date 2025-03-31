@@ -11,46 +11,66 @@ import SwiftData
 @Model
 final class HabitModel {
     @Attribute(.unique)
-    var id: String
-    var title: String
-    var createdAt: Date
+    var id: UUID = UUID()
     
-    // Связь с UserModel, при удалении пользователя, удаляется и запись
+    var title: String
+    var descript: String = ""
+    
+    var createdAt: Date = Date.now
+    var lastCompletedDate: Date = Date.distantFuture
+    
+    var weekDaysRaw: Int = WeekDays.allDays // Хранит побитовые значения
+    
     @Relationship(deleteRule: .cascade)
+    var intervals: [HourIntervalModel] = []
+    
+    @Relationship(inverse: \UserModel.id)
     var user: UserModel
     
     init(
-        id: String,
         title: String,
+        user: UserModel
+    ) {
+        self.title = title
+        self.user = user
+    }
+    
+    init(
+        title: String,
+        descript: String = "",
+        weekDaysRaw: Int = WeekDays.allDays,
+        intervals: [HourIntervalModel],
+        user: UserModel
+    ) {
+        self.title = title
+        self.descript = descript
+        
+        self.weekDaysRaw = weekDaysRaw
+        self.intervals = intervals
+        
+        self.user = user
+    }
+    
+    init(
+        id: UUID,
+        title: String,
+        descript: String,
         createdAt: Date,
+        lastCompletedDate: Date,
+        weekDaysRaw: Int,
+        intervals: [HourIntervalModel] = [],
         user: UserModel
     ) {
         self.id = id
         self.title = title
+        self.descript = descript
+        
         self.createdAt = createdAt
+        self.lastCompletedDate = lastCompletedDate
+        
+        self.weekDaysRaw = weekDaysRaw
+        self.intervals = intervals
         
         self.user = user
-    }
-}
-
-extension HabitModel {
-    func mapToDomain() -> Habit {
-        Habit(
-            id: self.id,
-            title: self.title,
-            createdAt: self.createdAt,
-            userId: self.user.id
-        )
-    }
-}
-
-extension Habit {
-    func mapToModel(_ user: UserModel) -> HabitModel {
-        HabitModel(
-            id: self.id,
-            title: self.title,
-            createdAt: self.createdAt,
-            user: user
-        )
     }
 }
