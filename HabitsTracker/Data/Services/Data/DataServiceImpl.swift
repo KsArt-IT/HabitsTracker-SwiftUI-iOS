@@ -20,8 +20,10 @@ final class DataServiceImpl: DataService {
         return .success(user)
     }
     
-    func loadUser(id: String) async -> Result<UserModel, any Error> {
-        .success(UserModel(name: "Mock Name"))
+    func loadUser(id: UUID) async -> Result<UserModel, any Error> {
+        let user = UserModel(name: "Mock Name")
+        user.id = id
+        return .success(user)
     }
     
     func loadUser(name: String) async -> Result<UserModel, any Error> {
@@ -29,7 +31,7 @@ final class DataServiceImpl: DataService {
         return .success(user)
     }
     
-    func deleteUser(userId: String) async -> Result<Bool, any Error> {
+    func deleteUser(by id: UUID) async -> Result<Bool, any Error> {
         .success(true)
     }
     
@@ -37,14 +39,12 @@ final class DataServiceImpl: DataService {
         .success([])
     }
     
-    func loadHabit(id: String) async -> Result<HabitModel, any Error> {
+    func loadHabit(id: UUID) async -> Result<HabitModel, any Error> {
         let habit = HabitModel(
-            id: id,
             title: "Mock Hobit",
-            createdAt: Date.now,
             user: UserModel(name: "Mock Name")
         )
-        
+        habit.id = id
         return .success(habit)
     }
     
