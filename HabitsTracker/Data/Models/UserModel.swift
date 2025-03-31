@@ -11,24 +11,11 @@ import SwiftData
 @Model
 final class UserModel {
     @Attribute(.unique)
-    var id: String
-    @Attribute(.unique)
+    var id: UUID
     var name: String
     
-    init(
-        id: String = UUID().uuidString,
-        name: String
-    ) {
+    init(id: UUID = UUID(), name: String) {
         self.id = id
         self.name = name
-    }
-}
-
-extension UserModel {
-    func mapToDomain() -> User {
-        User(
-            id: self.id,
-            name: self.name
-        )
     }
 }
