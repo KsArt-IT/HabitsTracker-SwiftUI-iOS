@@ -12,37 +12,27 @@ final class HabitRepositoryImpl: HabitRepository {
         let result = await service.loadHabits()
         return switch result {
         case .success(let habits):
-                .success(habits.map { $0.mapToDomain() })
+                .success(habits.map { $0.toDomain() })
         case .failure(let error):
                 .failure(error)
         }
     }
     
-    func fetchHabit(id: String) async -> Result<Habit, any Error> {
+    func fetchHabit(id: UUID) async -> Result<Habit, any Error> {
         let result = await service.loadHabit(id: id)
         return switch result {
         case .success(let habit):
-                .success(habit.mapToDomain())
+                .success(habit.toDomain())
         case .failure(let error):
                 .failure(error)
         }
     }
     
-    func saveHabit(habit: Habit) async -> Result<Habit, any Error> {
-        let userResult = await service.loadUser(id: habit.userId)
-        return switch userResult {
-        case .success(let user):
-            await saveHabit(habit: habit, user: user)
-        case .failure(let error):
-                .failure(error)
-        }
-    }
-    
-    private func saveHabit(habit: Habit, user: UserModel) async -> Result<Habit, any Error> {
-        let result = await service.saveHabit(habit: habit.mapToModel(user))
+    func saveHabit(habit: Habit, user: User) async -> Result<Habit, any Error> {
+        let result = await service.saveHabit(habit: habit.toModel(user: user))
         return switch result {
         case .success(let habitModel):
-                .success(habitModel.mapToDomain())
+                .success(habitModel.toDomain())
         case .failure(let error):
                 .failure(error)
         }
@@ -52,7 +42,7 @@ final class HabitRepositoryImpl: HabitRepository {
         let result = await service.createUser(name: name)
         return switch result {
         case .success(let user):
-                .success(user.mapToDomain())
+                .success(user.toDomain())
         case .failure(let error):
                 .failure(error)
         }
