@@ -8,9 +8,15 @@
 import Foundation
 
 struct Habit: Identifiable {
-    let id: String
+    let id: UUID
+    let userId: UUID?
+
     let title: String
-    let createdAt: Date
+    let description: String
     
-    let userId: String
+    let createdAt: Date
+    let lastCompletedDate: Date
+    
+    let weekDays: Set<WeekDays>
+    let intervals: [HourInterval]
 }
