@@ -18,7 +18,7 @@ final class UserRepositoryImpl: UserRepository {
         let result =  await service.createUser(name: name)
         return switch result {
         case .success(let user):
-                .success(user.mapToDomain())
+                .success(user.toDomain())
         case .failure(let error):
                 .failure(error)
         }
@@ -28,7 +28,7 @@ final class UserRepositoryImpl: UserRepository {
         let result =  await service.loadUser(name: name)
         return switch result {
         case .success(let user):
-                .success(user.mapToDomain())
+                .success(user.toDomain())
         case .failure(let error):
                 .failure(error)
         }
