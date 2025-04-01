@@ -20,9 +20,9 @@ struct PrimaryButton: View {
                 .foregroundStyle(Color.textInvert)
         }
         .disabled(disabled)
-        .frame(maxWidth: .infinity, maxHeight: Constants.Sizes.bottomHeight)
+        .frame(maxWidth: .infinity, maxHeight: Constants.Sizes.buttonHeight)
         .background(Color.buttonBackground)
-        .clipShape(RoundedRectangle(cornerRadius: Constants.Sizes.bottomCornerRadius))
+        .clipShape(RoundedRectangle(cornerRadius: Constants.Sizes.buttonCornerRadius))
     }
 }
 
