@@ -24,7 +24,7 @@ final class HabitModel {
     @Relationship(deleteRule: .cascade)
     var intervals: [HourIntervalModel] = []
     
-    @Relationship(inverse: \UserModel.id)
+    @Relationship(deleteRule: .cascade)
     var user: UserModel
     
     init(
