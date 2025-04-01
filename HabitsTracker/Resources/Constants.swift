@@ -22,12 +22,15 @@ enum Constants {
         
         static let icon: CGFloat = 20
         
+        static let textFieldHeight: CGFloat = 44
         static let textFieldPaddingHorizontal: CGFloat = 16
         static let textFieldPaddingVertical: CGFloat = 12
-        static let textFieldCornerRadius: CGFloat = 24
+        static let textFieldCornerRadius: CGFloat = 16
         
-        static let bottomHeight: CGFloat = 54
-        static let bottomCornerRadius: CGFloat = bottomHeight / 2
+        static let formCornerRadius: CGFloat = 24
+        
+        static let buttonHeight: CGFloat = 54
+        static let buttonCornerRadius: CGFloat = buttonHeight / 2
         
         static let radialGradientStartPercent = 0.3
         static let radialGradientEndPercent = 1.1
