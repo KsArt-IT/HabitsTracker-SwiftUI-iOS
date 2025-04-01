@@ -26,13 +26,14 @@ fileprivate struct CustomTextFieldStyle: TextFieldStyle {
             .padding(.horizontal, Constants.Sizes.textFieldPaddingHorizontal)
             .padding(.vertical, Constants.Sizes.textFieldPaddingVertical)
             .background(
-                RoundedRectangle(cornerRadius: Constants.Sizes.bottomCornerRadius)
+                RoundedRectangle(cornerRadius: Constants.Sizes.textFieldCornerRadius)
                     .fill(.textFieldFill)
                     .overlay(
-                        RoundedRectangle(cornerRadius: Constants.Sizes.bottomCornerRadius)
+                        RoundedRectangle(cornerRadius: Constants.Sizes.textFieldCornerRadius)
                             .stroke(.stroke, lineWidth: 1)
                     )
             )
+            .frame(idealHeight: Constants.Sizes.textFieldHeight)
     }
 }
 
