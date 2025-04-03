@@ -14,10 +14,16 @@ struct HabitCreateScreen: View {
     var body: some View {
         ScrollView {
             VStack {
+                // Navigation back
                 NavTitleView {
                     dismiss()
                 }
-                CardTitleView(title: $viewModel.cardTitle)
+                CardNameEditView(text: $viewModel.cardTitle)
+                // How Often
+                PeriodEditView(selected: $viewModel.periodDays) {
+                    // Your own schedule
+                    ChooseWeekDaysView(check: viewModel.checkDay, change: viewModel.changeDay)
+                }
             }
         }
         .padding(.horizontal, Constants.Sizes.medium)
@@ -28,3 +34,4 @@ struct HabitCreateScreen: View {
 #Preview {
 //    HabitCreateScreen()
 }
+
