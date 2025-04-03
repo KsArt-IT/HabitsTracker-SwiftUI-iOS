@@ -4,6 +4,22 @@
     "" : {
       "shouldTranslate" : false
     },
+    "Choose a day" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите день"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виберіть день"
+          }
+        }
+      }
+    },
     "Continue" : {
       "localizations" : {
         "ru" : {
@@ -16,6 +32,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Продовжити"
+          }
+        }
+      }
+    },
+    "Daily" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ежедневно"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щодня"
           }
         }
       }
@@ -58,13 +90,13 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Название карты Etner"
+            "value" : "Введите название карты"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Назва картки Etner"
+            "value" : "Введіть назву картки"
           }
         }
       }
@@ -93,6 +125,22 @@
     },
     "Habit Week" : {
 
+    },
+    "How Often" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как часто"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Як часто"
+          }
+        }
+      }
     },
     "Monday" : {
       "localizations" : {
@@ -296,6 +344,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ласкаво просимо на трекер корисних звичок"
+          }
+        }
+      }
+    },
+    "Your own schedule" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш собственный график"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш власний графік"
           }
         }
       }
