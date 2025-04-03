@@ -7,7 +7,7 @@
 
 import SwiftUICore
 
-enum WeekDays: LocalizedStringKey, CaseIterable {
+enum WeekDays: LocalizedStringKey, CaseIterable, Identifiable {
     case monday    = "Monday"
     case tuesday   = "Tuesday"
     case wednesday = "Wednesday"
@@ -18,6 +18,8 @@ enum WeekDays: LocalizedStringKey, CaseIterable {
 }
 
 extension WeekDays {
+    var id: Self { self }
+    
     var bit: Int {
         switch self {
         case .monday: 1
