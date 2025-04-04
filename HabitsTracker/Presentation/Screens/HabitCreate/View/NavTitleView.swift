@@ -17,11 +17,11 @@ struct NavTitleView: View {
             } label: {
                 Image(systemName: "arrow.backward")
                     .font(.system(size: Constants.Sizes.icon))
+                    .frame(width: Constants.Sizes.large, height: Constants.Sizes.large)
                     .foregroundStyle(Color.text)
+                    .background(Color.tabBackground)
+                    .clipShape(Capsule(style: .circular))
             }
-            .padding(Constants.Sizes.appTabPaddingVertical)
-            .background(Color.tabBackground)
-            .clipShape(Capsule(style: .circular))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
