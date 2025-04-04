@@ -19,7 +19,9 @@ struct CheckBoxView: View {
                 .frame(width: Constants.Sizes.icon, height: Constants.Sizes.icon)
             
             Text(title)
-            
+                .font(Constants.Fonts.captionRegular)
+                .foregroundColor(.text)
+
             Spacer()
         }
         .padding(Constants.Sizes.small)
