@@ -19,6 +19,7 @@ enum Constants {
         static let tiny: CGFloat = 4
         static let small: CGFloat = 8
         static let medium: CGFloat = 16
+        static let large: CGFloat = 44
         
         static let icon: CGFloat = 24
         static let paddingVertical: CGFloat = 12
@@ -30,8 +31,9 @@ enum Constants {
         
         static let formCornerRadius: CGFloat = 24
         
-        static let buttonHeight: CGFloat = 54
+        static let buttonHeight: CGFloat = 48
         static let buttonCornerRadius: CGFloat = buttonHeight / 2
+        static let buttonDisabledOpacity: CGFloat = 0.64
         
         static let radialGradientStartPercent = 0.3
         static let radialGradientEndPercent = 1.1
@@ -40,6 +42,7 @@ enum Constants {
         static let shadowOffset: CGFloat = shadowRadius / 2
         
         static let appTabPaddingVertical: CGFloat = 12
+        
     }
     
     enum Fonts {
@@ -50,6 +53,7 @@ enum Constants {
         static let normalLabel = Font.system(size: 20, weight: .regular)
         
         static let normalRegular = Font.system(size: 16, weight: .regular)
+        static let normalMedium = Font.system(size: 16, weight: .medium)
         
         static let captionRegular = Font.system(size: 14, weight: .regular)
         static let captionLight = Font.system(size: 14, weight: .light)
@@ -58,6 +62,8 @@ enum Constants {
     }
     
     enum Times {
+        static let maxCount = 12
+
         static let appTabAnimation = 0.15
     }
     
