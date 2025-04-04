@@ -12,10 +12,10 @@ struct ChooseWeekDaysView: View {
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-
+    
     let check: (WeekDays) -> Bool
     let change: (WeekDays, Bool) -> Void
-
+    
     var body: some View {
         FormTitleView("Choose a day") {
             LazyVGrid(columns: columns, spacing: 0) {
@@ -31,5 +31,9 @@ struct ChooseWeekDaysView: View {
 }
 
 #Preview {
-//    ChooseDayView()
+    ChooseWeekDaysView {_ in
+        true
+    } change: {_,_  in
+        
+    }
 }
