@@ -14,9 +14,15 @@ final class HabitCreateViewModel: ObservableObject {
 
     @Published var periodDays: Int = 0
     private var days: Set<WeekDays> = []
-    
+
+    private let startTime: Int = 720 //12:00 minutes
+    @Published var times: [Int]
+
+    @Published var reminderTimes: Bool = false
+
     init(repository: HabitRepository) {
         self.repository = repository
+        times = [startTime]
     }
     
     public func checkDay(day: WeekDays) -> Bool {
@@ -29,5 +35,17 @@ final class HabitCreateViewModel: ObservableObject {
         } else {
             days.remove(day)
         }
+    }
+    
+    public func timesAdd() {
+        times.append(startTime)
+    }
+    
+    public func timesDel() {
+        times.removeLast()
+    }
+    
+    public func cardCreate() -> Bool {
+        true
     }
 }
