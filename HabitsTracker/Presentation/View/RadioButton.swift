@@ -10,7 +10,6 @@ import SwiftUI
 struct RadioButton: View {
     let title: LocalizedStringKey
     let selected: Bool
-    let action: () -> Void
     
     var body: some View {
         HStack {
@@ -19,14 +18,12 @@ struct RadioButton: View {
                 .frame(width: Constants.Sizes.icon, height: Constants.Sizes.icon)
             
             Text(title)
-                .foregroundColor(.primary)
+                .font(Constants.Fonts.captionRegular)
+                .foregroundColor(.text)
             
             Spacer()
         }
         .padding(Constants.Sizes.small)
         .contentShape(Rectangle())
-        .onTapGesture {
-            action()
-        }
     }
 }
