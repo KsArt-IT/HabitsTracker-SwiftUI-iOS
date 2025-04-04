@@ -17,12 +17,15 @@ struct PrimaryButton: View {
             action()
         } label: {
             Text(label)
-                .foregroundStyle(Color.textInvert)
+                .font(Constants.Fonts.normalMedium)
+                .frame(maxWidth: .infinity)
+                .frame(height: Constants.Sizes.buttonHeight)
+                .foregroundStyle(disabled ? .textDisabled : .textInvert)
+                .background(disabled ? .buttonDisabled : .buttonBackground)
+                .clipShape(RoundedRectangle(cornerRadius: Constants.Sizes.buttonCornerRadius))
         }
         .disabled(disabled)
-        .frame(maxWidth: .infinity, maxHeight: Constants.Sizes.buttonHeight)
-        .background(Color.buttonBackground)
-        .clipShape(RoundedRectangle(cornerRadius: Constants.Sizes.buttonCornerRadius))
+        .opacity(disabled ? Constants.Sizes.buttonDisabledOpacity : 1.0)
     }
 }
 
