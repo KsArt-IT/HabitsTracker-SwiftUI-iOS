@@ -1,8 +1,21 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-      "shouldTranslate" : false
+    "Add Time" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить время"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додати час"
+          }
+        }
+      }
     },
     "Choose a day" : {
       "localizations" : {
@@ -20,6 +33,22 @@
         }
       }
     },
+    "Choose a time" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите время"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виберіть час"
+          }
+        }
+      }
+    },
     "Continue" : {
       "localizations" : {
         "ru" : {
@@ -32,6 +61,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Продовжити"
+          }
+        }
+      }
+    },
+    "Create" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создавать"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создавать"
           }
         }
       }
@@ -64,6 +109,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "День"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видалити"
+          }
+        }
+      }
+    },
+    "Enable Reminders" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Включить напоминания"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увімкнути нагадування"
           }
         }
       }
@@ -213,6 +290,22 @@
         }
       }
     },
+    "Reminder" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Напоминание"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нагадування"
+          }
+        }
+      }
+    },
     "Saturday" : {
       "localizations" : {
         "ru" : {
@@ -344,6 +437,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ласкаво просимо на трекер корисних звичок"
+          }
+        }
+      }
+    },
+    "Without Reminder" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без напоминания"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без нагадування"
           }
         }
       }
