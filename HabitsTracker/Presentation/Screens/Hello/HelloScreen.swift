@@ -27,7 +27,7 @@ struct HelloScreen: View {
                 }
                 Spacer()
                 VStack {
-                    CustomTextField(
+                    StrokeTextField(
                         hint: "Enter your name",
                         text: $inputName
                     )
