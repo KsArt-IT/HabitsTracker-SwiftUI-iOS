@@ -20,10 +20,10 @@ struct CheckBoxView: View {
             
             Text(title)
                 .font(Constants.Fonts.captionRegular)
-                .foregroundColor(.text)
 
             Spacer()
         }
+        .foregroundColor(checked ? .textRadioSelected : .textRadio)
         .padding(Constants.Sizes.small)
         .contentShape(Rectangle())
         .onTapGesture {
