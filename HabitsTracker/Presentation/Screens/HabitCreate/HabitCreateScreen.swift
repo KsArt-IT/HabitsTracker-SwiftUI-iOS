@@ -34,12 +34,13 @@ struct HabitCreateScreen: View {
                     )
                     // Reminder
                     ReminderToggleView(enabled: $viewModel.reminderTimes)
+
+                    PrimaryButton(label: "Create", disabled: viewModel.cardTitle.isEmpty) {
+                        if viewModel.cardCreate() { dismiss() }
+                    }
                 }
             }
             
-            PrimaryButton(label: "Create", disabled: viewModel.cardTitle.isEmpty) {
-                if viewModel.cardCreate() { dismiss() }
-            }
         }
         .padding(.horizontal, Constants.Sizes.medium)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
