@@ -15,7 +15,7 @@ final class HabitCreateViewModel: ObservableObject {
     @Published var periodDays: Int = 0
     private var days: Set<WeekDays> = []
 
-    private let startTime: Int = 720 //12:00 minutes
+    private let startTime: Int = 0 //12:00 am - minutes
     @Published var times: [Int]
 
     @Published var reminderTimes: Bool = false
