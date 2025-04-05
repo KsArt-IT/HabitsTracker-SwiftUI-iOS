@@ -9,45 +9,41 @@ import SwiftUI
 
 struct TimeView: View {
     let time: Int
+    let select: () -> Void
+    let toggle: () -> Void
     
     var body: some View {
         HStack {
             Text(time.toHoursMinutes())
                 .frame(maxWidth: .infinity)
+                .onTapGesture {
+                    select()
+                }
             
             Divider()
+                .frame(height: Constants.Sizes.timeViewDivider)
                 .foregroundStyle(Color.devider)
             
-            Text(time.toHoursAmPm())
-                .frame(maxWidth: .infinity)
+            HStack {
+                Text(time.toHoursAmPm())
+                Image("AmPm")
+            }
+            .frame(maxWidth: .infinity)
+            .onTapGesture {
+                toggle()
+            }
         }
         .padding(Constants.Sizes.medium)
-        .frame(height: Constants.Sizes.textFieldHeight, alignment: .center)
+        .frame(height: Constants.Sizes.timeViewHeight, alignment: .center)
         .font(Constants.Fonts.captionLight)
         .foregroundStyle(Color.text)
         .background(Color.brandGray)
-        .clipShape(Capsule())
+        .clipShape(RoundedRectangle(cornerRadius: Constants.Sizes.textFieldCornerRadius))
     }
 }
 
 #Preview {
-    TimeView(time: 720)
+    TimeView(time: 720, select: {}, toggle: {})
         .padding()
         .background(Color.formBackground)
-}
-
-fileprivate extension Int {
-    func toHoursMinutes() -> String {
-        let hours = self / 60
-        let minutes = self % 60
-        
-        var hourIn12 = hours % 12
-        hourIn12 = hourIn12 == 0 ? 12 : hourIn12 // 0 часов — это 12 AM или 12 PM
-        
-        return String(format: "%02d:%02d", hourIn12, minutes)
-    }
-    
-    func toHoursAmPm() -> String {
-        self / 60 < 12 ? "am" : "pm"
-    }
 }
