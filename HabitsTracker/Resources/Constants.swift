@@ -24,6 +24,9 @@ enum Constants {
         static let icon: CGFloat = 24
         static let paddingVertical: CGFloat = 12
 
+        static let timeViewHeight: CGFloat = 44
+        static let timeViewDivider: CGFloat = 32
+
         static let textFieldHeight: CGFloat = 44
         static let textFieldPaddingHorizontal: CGFloat = 16
         static let textFieldPaddingVertical: CGFloat = 12
