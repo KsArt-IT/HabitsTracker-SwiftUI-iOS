@@ -9,12 +9,12 @@ import SwiftUICore
 
 enum WeekDays: LocalizedStringKey, CaseIterable, Identifiable {
     case monday    = "Monday"
-    case tuesday   = "Tuesday"
-    case wednesday = "Wednesday"
-    case thursday  = "Thursday"
     case friday    = "Friday"
+    case tuesday   = "Tuesday"
     case saturday  = "Saturday"
+    case wednesday = "Wednesday"
     case sunday    = "Sunday"
+    case thursday  = "Thursday"
 }
 
 extension WeekDays {
