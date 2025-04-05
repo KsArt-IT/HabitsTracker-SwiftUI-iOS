@@ -12,11 +12,17 @@ struct CustomTextField: View {
     @Binding var text: String
     
     var body: some View {
-        TextField(hint, text: $text)
-            .font(Constants.Fonts.normalRegular)
-            .textFieldStyle(CustomTextFieldStyle())
-            .textContentType(.name)
-
+        TextField(
+            "",
+            text: $text,
+            prompt: Text(hint)
+                .font(Constants.Fonts.captionLight)
+                .foregroundColor(.textFieldHint)
+        )
+        .font(Constants.Fonts.normalRegular)
+        .foregroundStyle(.textField)
+        .textFieldStyle(CustomTextFieldStyle())
+        .textContentType(.name)
     }
 }
 
@@ -27,11 +33,7 @@ fileprivate struct CustomTextFieldStyle: TextFieldStyle {
             .padding(.vertical, Constants.Sizes.textFieldPaddingVertical)
             .background(
                 RoundedRectangle(cornerRadius: Constants.Sizes.textFieldCornerRadius)
-                    .fill(.textFieldFill)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: Constants.Sizes.textFieldCornerRadius)
-                            .stroke(.stroke, lineWidth: 1)
-                    )
+                    .fill(.textFieldBackground)
             )
             .frame(idealHeight: Constants.Sizes.textFieldHeight)
     }
