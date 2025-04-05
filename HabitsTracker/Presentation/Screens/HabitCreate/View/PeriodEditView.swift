@@ -31,13 +31,13 @@ struct PeriodEditView<Content: View>: View {
             }
             .padding(.horizontal, Constants.Sizes.medium)
             
+            Color.clear
+                .frame(height: Constants.Sizes.medium)
+
             if periodSelected == .dayOfWeek {
                 content()
                     .transition(.opacity.combined(with: .move(edge: .top)))
             }
-            
-            Color.clear
-                .frame(height: Constants.Sizes.medium)
         }
     }
 }
