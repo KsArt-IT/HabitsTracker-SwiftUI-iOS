@@ -26,6 +26,7 @@ struct ChooseWeekDaysView: View {
                 }
             }
             .padding(.horizontal, Constants.Sizes.medium)
+            .padding(.bottom, Constants.Sizes.medium)
         }
     }
 }
