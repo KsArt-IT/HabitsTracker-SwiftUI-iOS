@@ -19,10 +19,10 @@ struct RadioButton: View {
             
             Text(title)
                 .font(Constants.Fonts.captionRegular)
-                .foregroundColor(.text)
             
             Spacer()
         }
+        .foregroundColor(selected ? .textRadioSelected : .textRadio)
         .padding(Constants.Sizes.small)
         .contentShape(Rectangle())
     }
