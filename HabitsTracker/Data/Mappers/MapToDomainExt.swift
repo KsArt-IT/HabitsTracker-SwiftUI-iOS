@@ -20,15 +20,16 @@ extension HabitModel {
     func toDomain() -> Habit {
         return Habit(
             id: id,
-            userId: user.id,
+            userId: userId,
             
             title: title,
-            description: descript,
+            details: details,
             
             createdAt: createdAt,
             lastCompletedDate: lastCompletedDate,
             weekDays: Set<WeekDays>.from(rawValue: weekDaysRaw),
-            intervals: intervals.map { $0.toDomain() }
+            intervals: intervals.map { $0.toDomain() },
+            completed: completed.map { $0.toDomain() }
         )
     }
 }
@@ -38,6 +39,16 @@ extension HourIntervalModel {
         return HourInterval(
             id: id,
             time: time
+        )
+    }
+}
+
+extension CompletedHourIntervalModel {
+    func toDomain() -> CompletedHourInterval {
+        return CompletedHourInterval(
+            id: id,
+            time: time,
+            completed: completed
         )
     }
 }

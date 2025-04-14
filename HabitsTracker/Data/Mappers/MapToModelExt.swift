@@ -14,18 +14,18 @@ extension User {
 }
 
 extension Habit {
-    func toModel(user: User) -> HabitModel {
+    func toModel() -> HabitModel {
         let habit = HabitModel(
             id: id,
             title: title,
-            descript: description,
+            details: details,
             
             createdAt: createdAt,
             lastCompletedDate: lastCompletedDate,
             
             weekDaysRaw: self.weekDays.rawValue,
             
-            user: user.toModel()
+            userId: userId
         )
         habit.intervals = intervals.map { $0.toModel(habit: habit) }
         return habit
@@ -38,6 +38,17 @@ extension HourInterval {
             id: id,
             time: time,
             habit: habit
+        )
+    }
+}
+
+extension CompletedHourInterval {
+    func toModel(habit: HabitModel) -> CompletedHourIntervalModel {
+        CompletedHourIntervalModel(
+            id: id,
+            time: time,
+            habit: habit,
+            completed: completed
         )
     }
 }
