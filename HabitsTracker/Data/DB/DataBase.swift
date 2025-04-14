@@ -13,6 +13,7 @@ final class DataBase {
             UserModel.self,
             HabitModel.self,
             HourIntervalModel.self,
+            CompletedHourIntervalModel.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema)
 
