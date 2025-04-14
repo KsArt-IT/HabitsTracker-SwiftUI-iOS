@@ -24,11 +24,11 @@ final class UserRepositoryImpl: UserRepository {
         }
     }
     
-    func loadUser(name: String) async -> Result<User, any Error> {
+    func loadUser(name: String) async -> Result<User?, any Error> {
         let result =  await service.loadUser(name: name)
         return switch result {
         case .success(let user):
-                .success(user.toDomain())
+                .success(user?.toDomain())
         case .failure(let error):
                 .failure(error)
         }
