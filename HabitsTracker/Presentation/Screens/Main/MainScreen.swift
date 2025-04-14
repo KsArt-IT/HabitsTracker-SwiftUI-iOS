@@ -11,14 +11,14 @@ struct MainScreen: View {
     @Environment(\.diManager) private var di
     @State private var selectedTab: AppTab = AppTab.day
     @State private var isShowHabitAdd = false
-    
+
     var body: some View {
         VStack(spacing: 0) {
             // Title
-            TabTitleView(title: "Hi, \(Profile.user?.name ?? "")") {
+            TabTitleView(title: String(localized: "Hi") + ", \(Profile.user?.name ?? "-")") {
                 isShowHabitAdd = true
             }
-            .padding(.vertical, Constants.Sizes.tiny)
+            .padding(.bottom, Constants.Sizes.medium)
 
             // Segmented Control
             TabSegmentedView(selection: $selectedTab)
