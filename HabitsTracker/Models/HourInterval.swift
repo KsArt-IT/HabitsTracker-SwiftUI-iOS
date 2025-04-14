@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HourInterval {
+struct HourInterval: Equatable, Hashable {
     let id: UUID
     let time: Int
 }
