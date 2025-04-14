@@ -14,7 +14,7 @@ final class HabitModel {
     var id: UUID = UUID()
     
     var title: String
-    var descript: String = ""
+    var details: String = ""
     
     var createdAt: Date = Date.now
     var lastCompletedDate: Date = Date.distantFuture
@@ -25,52 +25,56 @@ final class HabitModel {
     var intervals: [HourIntervalModel] = []
     
     @Relationship(deleteRule: .cascade)
-    var user: UserModel
+    var completed: [CompletedHourIntervalModel] = []
+    
+    var userId: UUID
     
     init(
         title: String,
-        user: UserModel
+        userId: UUID
     ) {
         self.title = title
-        self.user = user
+        self.userId = userId
     }
     
     init(
         title: String,
-        descript: String = "",
+        details: String = "",
         weekDaysRaw: Int = WeekDays.allDays,
         intervals: [HourIntervalModel],
-        user: UserModel
+        userId: UUID
     ) {
         self.title = title
-        self.descript = descript
+        self.details = details
         
         self.weekDaysRaw = weekDaysRaw
         self.intervals = intervals
         
-        self.user = user
+        self.userId = userId
     }
     
     init(
         id: UUID,
         title: String,
-        descript: String,
+        details: String,
         createdAt: Date,
         lastCompletedDate: Date,
         weekDaysRaw: Int,
         intervals: [HourIntervalModel] = [],
-        user: UserModel
+        completed: [CompletedHourIntervalModel] = [],
+        userId: UUID
     ) {
         self.id = id
         self.title = title
-        self.descript = descript
+        self.details = details
         
         self.createdAt = createdAt
         self.lastCompletedDate = lastCompletedDate
         
         self.weekDaysRaw = weekDaysRaw
         self.intervals = intervals
+        self.completed = completed
         
-        self.user = user
+        self.userId = userId
     }
 }
