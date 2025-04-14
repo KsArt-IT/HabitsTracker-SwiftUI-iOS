@@ -1,15 +1,23 @@
 import Foundation
 import SwiftData
+import Combine
 
 final class HabitRepositoryImpl: HabitRepository {
     private let service: DataService
     
+    var updatePublisher: AnyPublisher<Habit, Never> {
+        service.updatePublisher
+            .map { $0.toDomain() }
+            .eraseToAnyPublisher()
+    }
+
     init(service: DataService) {
         self.service = service
     }
     
-    func fetchHabits() async -> Result<[Habit], any Error> {
-        let result = await service.loadHabits()
+    
+    func fetchHabits(by userId: UUID) async -> Result<[Habit], any Error> {
+        let result = await service.loadHabits(by: userId)
         return switch result {
         case .success(let habits):
                 .success(habits.map { $0.toDomain() })
@@ -28,8 +36,9 @@ final class HabitRepositoryImpl: HabitRepository {
         }
     }
     
-    func saveHabit(habit: Habit, user: User) async -> Result<Habit, any Error> {
-        let result = await service.saveHabit(habit: habit.toModel(user: user))
+    func saveHabit(habit: Habit) async -> Result<Habit, any Error> {
+        print("HabitRepositoryImpl: \(#function) habit=\(habit.title)")
+        let result = await service.saveHabit(habit: habit.toModel())
         return switch result {
         case .success(let habitModel):
                 .success(habitModel.toDomain())
