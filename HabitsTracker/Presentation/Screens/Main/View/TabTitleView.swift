@@ -18,16 +18,14 @@ struct TabTitleView: View {
                 .lineLimit(1)
                 .truncationMode(.tail)
             Spacer(minLength: Constants.Sizes.medium)
-            Button {
-                action()
-            } label: {
+            Button(action: action) {
                 Image("add")
                     .font(.system(size: Constants.Sizes.icon))
                     .foregroundStyle(Color.text)
             }
             .padding(Constants.Sizes.appTabPaddingVertical)
             .background(Color.tabBackground)
-            .clipShape(Capsule(style: .circular))
+            .clipShape(.circle)
         }
     }
 }
