@@ -36,7 +36,7 @@ struct HabitCreateScreen: View {
                     ReminderToggleView(enabled: $viewModel.reminderTimes)
 
                     PrimaryButton(label: "Create", disabled: viewModel.cardTitle.isEmpty) {
-                        if viewModel.cardCreate() { dismiss() }
+                        viewModel.cardCreate()
                     }
                 }
             }
@@ -44,6 +44,9 @@ struct HabitCreateScreen: View {
         }
         .padding(.horizontal, Constants.Sizes.medium)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onChange(of: viewModel.closed) { _, newValue in
+            if newValue { dismiss() }
+        }
     }
 }
 
