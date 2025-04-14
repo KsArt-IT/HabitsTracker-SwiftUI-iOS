@@ -45,7 +45,14 @@ enum Constants {
         static let shadowOffset: CGFloat = shadowRadius / 2
         
         static let appTabPaddingVertical: CGFloat = 12
-        
+        // Columns spacing
+        static let spacingHabit: CGFloat = 16
+        static let spacingTime: CGFloat = 12
+        // Habit Item
+        static let habitPaddingLeading: CGFloat = 16
+        static let habitPadding: CGFloat = 6
+        static let habitIconPadding: CGFloat = 10
+        static let habitCornerRadius: CGFloat = 24
     }
     
     enum Fonts {
@@ -53,6 +60,8 @@ enum Constants {
         
         static let mediumTitle = Font.system(size: 32, weight: .semibold)
         
+        static let accentMedium = Font.system(size: 24, weight: .medium)
+
         static let normalLabel = Font.system(size: 20, weight: .regular)
         
         static let normalRegular = Font.system(size: 16, weight: .regular)
