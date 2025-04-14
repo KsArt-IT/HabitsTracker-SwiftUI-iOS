@@ -22,7 +22,7 @@ struct ChooseTimeView: View {
     
     var body: some View {
         FormTitleView("Choose a time") {
-            LazyVGrid(columns: columns, spacing: Constants.Sizes.paddingVertical) {
+            LazyVGrid(columns: columns, spacing: Constants.Sizes.spacingTime) {
                 ForEach(times.indices, id: \.self) { index in
                     TimeView(time: times[index]) {
                         date = times[index].toDateFromMinutes()
