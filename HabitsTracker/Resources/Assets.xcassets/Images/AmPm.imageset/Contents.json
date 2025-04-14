@@ -3,6 +3,16 @@
     {
       "filename" : "am_pm.svg",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "arrow-down-01-round.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
