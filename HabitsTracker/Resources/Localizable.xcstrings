@@ -4,6 +4,17 @@
     "" : {
       "shouldTranslate" : false
     },
+    "%lld/%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/%2$lld"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
     "Add Time" : {
       "localizations" : {
         "ru" : {
@@ -197,14 +208,27 @@
         }
       }
     },
-    "Habit Day" : {
-
-    },
     "Habit Month" : {
 
     },
     "Habit Week" : {
 
+    },
+    "Hi" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привет"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привіт"
+          }
+        }
+      }
     },
     "How Often" : {
       "localizations" : {
@@ -266,6 +290,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ім'я"
+          }
+        }
+      }
+    },
+    "No habits" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have no habits added yet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У вас пока нет добавленных привычек"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У вас поки немає доданих звичок"
           }
         }
       }
