@@ -10,4 +10,5 @@ import Foundation
 struct User {
     let id: UUID
     let name: String
+    var createdAt: Date
 }
