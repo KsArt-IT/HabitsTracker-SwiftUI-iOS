@@ -9,16 +9,22 @@ import Foundation
 import Combine
 
 protocol DataService: AnyObject {
-    func loadHabits(by userId: UUID) async -> Result<[HabitModel], any Error>
-    func loadHabit(id: UUID) async -> Result<HabitModel, any Error>
+    func fetchHabits(by userId: UUID) async -> Result<[HabitModel], any Error>
+    func fetchHabits(by userId: UUID, from startDate: Date, to endDate: Date) async -> Result<[HabitModel], any Error>
     
-    func saveHabit(habit: HabitModel) async -> Result<HabitModel, any Error>
+    func fetchHabit(by id: UUID) async -> Result<HabitModel, any Error>
+    func saveHabit(_ habit: HabitModel) async -> Result<HabitModel, any Error>
     func deleteHabit(by id: UUID) async -> Result<Bool, any Error>
-
-    var updatePublisher: AnyPublisher<HabitModel, Never> { get }
-
+    
+    func fetchCompleteds(by habitId: UUID) async -> Result<[HourIntervalCompletedModel], any Error>
+    func fetchCompleteds(by habitId: UUID, from startDate: Date, to endDate: Date) async -> Result<[HourIntervalCompletedModel], any Error>
+    func saveCompleted(_ completed: HourIntervalCompletedModel) async -> Result<HourIntervalCompletedModel, any Error>
+    func deleteCompleted(by id: UUID) async -> Result<Bool, any Error>
+    
     func createUser(name: String) async -> Result<UserModel, any Error>
-    func loadUser(id: UUID) async -> Result<UserModel?, any Error>
-    func loadUser(name: String) async -> Result<UserModel?, any Error>
+    func fetchUser(by id: UUID) async -> Result<UserModel?, any Error>
+    func fetchUser(by name: String) async -> Result<UserModel?, any Error>
     func deleteUser(by id: UUID) async -> Result<Bool, any Error>
+    
+    var updatePublisher: AnyPublisher<HabitModel, Never> { get }
 }
