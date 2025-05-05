@@ -12,22 +12,22 @@ import SwiftData
 final class HabitModel {
     @Attribute(.unique)
     var id: UUID = UUID()
-    
+    var userId: UUID
+
     var title: String
     var details: String = ""
     
     var createdAt: Date = Date.now
-    var lastCompletedDate: Date = Date.distantFuture
+    var updateAt: Date = Date.now
+    var completedAt: Date = Date.distantFuture
     
     var weekDaysRaw: Int = WeekDays.allDays // Хранит побитовые значения
     
     @Relationship(deleteRule: .cascade)
     var intervals: [HourIntervalModel] = []
     
-    @Relationship(deleteRule: .cascade)
-    var completed: [CompletedHourIntervalModel] = []
-    
-    var userId: UUID
+    @Transient
+    var completed: [HourIntervalCompletedModel] = []
     
     init(
         title: String,
@@ -57,11 +57,15 @@ final class HabitModel {
         id: UUID,
         title: String,
         details: String,
+
         createdAt: Date,
-        lastCompletedDate: Date,
+        updateAt: Date,
+        completedAt: Date,
+        
         weekDaysRaw: Int,
         intervals: [HourIntervalModel] = [],
-        completed: [CompletedHourIntervalModel] = [],
+        completed: [HourIntervalCompletedModel] = [],
+
         userId: UUID
     ) {
         self.id = id
@@ -69,7 +73,8 @@ final class HabitModel {
         self.details = details
         
         self.createdAt = createdAt
-        self.lastCompletedDate = lastCompletedDate
+        self.updateAt = updateAt
+        self.completedAt = completedAt
         
         self.weekDaysRaw = weekDaysRaw
         self.intervals = intervals
