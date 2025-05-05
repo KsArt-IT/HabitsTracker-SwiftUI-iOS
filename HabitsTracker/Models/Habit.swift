@@ -15,12 +15,15 @@ struct Habit: Identifiable, Equatable, Comparable, Hashable {
     let details: String
 
     let createdAt: Date
-    let lastCompletedDate: Date
+    let updateAt: Date
+    let completedAt: Date
 
     let weekDays: Set<WeekDays>
     let intervals: [HourInterval]
-    let completed: [CompletedHourInterval]
+    let completed: [HourIntervalCompleted]
 
+    var isActive: Bool { completedAt == Date.distantFuture }
+    
     // MARK: - Comparable
     static func < (lhs: Habit, rhs: Habit) -> Bool {
         (lhs.title, lhs.details) < (rhs.title, rhs.details)
