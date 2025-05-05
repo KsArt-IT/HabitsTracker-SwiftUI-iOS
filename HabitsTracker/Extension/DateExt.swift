@@ -14,4 +14,16 @@ extension Date {
         let minute = calendar.component(.minute, from: self)
         return hour * 60 + minute
     }
+    
+    /// Возвращает начало дня (00:00:00) для текущей даты
+    var startOfDay: Date {
+        Calendar.current.startOfDay(for: self)
+    }
+    
+    /// Возвращает конец дня (23:59:59.999...) для текущей даты
+    var endOfDay: Date {
+        let calendar = Calendar.current
+        let startOfNextDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+        return calendar.date(byAdding: .second, value: -1, to: startOfNextDay)!
+    }
 }
