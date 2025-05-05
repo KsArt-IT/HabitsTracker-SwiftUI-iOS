@@ -25,7 +25,7 @@ final class UserRepositoryImpl: UserRepository {
     }
     
     func loadUser(name: String) async -> Result<User?, any Error> {
-        let result =  await service.loadUser(name: name)
+        let result =  await service.fetchUser(by: name)
         return switch result {
         case .success(let user):
                 .success(user?.toDomain())
