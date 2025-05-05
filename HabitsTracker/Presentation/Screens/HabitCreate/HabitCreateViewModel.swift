@@ -73,13 +73,14 @@ final class HabitCreateViewModel: ObservableObject {
             title: cardTitle,
             details: "",
             createdAt: Date.now,
-            lastCompletedDate: Date.distantFuture,
+            updateAt: Date.now,
+            completedAt: Date.distantFuture,
             weekDays: days.isEmpty ? Set<WeekDays>(WeekDays.allCases): days,
             intervals: times.map { HourInterval(id: UUID(), time: $0) },
             completed: []
         )
         
-        let result  = await repository.saveHabit(habit: habit)
+        let result  = await repository.saveHabit(habit)
         switch result {
         case .success(_):
             await self.close()
