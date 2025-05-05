@@ -81,16 +81,23 @@ struct HabitItemView: View {
                 title: "Here is a very long habit name for display testing",
                 details: "",
                 createdAt: Date.now,
-                lastCompletedDate: Date.distantFuture,
+                updateAt: Date.now,
+                completedAt: Date.distantFuture,
                 weekDays: [WeekDays.monday, WeekDays.tuesday],
                 intervals: [
                     HourInterval(id: UUID(), time: 180)
                 ],
                 completed: [
-                    CompletedHourInterval(id: UUID(), time: 180, completed: Date.now)
+                    HourIntervalCompleted(
+                        id: UUID(),
+                        intervalId: UUID(),
+                        time: 180,
+                        completedAt: Date.now
+                    )
                 ]
             ),
-            action: {},
+            action: {
+            },
             edit: {}
         )
         Spacer(minLength: 16)
@@ -101,17 +108,24 @@ struct HabitItemView: View {
                 title: "Title Habit",
                 details: "",
                 createdAt: Date.now,
-                lastCompletedDate: Date.distantFuture,
+                updateAt: Date.now,
+                completedAt: Date.distantFuture,
                 weekDays: [WeekDays.monday, WeekDays.tuesday],
                 intervals: [
                     HourInterval(id: UUID(), time: 180),
                     HourInterval(id: UUID(), time: 200)
                 ],
                 completed: [
-                    CompletedHourInterval(id: UUID(), time: 180, completed: Date.now)
+                    HourIntervalCompleted(
+                        id: UUID(),
+                        intervalId: UUID(),
+                        time: 180,
+                        completedAt: Date.now
+                    )
                 ]
             ),
-            action: {},
+            action: {
+            },
             edit: {}
         )
     }
