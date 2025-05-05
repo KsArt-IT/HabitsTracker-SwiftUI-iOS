@@ -9,46 +9,52 @@ import Foundation
 
 extension User {
     func toModel() -> UserModel {
-        UserModel(id: self.id, name: self.name)
+        UserModel(
+            id: self.id,
+            name: self.name,
+            createdAt: self.createdAt,
+        )
     }
 }
 
 extension Habit {
     func toModel() -> HabitModel {
-        let habit = HabitModel(
+        HabitModel(
             id: id,
             title: title,
             details: details,
             
             createdAt: createdAt,
-            lastCompletedDate: lastCompletedDate,
+            updateAt: updateAt,
+            completedAt: completedAt,
             
-            weekDaysRaw: self.weekDays.rawValue,
+            weekDaysRaw: weekDays.rawValue,
+            intervals: intervals.map { $0.toModel(habitId: id) },
+            completed: completed.map { $0.toModel(habitId: id) },
             
-            userId: userId
+            userId: userId,
         )
-        habit.intervals = intervals.map { $0.toModel(habit: habit) }
-        return habit
     }
 }
 
 extension HourInterval {
-    func toModel(habit: HabitModel) -> HourIntervalModel {
+    func toModel(habitId: UUID) -> HourIntervalModel {
         HourIntervalModel(
             id: id,
+            habitId: habitId,
             time: time,
-            habit: habit
         )
     }
 }
 
-extension CompletedHourInterval {
-    func toModel(habit: HabitModel) -> CompletedHourIntervalModel {
-        CompletedHourIntervalModel(
+extension HourIntervalCompleted {
+    func toModel(habitId: UUID) -> HourIntervalCompletedModel {
+        HourIntervalCompletedModel(
             id: id,
+            habitId: habitId,
+            intervalId: intervalId,
             time: time,
-            habit: habit,
-            completed: completed
+            completedAt: completedAt,
         )
     }
 }

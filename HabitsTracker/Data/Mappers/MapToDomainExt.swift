@@ -9,16 +9,17 @@ import Foundation
 
 extension UserModel {
     func toDomain() -> User {
-        return User(
+        User(
             id: id,
-            name: name
+            name: name,
+            createdAt: createdAt,
         )
     }
 }
 
 extension HabitModel {
     func toDomain() -> Habit {
-        return Habit(
+        Habit(
             id: id,
             userId: userId,
             
@@ -26,7 +27,9 @@ extension HabitModel {
             details: details,
             
             createdAt: createdAt,
-            lastCompletedDate: lastCompletedDate,
+            updateAt: updateAt,
+            completedAt: completedAt,
+            
             weekDays: Set<WeekDays>.from(rawValue: weekDaysRaw),
             intervals: intervals.map { $0.toDomain() },
             completed: completed.map { $0.toDomain() }
@@ -36,19 +39,20 @@ extension HabitModel {
 
 extension HourIntervalModel {
     func toDomain() -> HourInterval {
-        return HourInterval(
+        HourInterval(
             id: id,
             time: time
         )
     }
 }
 
-extension CompletedHourIntervalModel {
-    func toDomain() -> CompletedHourInterval {
-        return CompletedHourInterval(
+extension HourIntervalCompletedModel {
+    func toDomain() -> HourIntervalCompleted {
+        HourIntervalCompleted(
             id: id,
+            intervalId: intervalId,
             time: time,
-            completed: completed
+            completedAt: completedAt
         )
     }
 }
