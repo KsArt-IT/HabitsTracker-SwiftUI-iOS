@@ -1,5 +1,5 @@
 //
-//  CompletedHourIntervalModel.swift
+//  HourIntervalCompleted.swift
 //  HabitsTracker
 //
 //  Created by KsArT on 14.04.2025.
