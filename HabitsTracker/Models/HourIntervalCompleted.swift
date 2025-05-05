@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct CompletedHourInterval: Equatable, Hashable {
+struct HourIntervalCompleted: Equatable, Hashable {
     let id: UUID
+    let intervalId: UUID
     let time: Int // время в секундах
-    let completed: Date
+    let completedAt: Date
 }
