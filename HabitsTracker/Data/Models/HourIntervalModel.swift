@@ -12,14 +12,16 @@ import SwiftData
 final class HourIntervalModel {
     @Attribute(.unique)
     var id: UUID
+    var habitId: UUID
     var time: Int // время в секундах
     
-    @Relationship(deleteRule: .cascade)
-    var habit: HabitModel
-    
-    init(id: UUID, time: Int, habit: HabitModel) {
+    init(
+        id: UUID,
+        habitId: UUID,
+        time: Int,
+    ) {
         self.id = id
+        self.habitId = habitId
         self.time = time
-        self.habit = habit
     }
 }
