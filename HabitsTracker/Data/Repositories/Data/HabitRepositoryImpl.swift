@@ -10,14 +10,14 @@ final class HabitRepositoryImpl: HabitRepository {
             .map { $0.toDomain() }
             .eraseToAnyPublisher()
     }
-
+    
     init(service: DataService) {
         self.service = service
     }
     
     
     func fetchHabits(by userId: UUID) async -> Result<[Habit], any Error> {
-        let result = await service.loadHabits(by: userId)
+        let result = await service.fetchHabits(by: userId)
         return switch result {
         case .success(let habits):
                 .success(habits.map { $0.toDomain() })
@@ -26,8 +26,22 @@ final class HabitRepositoryImpl: HabitRepository {
         }
     }
     
-    func fetchHabit(id: UUID) async -> Result<Habit, any Error> {
-        let result = await service.loadHabit(id: id)
+    func fetchHabits(by userId: UUID, from date: Date) async -> Result<[Habit], any Error> {
+        await fetchHabits(by: userId, from: date, to: date)
+    }
+    
+    func fetchHabits(by userId: UUID, from startDate: Date, to endDate: Date) async -> Result<[Habit], any Error> {
+        let result = await service.fetchHabits(by: userId, from: startDate, to: endDate)
+        return switch result {
+        case .success(let habits):
+                .success(habits.map { $0.toDomain() })
+        case .failure(let error):
+                .failure(error)
+        }
+    }
+    
+    func fetchHabit(by id: UUID) async -> Result<Habit, any Error> {
+        let result = await service.fetchHabit(by: id)
         return switch result {
         case .success(let habit):
                 .success(habit.toDomain())
@@ -36,9 +50,9 @@ final class HabitRepositoryImpl: HabitRepository {
         }
     }
     
-    func saveHabit(habit: Habit) async -> Result<Habit, any Error> {
+    func saveHabit(_ habit: Habit) async -> Result<Habit, any Error> {
         print("HabitRepositoryImpl: \(#function) habit=\(habit.title)")
-        let result = await service.saveHabit(habit: habit.toModel())
+        let result = await service.saveHabit(habit.toModel())
         return switch result {
         case .success(let habitModel):
                 .success(habitModel.toDomain())
@@ -47,13 +61,48 @@ final class HabitRepositoryImpl: HabitRepository {
         }
     }
     
-    func createUser(name: String) async -> Result<User, any Error> {
-        let result = await service.createUser(name: name)
+    func deleteHabit(by id: UUID) async -> Result<Bool, any Error> {
+        await service.deleteHabit(by: id)
+    }
+    
+    // MARK: - HourIntervalCompleted
+    func fetchCompleteds(by habitId: UUID) async -> Result<[HourIntervalCompleted], any Error> {
+        let result = await service.fetchCompleteds(by: habitId)
         return switch result {
-        case .success(let user):
-                .success(user.toDomain())
+        case .success(let completeds):
+                .success(completeds.map { $0.toDomain() })
         case .failure(let error):
                 .failure(error)
         }
     }
+    
+    func fetchCompleteds(by habitId: UUID, from date: Date) async -> Result<[HourIntervalCompleted], any Error> {
+        await fetchCompleteds(by: habitId, from: date, to: date)
+    }
+    
+    func fetchCompleteds(by habitId: UUID, from startDate: Date, to endDate: Date) async -> Result<[HourIntervalCompleted], any Error> {
+        let result = await service.fetchCompleteds(by: habitId, from: startDate, to: endDate)
+        return switch result {
+        case .success(let completeds):
+                .success(completeds.map { $0.toDomain() })
+        case .failure(let error):
+                .failure(error)
+        }
+    }
+    
+    func saveCompleted(by habitId: UUID, completed: HourIntervalCompleted) async -> Result<HourIntervalCompleted, any Error> {
+        let result = await service.saveCompleted(completed.toModel(habitId: habitId))
+        return switch result {
+        case .success(let completed):
+                .success(completed.toDomain())
+        case .failure(let error):
+                .failure(error)
+        }
+        
+    }
+    
+    func deleteCompleted(by id: UUID) async -> Result<Bool, any Error> {
+        await service.deleteCompleted(by: id)
+    }
+    
 }
