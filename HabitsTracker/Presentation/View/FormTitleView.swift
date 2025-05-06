@@ -19,7 +19,7 @@ struct FormTitleView<Content> : View where Content : View {
     @ViewBuilder
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            TitleTextNormalView(title)
+            TitleTextNormalView(title: title)
                 .padding(Constants.Sizes.medium)
             content
         }
