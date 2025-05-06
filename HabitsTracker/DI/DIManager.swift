@@ -20,6 +20,8 @@ final class DIManager {
         
         registerHabitCreateViewModel()
         
+        registerHabitActionViewModel()
+        
         registerHabitDayViewModel()
         registerHabitWeekViewModel()
         registerHabitMonthViewModel()
@@ -61,6 +63,12 @@ final class DIManager {
     private func registerHabitCreateViewModel() {
         container.register(HabitCreateViewModel.self) { resolver in
             HabitCreateViewModel(repository: resolver.resolve(HabitRepository.self)!)
+        }.inObjectScope(.weak)
+    }
+    
+    private func registerHabitActionViewModel() {
+        container.register(HabitActionViewModel.self) { resolver in
+            HabitActionViewModel(repository: resolver.resolve(HabitRepository.self)!)
         }.inObjectScope(.weak)
     }
     
