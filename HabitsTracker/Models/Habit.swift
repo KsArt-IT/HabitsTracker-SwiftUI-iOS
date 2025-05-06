@@ -28,4 +28,19 @@ struct Habit: Identifiable, Equatable, Comparable, Hashable {
     static func < (lhs: Habit, rhs: Habit) -> Bool {
         (lhs.title, lhs.details) < (rhs.title, rhs.details)
     }
+    
+    func copyWith(completed: [HourIntervalCompleted]) -> Habit {
+        Habit(
+            id: id,
+            userId: userId,
+            title: title,
+            details: details,
+            createdAt: createdAt,
+            updateAt: updateAt,
+            completedAt: completedAt,
+            weekDays: weekDays,
+            intervals: intervals,
+            completed: completed,
+        )
+    }
 }
