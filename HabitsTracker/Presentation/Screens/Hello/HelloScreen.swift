@@ -24,6 +24,7 @@ struct HelloScreen: View {
                         .font(Constants.Fonts.largeTitle)
                     Text("Please enter your name")
                         .font(Constants.Fonts.normalLabel)
+                        .foregroundStyle(Color.textHello)
                 }
                 Spacer()
                 VStack {
