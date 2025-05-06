@@ -7,25 +7,32 @@
 
 import SwiftUI
 
+enum HabitMenu: Equatable {
+    case none
+    case edit(id: UUID?)
+    case action(id: UUID)
+}
+
 struct MainScreen: View {
     @Environment(\.diManager) private var di
     @State private var selectedTab: AppTab = AppTab.day
     @State private var isShowHabitAdd = false
-
+    @State private var habitMenu: HabitMenu = .none
+    
     var body: some View {
         VStack(spacing: 0) {
             // Title
             TabTitleView(title: String(localized: "Hi") + ", \(Profile.user?.name ?? "-")") {
-                isShowHabitAdd = true
+                habitMenu = .edit(id: nil)
             }
             .padding(.bottom, Constants.Sizes.medium)
-
+            
             // Segmented Control
             TabSegmentedView(selection: $selectedTab)
             
             // Content
             TabView(selection: $selectedTab) {
-                HabitDayScreen(viewModel: di.resolve())
+                HabitDayScreen(viewModel: di.resolve(), habitMenu: $habitMenu)
                     .tag(AppTab.day)
                     .transition(.slide)
                 HabitWeekScreen(viewModel: di.resolve())
@@ -40,10 +47,23 @@ struct MainScreen: View {
         }
         .padding(.horizontal, Constants.Sizes.medium)
         .background(Color.brandGray)
+        .onChange(of: habitMenu, { _, newValue in
+            isShowHabitAdd = newValue != .none
+        })
+        .onChange(of: isShowHabitAdd, { _, newValue in
+            if !newValue {
+                habitMenu = .none
+            }
+        })
         .fullScreenCover(isPresented: $isShowHabitAdd) {
             
         } content: {
-            HabitCreateScreen(viewModel: di.resolve())
+            switch habitMenu {
+            case .edit(nil): HabitCreateScreen(viewModel: di.resolve())
+            case .edit(let id): HabitCreateScreen(viewModel: di.resolve())
+            case .action(let id): HabitActionScreen(viewModel: di.resolve(), id: id, habitMenu: $habitMenu)
+            case .none: EmptyView()
+            }
         }
     }
 }
