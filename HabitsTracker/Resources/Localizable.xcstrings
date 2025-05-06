@@ -143,6 +143,22 @@
         }
       }
     },
+    "Edit" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактировать"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редагувати"
+          }
+        }
+      }
+    },
     "Enable Reminders" : {
       "localizations" : {
         "ru" : {
