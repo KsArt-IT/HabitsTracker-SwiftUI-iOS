@@ -10,10 +10,6 @@ import SwiftUI
 struct TitleTextNormalView: View {
     let title: LocalizedStringKey
     
-    init(_ title: LocalizedStringKey) {
-        self.title = title
-    }
-    
     var body: some View {
         Text(title)
             .font(Constants.Fonts.normalRegular)
@@ -24,5 +20,5 @@ struct TitleTextNormalView: View {
 }
 
 #Preview {
-    TitleTextNormalView("")
+    TitleTextNormalView(title: "")
 }
