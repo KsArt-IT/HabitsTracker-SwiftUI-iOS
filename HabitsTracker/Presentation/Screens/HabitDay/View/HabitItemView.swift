@@ -11,28 +11,11 @@ struct HabitItemView: View {
     let habit: Habit
     let action: () -> Void
     let edit: () -> Void
+    let delete: () -> Void
     
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                Text(habit.title)
-                    .font(Constants.Fonts.normalRegular)
-                    .lineLimit(1)
-                    .truncationMode(.tail)
-                    .foregroundStyle(Color.text)
-                Spacer(minLength: Constants.Sizes.small)
-                Button(action: edit) {
-                    Image(systemName: "ellipsis")
-                        .resizable()
-                        .scaledToFit()
-                        .padding(4)
-                        .frame(width: Constants.Sizes.icon, height: Constants.Sizes.icon)
-                        .padding(Constants.Sizes.habitIconPadding)
-                }
-                .foregroundStyle(Color.brandBlack)
-                .background(Color.clear)
-                .clipShape(.circle)
-            }
+            TitleTextAndMenuView(title: habit.title, edit:edit, delete: delete)
             
             Spacer()
             
@@ -96,9 +79,9 @@ struct HabitItemView: View {
                     )
                 ]
             ),
-            action: {
-            },
-            edit: {}
+            action: {},
+            edit: {},
+            delete: {},
         )
         Spacer(minLength: 16)
         HabitItemView(
@@ -124,9 +107,9 @@ struct HabitItemView: View {
                     )
                 ]
             ),
-            action: {
-            },
-            edit: {}
+            action: {},
+            edit: {},
+            delete: {},
         )
     }
     .padding()
