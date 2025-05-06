@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct CheckBoxView: View {
-    let title: LocalizedStringKey
-    @State var checked: Bool
-    let action: (Bool) -> Void
+    private let title: String
+    @State private var checked: Bool
+    private let action: (Bool) -> Void
+    
+    init(title: LocalizedStringResource? = nil, label: String = "", checked: Bool, action: @escaping (Bool) -> Void) {
+        self.title = if let title { String(localized: title) } else { label }
+        self.checked = checked
+        self.action = action
+    }
     
     var body: some View {
         HStack {
@@ -20,7 +26,7 @@ struct CheckBoxView: View {
             
             Text(title)
                 .font(Constants.Fonts.captionRegular)
-
+            
             Spacer()
         }
         .foregroundColor(checked ? .textRadioSelected : .textRadio)
