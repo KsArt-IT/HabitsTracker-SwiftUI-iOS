@@ -64,7 +64,7 @@ struct HabitItemView: View {
                 title: "Here is a very long habit name for display testing",
                 details: "",
                 createdAt: Date.now,
-                updateAt: Date.now,
+                updatedAt: Date.now,
                 completedAt: Date.distantFuture,
                 weekDays: [WeekDays.monday, WeekDays.tuesday],
                 intervals: [
@@ -91,7 +91,7 @@ struct HabitItemView: View {
                 title: "Title Habit",
                 details: "",
                 createdAt: Date.now,
-                updateAt: Date.now,
+                updatedAt: Date.now,
                 completedAt: Date.distantFuture,
                 weekDays: [WeekDays.monday, WeekDays.tuesday],
                 intervals: [
