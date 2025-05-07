@@ -9,7 +9,7 @@ protocol HabitRepository: AnyObject {
     func fetchHabit(by id: UUID, from date: Date) async -> Result<Habit?, any Error>
     func fetchHabit(by id: UUID, from startDate: Date, to endDate: Date) async -> Result<Habit?, any Error>
 
-    func saveHabit(_ habit: Habit) async -> Result<Habit, any Error>
+    func saveHabit(_ habit: Habit) async -> Result<Bool, any Error>
     func deleteHabit(by id: UUID) async -> Result<Bool, any Error>
     
     func fetchCompleteds(by habitId: UUID) async -> Result<[HourIntervalCompleted], any Error>
@@ -27,5 +27,4 @@ protocol HabitRepository: AnyObject {
     
     func reloadHabit(by id: UUID)
     var needReloadHabitPublisher: AnyPublisher<UUID, Never> { get }
-    var updatePublisher: AnyPublisher<Habit, Never> { get }
 }

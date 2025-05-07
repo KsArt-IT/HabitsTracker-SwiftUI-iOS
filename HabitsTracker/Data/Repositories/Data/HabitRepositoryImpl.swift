@@ -5,12 +5,6 @@ import Combine
 final class HabitRepositoryImpl: HabitRepository {
     private let service: DataService
     
-    var updatePublisher: AnyPublisher<Habit, Never> {
-        service.updatePublisher
-            .map { $0.toDomain() }
-            .eraseToAnyPublisher()
-    }
-    
     var needReloadHabitPublisher: AnyPublisher<UUID, Never> {
         service.needReloadHabitPublisher
     }
@@ -54,15 +48,8 @@ final class HabitRepositoryImpl: HabitRepository {
         service.reloadHabit(by: id)
     }
     
-    func saveHabit(_ habit: Habit) async -> Result<Habit, any Error> {
-        print("HabitRepositoryImpl: \(#function) habit=\(habit.title)")
-        let result = await service.saveHabit(habit.toModel())
-        return switch result {
-        case .success(let habitModel):
-                .success(habitModel.toDomain())
-        case .failure(let error):
-                .failure(error)
-        }
+    func saveHabit(_ habit: Habit) async -> Result<Bool, any Error> {
+        await service.saveHabit(habit.toModel())
     }
     
     func deleteHabit(by id: UUID) async -> Result<Bool, any Error> {
