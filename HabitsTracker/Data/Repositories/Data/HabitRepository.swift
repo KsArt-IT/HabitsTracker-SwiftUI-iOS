@@ -8,6 +8,9 @@ protocol HabitRepository: AnyObject {
     func fetchHabits(by userId: UUID, from startDate: Date, to endDate: Date) async -> Result<[Habit], any Error>
     
     func fetchHabit(by id: UUID) async -> Result<Habit, any Error>
+    func fetchHabit(by id: UUID, from date: Date) async -> Result<Habit?, any Error>
+    func fetchHabit(by id: UUID, from startDate: Date, to endDate: Date) async -> Result<Habit?, any Error>
+
     func saveHabit(_ habit: Habit) async -> Result<Habit, any Error>
     func deleteHabit(by id: UUID) async -> Result<Bool, any Error>
     
