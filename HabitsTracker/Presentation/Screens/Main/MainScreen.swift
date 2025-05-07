@@ -59,8 +59,8 @@ struct MainScreen: View {
             
         } content: {
             switch habitMenu {
-            case .edit(nil): HabitCreateScreen(viewModel: di.resolve())
-            case .edit(let id): HabitCreateScreen(viewModel: di.resolve())
+            case .edit(nil): HabitEditScreen(viewModel: di.resolve(), id: nil)
+            case .edit(let id): HabitEditScreen(viewModel: di.resolve(), id: id)
             case .action(let id): HabitActionScreen(viewModel: di.resolve(), id: id, habitMenu: $habitMenu)
             case .none: EmptyView()
             }
