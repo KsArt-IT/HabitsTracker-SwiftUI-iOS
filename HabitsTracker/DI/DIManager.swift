@@ -61,8 +61,8 @@ final class DIManager {
     }
     
     private func registerHabitCreateViewModel() {
-        container.register(HabitCreateViewModel.self) { resolver in
-            HabitCreateViewModel(repository: resolver.resolve(HabitRepository.self)!)
+        container.register(HabitEditViewModel.self) { resolver in
+            HabitEditViewModel(repository: resolver.resolve(HabitRepository.self)!)
         }.inObjectScope(.weak)
     }
     
