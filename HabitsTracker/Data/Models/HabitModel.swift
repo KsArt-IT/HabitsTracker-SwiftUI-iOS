@@ -11,69 +11,45 @@ import SwiftData
 @Model
 final class HabitModel {
     @Attribute(.unique)
-    var id: UUID = UUID()
+    var id: UUID
+    
     var userId: UUID
-
     var title: String
     var details: String = ""
-    
+
     var createdAt: Date = Date.now
-    var updateAt: Date = Date.now
+    var updatedAt: Date = Date.now
     var completedAt: Date = Date.distantFuture
-    
-    var weekDaysRaw: Int = WeekDays.allDays // Хранит побитовые значения
-    
-    @Relationship(deleteRule: .cascade)
+
+    var weekDaysRaw: Int = WeekDays.allDays
+
+    @Relationship(deleteRule: .cascade, inverse: \HourIntervalModel.habit)
     var intervals: [HourIntervalModel] = []
-    
+
     @Transient
     var completed: [HourIntervalCompletedModel] = []
-    
+
     init(
-        title: String,
-        userId: UUID
-    ) {
-        self.title = title
-        self.userId = userId
-    }
-    
-    init(
+        id: UUID = UUID(),
         title: String,
         details: String = "",
-        weekDaysRaw: Int = WeekDays.allDays,
-        intervals: [HourIntervalModel],
-        userId: UUID
-    ) {
-        self.title = title
-        self.details = details
-        
-        self.weekDaysRaw = weekDaysRaw
-        self.intervals = intervals
-        
-        self.userId = userId
-    }
-    
-    init(
-        id: UUID,
-        title: String,
-        details: String,
 
         createdAt: Date,
-        updateAt: Date,
+        updatedAt: Date,
         completedAt: Date,
         
         weekDaysRaw: Int,
         intervals: [HourIntervalModel] = [],
         completed: [HourIntervalCompletedModel] = [],
 
-        userId: UUID
+        userId: UUID,
     ) {
         self.id = id
         self.title = title
         self.details = details
         
         self.createdAt = createdAt
-        self.updateAt = updateAt
+        self.updatedAt = updatedAt
         self.completedAt = completedAt
         
         self.weekDaysRaw = weekDaysRaw
