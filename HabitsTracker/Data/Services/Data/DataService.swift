@@ -26,5 +26,7 @@ protocol DataService: AnyObject {
     func fetchUser(by name: String) async -> Result<UserModel?, any Error>
     func deleteUser(by id: UUID) async -> Result<Bool, any Error>
     
+    func reloadHabit(by id: UUID)
     var updatePublisher: AnyPublisher<HabitModel, Never> { get }
+    var needReloadHabitPublisher: AnyPublisher<UUID, Never> { get }
 }
