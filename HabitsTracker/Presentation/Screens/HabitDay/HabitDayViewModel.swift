@@ -21,7 +21,6 @@ final class HabitDayViewModel: ObservableObject {
         self.habitRepository = repository
         
         // наблюдаем за добавлением и изменением записей
-        self.subscribeUpdate()
         self.subscribeReload()
     }
     
@@ -115,13 +114,6 @@ final class HabitDayViewModel: ObservableObject {
     }
     
     // MARK: - Subscribe
-    private func subscribeUpdate() {
-        habitRepository.updatePublisher
-            .subscribe(on: DispatchQueue.global(qos: .background))
-            .sink(receiveValue: updateList)
-            .store(in: &cancellables)
-    }
-    
     private func subscribeReload() {
         habitRepository.needReloadHabitPublisher
             .subscribe(on: DispatchQueue.global(qos: .background))
