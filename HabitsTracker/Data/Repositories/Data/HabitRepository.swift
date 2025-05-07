@@ -3,11 +3,9 @@ import SwiftData
 import Combine
 
 protocol HabitRepository: AnyObject {
-    func fetchHabits(by userId: UUID) async -> Result<[Habit], any Error>
     func fetchHabits(by userId: UUID, from date: Date) async -> Result<[Habit], any Error>
     func fetchHabits(by userId: UUID, from startDate: Date, to endDate: Date) async -> Result<[Habit], any Error>
     
-    func fetchHabit(by id: UUID) async -> Result<Habit, any Error>
     func fetchHabit(by id: UUID, from date: Date) async -> Result<Habit?, any Error>
     func fetchHabit(by id: UUID, from startDate: Date, to endDate: Date) async -> Result<Habit?, any Error>
 

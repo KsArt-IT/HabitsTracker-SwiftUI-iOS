@@ -20,16 +20,6 @@ final class HabitRepositoryImpl: HabitRepository {
     }
     
     
-    func fetchHabits(by userId: UUID) async -> Result<[Habit], any Error> {
-        let result = await service.fetchHabits(by: userId)
-        return switch result {
-        case .success(let habits):
-                .success(habits.map { $0.toDomain() })
-        case .failure(let error):
-                .failure(error)
-        }
-    }
-    
     func fetchHabits(by userId: UUID, from date: Date) async -> Result<[Habit], any Error> {
         await fetchHabits(by: userId, from: date, to: date)
     }
@@ -39,16 +29,6 @@ final class HabitRepositoryImpl: HabitRepository {
         return switch result {
         case .success(let habits):
                 .success(habits.map { $0.toDomain() })
-        case .failure(let error):
-                .failure(error)
-        }
-    }
-    
-    func fetchHabit(by id: UUID) async -> Result<Habit, any Error> {
-        let result = await service.fetchHabit(by: id)
-        return switch result {
-        case .success(let habit):
-                .success(habit.toDomain())
         case .failure(let error):
                 .failure(error)
         }
