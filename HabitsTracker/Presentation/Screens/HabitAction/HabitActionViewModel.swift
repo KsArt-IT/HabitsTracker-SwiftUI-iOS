@@ -11,6 +11,7 @@ final class HabitActionViewModel: ObservableObject {
     private let repository: HabitRepository
     
     @Published var habit: Habit?
+    private var isNeedReload = false
     
     init(repository: HabitRepository) {
         self.repository = repository
@@ -34,6 +35,13 @@ final class HabitActionViewModel: ObservableObject {
             if case .failure(let error) = result {
                 await self?.showMessage(error.localizedDescription)
             }
+        }
+    }
+    
+    func reloadHabit() {
+        guard let habit, isNeedReload == true else { return }
+        Task { [weak self] in
+            self?.repository.reloadHabit(by: habit.id)
         }
     }
     
@@ -74,6 +82,7 @@ final class HabitActionViewModel: ObservableObject {
                 completeds.append(completed)
             }
         }
+        isNeedReload = true
         await setHabit(habit.copyWith(completed: completeds))
     }
     
