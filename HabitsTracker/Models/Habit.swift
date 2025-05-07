@@ -10,14 +10,14 @@ import Foundation
 struct Habit: Identifiable, Equatable, Comparable, Hashable {
     let id: UUID
     let userId: UUID
-
+    
     let title: String
     let details: String
-
+    
     let createdAt: Date
-    let updateAt: Date
+    let updatedAt: Date
     let completedAt: Date
-
+    
     let weekDays: Set<WeekDays>
     let intervals: [HourInterval]
     let completed: [HourIntervalCompleted]
@@ -29,18 +29,25 @@ struct Habit: Identifiable, Equatable, Comparable, Hashable {
         (lhs.title, lhs.details) < (rhs.title, rhs.details)
     }
     
-    func copyWith(completed: [HourIntervalCompleted]) -> Habit {
+    func copyWith(
+        title: String? = nil,
+        details: String? = nil,
+        completedAt: Date? = nil,
+        weekDays: Set<WeekDays>? = nil,
+        intervals: [HourInterval]? = nil,
+        completed: [HourIntervalCompleted]? = nil,
+    ) -> Habit {
         Habit(
             id: id,
             userId: userId,
-            title: title,
-            details: details,
+            title: title ?? self.title,
+            details: details ?? self.details,
             createdAt: createdAt,
-            updateAt: updateAt,
-            completedAt: completedAt,
-            weekDays: weekDays,
-            intervals: intervals,
-            completed: completed,
+            updatedAt: Date.now,
+            completedAt: completedAt ?? self.completedAt,
+            weekDays: weekDays ?? self.weekDays,
+            intervals: intervals ?? self.intervals,
+            completed: completed ?? self.completed,
         )
     }
 }
