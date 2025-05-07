@@ -17,15 +17,18 @@ final class HabitActionViewModel: ObservableObject {
         self.repository = repository
     }
     
-    func fetchHabit(by id: UUID) async {
-        let result = await repository.fetchHabit(by: id)
+    func fetchHabit(by id: UUID) async -> Habit? {
+        let result = await repository.fetchHabit(by: id, from: Date.now)
         switch result {
+        case .success(nil):
+            break
         case .success(let habit):
-            await self.setHabit(habit)
+            await self.setHabit(habit!)
+            return habit
         case .failure(let error):
             await showMessage(error.localizedDescription)
         }
-        
+        return nil
     }
     
     func deleteHabit() {

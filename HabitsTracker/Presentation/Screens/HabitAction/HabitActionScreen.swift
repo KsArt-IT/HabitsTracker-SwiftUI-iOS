@@ -53,7 +53,9 @@ struct HabitActionScreen: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 .task {
-                    await viewModel.fetchHabit(by: id)
+                    if (await viewModel.fetchHabit(by: id)) == nil {
+                        close()
+                    }
                 }
             }
         }
@@ -68,9 +70,9 @@ struct HabitActionScreen: View {
 }
 
 #Preview {
-//    HabitActionScreen(
-//        viewModel:  HabitActionViewModel(repository: HabitRepositoryImpl(service: DataServiceImpl)),
-//        id: UUID(),
-//        habitMenu: .constant(.none)
-//    )
+    //    HabitActionScreen(
+    //        viewModel:  HabitActionViewModel(repository: HabitRepositoryImpl(service: DataServiceImpl)),
+    //        id: UUID(),
+    //        habitMenu: .constant(.none)
+    //    )
 }
