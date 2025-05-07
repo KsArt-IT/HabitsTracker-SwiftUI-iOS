@@ -16,7 +16,12 @@ final class DataServiceImpl: DataService {
     public var updatePublisher: AnyPublisher<HabitModel, Never> {
         updateSubject.eraseToAnyPublisher()
     }
-
+    
+    private let needReloadHabitSubject = PassthroughSubject<UUID, Never>()
+    public var needReloadHabitPublisher: AnyPublisher<UUID, Never> {
+        needReloadHabitSubject.eraseToAnyPublisher()
+    }
+    
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
     }
@@ -128,6 +133,11 @@ final class DataServiceImpl: DataService {
         }
     }
     
+    func reloadHabit(by id: UUID) {
+        print("DataServiceImpl: \(#function) habit=\(id)")
+        needReloadHabitSubject.send(id)
+    }
+    
     func saveHabit(_ habit: HabitModel) async -> Result<HabitModel, any Error> {
         print("DataServiceImpl: \(#function) habit=\(habit.title)")
         modelContext.insert(habit)
@@ -148,6 +158,8 @@ final class DataServiceImpl: DataService {
         do {
             try await deleteData(descriptor)
             try await deleteData(descriptorCompleted)
+            // необходимо обновить
+            reloadHabit(by: id)
             return .success(true)
         } catch {
             return .failure(error)
