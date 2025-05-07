@@ -10,7 +10,9 @@ import Combine
 
 final class HabitDayViewModel: ObservableObject {
     private let habitRepository: HabitRepository
+    
     @Published var habits: [Habit] = []
+    private var date: Date = Date.now
     
     private var task: Task<(), Never>?
     private var cancellables: Set<AnyCancellable> = []
@@ -20,6 +22,7 @@ final class HabitDayViewModel: ObservableObject {
         
         // наблюдаем за добавлением и изменением записей
         self.subscribeUpdate()
+        self.subscribeReload()
     }
     
     func fetchHabits() {
@@ -36,11 +39,32 @@ final class HabitDayViewModel: ObservableObject {
     private func fetchHabits() async {
         print("HabitDayViewModel: \(#function) user=\(Profile.user?.id.uuidString ?? "")")
         guard let user = Profile.user else { return }
-        
-        let result = await habitRepository.fetchHabits(by: user.id, from: Date.now)
+        date = Date.now
+        let result = await habitRepository.fetchHabits(by: user.id, from: date)
         switch result {
         case .success(let habits):
             sortList(habits)
+        case .failure(let error):
+            await showMessage(error.localizedDescription)
+        }
+    }
+    
+    // MARK: - Update Habit
+    private func reloadHabit(_ id: UUID) {
+        Task { [weak self] in
+            await self?.fetchHabit(id)
+        }
+    }
+    
+    private func fetchHabit(_ id: UUID) async {
+        print("HabitDayViewModel: \(#function) habit=\(id)")
+        let result = await habitRepository.fetchHabit(by: id, from: date)
+        switch result {
+        case .success(nil):
+            // удалим из списка
+            await setList(habits.filter { $0.id != id })
+        case .success(let habit):
+            updateList(habit!)
         case .failure(let error):
             await showMessage(error.localizedDescription)
         }
@@ -95,6 +119,13 @@ final class HabitDayViewModel: ObservableObject {
         habitRepository.updatePublisher
             .subscribe(on: DispatchQueue.global(qos: .background))
             .sink(receiveValue: updateList)
+            .store(in: &cancellables)
+    }
+    
+    private func subscribeReload() {
+        habitRepository.needReloadHabitPublisher
+            .subscribe(on: DispatchQueue.global(qos: .background))
+            .sink(receiveValue: reloadHabit)
             .store(in: &cancellables)
     }
     
