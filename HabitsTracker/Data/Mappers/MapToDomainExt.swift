@@ -27,7 +27,7 @@ extension HabitModel {
             details: details,
             
             createdAt: createdAt,
-            updateAt: updateAt,
+            updatedAt: updatedAt,
             completedAt: completedAt,
             
             weekDays: Set<WeekDays>.from(rawValue: weekDaysRaw),

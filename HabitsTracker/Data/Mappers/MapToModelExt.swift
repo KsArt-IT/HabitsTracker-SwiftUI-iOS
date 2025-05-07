@@ -25,12 +25,11 @@ extension Habit {
             details: details,
             
             createdAt: createdAt,
-            updateAt: updateAt,
+            updatedAt: updatedAt,
             completedAt: completedAt,
             
             weekDaysRaw: weekDays.rawValue,
-            intervals: intervals.map { $0.toModel(habitId: id) },
-            completed: completed.map { $0.toModel(habitId: id) },
+            intervals: intervals.map { $0.toModel() },
             
             userId: userId,
         )
@@ -38,10 +37,9 @@ extension Habit {
 }
 
 extension HourInterval {
-    func toModel(habitId: UUID) -> HourIntervalModel {
+    func toModel() -> HourIntervalModel {
         HourIntervalModel(
             id: id,
-            habitId: habitId,
             time: time,
         )
     }
