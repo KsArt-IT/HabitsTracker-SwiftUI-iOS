@@ -11,6 +11,10 @@ final class HabitRepositoryImpl: HabitRepository {
             .eraseToAnyPublisher()
     }
     
+    var needReloadHabitPublisher: AnyPublisher<UUID, Never> {
+        service.needReloadHabitPublisher
+    }
+    
     init(service: DataService) {
         self.service = service
     }
@@ -48,6 +52,10 @@ final class HabitRepositoryImpl: HabitRepository {
         case .failure(let error):
                 .failure(error)
         }
+    }
+    
+    func reloadHabit(by id: UUID) {
+        service.reloadHabit(by: id)
     }
     
     func saveHabit(_ habit: Habit) async -> Result<Habit, any Error> {
