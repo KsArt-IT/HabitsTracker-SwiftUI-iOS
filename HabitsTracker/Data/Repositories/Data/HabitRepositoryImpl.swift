@@ -54,6 +54,22 @@ final class HabitRepositoryImpl: HabitRepository {
         }
     }
     
+    func fetchHabit(by id: UUID, from date: Date) async -> Result<Habit?, any Error> {
+        await fetchHabit(by: id, from: date, to: date)
+    }
+    
+    func fetchHabit(by id: UUID, from startDate: Date, to endDate: Date) async -> Result<Habit?, any Error> {
+        let result = await service.fetchHabit(by: id, from: startDate, to: endDate)
+        return switch result {
+        case .success(nil):
+                .success(nil)
+        case .success(let habit):
+                .success(habit!.toDomain())
+        case .failure(let error):
+                .failure(error)
+        }
+    }
+    
     func reloadHabit(by id: UUID) {
         service.reloadHabit(by: id)
     }
