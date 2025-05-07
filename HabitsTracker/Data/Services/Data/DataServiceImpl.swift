@@ -76,7 +76,7 @@ final class DataServiceImpl: DataService {
         }
     }
     
-    // MARK: - Habit
+    // MARK: - Habits
     func fetchHabits(by userId: UUID) async -> Result<[HabitModel], any Error> {
         let descriptor = FetchDescriptor<HabitModel>(
             predicate: #Predicate { $0.userId == userId }
@@ -115,6 +115,7 @@ final class DataServiceImpl: DataService {
         }
     }
     
+    // MARK: - Habit
     func fetchHabit(by id: UUID) async -> Result<HabitModel, any Error> {
         let descriptor = FetchDescriptor<HabitModel>(
             predicate: #Predicate { $0.id == id }
@@ -128,6 +129,27 @@ final class DataServiceImpl: DataService {
             } else {
                 return .failure(CancellationError())
             }
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    func fetchHabit(by id: UUID, from startDate: Date, to endDate: Date) async -> Result<HabitModel?, any Error> {
+        let descriptor = FetchDescriptor<HabitModel>(
+            predicate: #Predicate {
+                $0.id == id && $0.createdAt <= endDate.endOfDay && $0.completedAt >= startDate.startOfDay
+            }
+        )
+        do {
+            if let habit = try fetchData(descriptor).first {
+                if case .success(let completed) = await fetchCompleteds(by: habit.id, from: startDate, to: endDate) {
+                    habit.completed = completed
+                }
+                print("DataServiceImpl: \(#function) habit=\(habit.title)")
+                return .success(habit)
+            }
+            // если был перед этим удален
+            return .success(nil)
         } catch {
             return .failure(error)
         }
