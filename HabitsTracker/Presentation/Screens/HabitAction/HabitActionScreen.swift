@@ -23,7 +23,7 @@ struct HabitActionScreen: View {
         VStack {
             // Navigation back
             NavTitleView {
-                dismiss()
+                close()
             }
             
             if let habit = viewModel.habit {
@@ -34,7 +34,7 @@ struct HabitActionScreen: View {
                     },
                     delete: {
                         viewModel.deleteHabit()
-                        dismiss()
+                        close()
                     }) {
                         LazyVGrid(columns: columns, spacing: Constants.Sizes.spacingHabit) {
                             ForEach(habit.intervals) { interval in
@@ -60,8 +60,17 @@ struct HabitActionScreen: View {
         .padding(.horizontal, Constants.Sizes.medium)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
+    
+    private func close() {
+        viewModel.reloadHabit()
+        dismiss()
+    }
 }
 
 #Preview {
-    //    HabitActionScreen()
+//    HabitActionScreen(
+//        viewModel:  HabitActionViewModel(repository: HabitRepositoryImpl(service: DataServiceImpl)),
+//        id: UUID(),
+//        habitMenu: .constant(.none)
+//    )
 }
