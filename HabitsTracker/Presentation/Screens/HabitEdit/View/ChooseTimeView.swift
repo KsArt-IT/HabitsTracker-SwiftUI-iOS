@@ -16,7 +16,8 @@ struct ChooseTimeView: View {
     @State private var dateSelectIndex = 0
     @State private var dateSelectPresented = false
     
-    @Binding var times: [Int]
+    let times: [Int]
+    let change: (_ index: Int, _ time: Int) -> Void
     let actionPositive: () -> Void
     let actionNegative: () -> Void
     
@@ -29,7 +30,7 @@ struct ChooseTimeView: View {
                         dateSelectIndex = index
                         dateSelectPresented = true
                     } toggle: {
-                        times[index] = times[index].toggleAmPm()
+                        change(index, times[index].toggleAmPm())
                     }
                 }
             }
@@ -43,7 +44,7 @@ struct ChooseTimeView: View {
         }
         .showTimePicker($dateSelectPresented, date: $date) {
             if 0..<times.count ~= dateSelectIndex {
-                times[dateSelectIndex] = date.toMinutesFromDate()
+                change(dateSelectIndex, date.toMinutesFromDate())
                 dateSelectIndex = 0
             }
         }
