@@ -19,12 +19,14 @@ final class HabitDayViewModel: ObservableObject {
     
     init(repository: HabitRepository) {
         self.habitRepository = repository
-        
+        // загрузим данные
+        fetchData()
         // наблюдаем за добавлением и изменением записей
         self.subscribeReload()
     }
     
-    func fetchHabits() {
+    // MARK: - Fetch Habits
+    func fetchData() {
         print("HabitDayViewModel: \(#function)")
         guard task == nil else { return }
         let newTask = Task { [weak self] in
