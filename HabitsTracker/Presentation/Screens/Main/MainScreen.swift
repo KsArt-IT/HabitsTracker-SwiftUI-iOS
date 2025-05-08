@@ -9,7 +9,7 @@ import SwiftUI
 
 enum HabitMenu: Equatable {
     case none
-    case edit(id: UUID?)
+    case edit(id: UUID? = nil)
     case action(id: UUID)
 }
 
@@ -23,7 +23,7 @@ struct MainScreen: View {
         VStack(spacing: 0) {
             // Title
             TabTitleView(title: String(localized: "Hi") + ", \(Profile.user?.name ?? "-")") {
-                habitMenu = .edit(id: nil)
+                habitMenu = .edit()
             }
             .padding(.bottom, Constants.Sizes.medium)
             
@@ -35,7 +35,7 @@ struct MainScreen: View {
                 HabitDayScreen(viewModel: di.resolve(), habitMenu: $habitMenu)
                     .tag(AppTab.day)
                     .transition(.slide)
-                HabitWeekScreen(viewModel: di.resolve())
+                HabitWeekScreen(viewModel: di.resolve(), habitMenu: $habitMenu)
                     .tag(AppTab.week)
                     .transition(.slide)
                 HabitMonthScreen(viewModel: di.resolve())
