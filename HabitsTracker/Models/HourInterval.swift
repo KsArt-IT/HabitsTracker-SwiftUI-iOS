@@ -10,17 +10,15 @@ import Foundation
 struct HourInterval: Equatable, Hashable, Identifiable {
     let id: UUID
     let time: Int
-}
 
-extension HourInterval {
-    func copyWith(time: Int) -> HourInterval {
+    func copyWith(time: Int) -> Self {
         HourInterval(
             id: self.id,
             time: time,
         )
     }
     
-    static func < (lhs: HourInterval, rhs: HourInterval) -> Bool {
+    static func < (lhs: Self, rhs: Self) -> Bool {
         lhs.time < rhs.time
     }
 }
