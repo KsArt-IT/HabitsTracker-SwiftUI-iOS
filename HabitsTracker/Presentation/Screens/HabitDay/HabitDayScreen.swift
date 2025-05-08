@@ -38,10 +38,7 @@ struct HabitDayScreen: View {
                 }
             }
         }
-        .padding(.vertical, Constants.Sizes.medium)
-        .onAppear {
-            viewModel.fetchHabits()
-        }
+        .padding(.top, Constants.Sizes.medium)
     }
 }
 
