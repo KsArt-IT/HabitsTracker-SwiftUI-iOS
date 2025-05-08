@@ -50,13 +50,8 @@ struct MainScreen: View {
         .onChange(of: habitMenu, { _, newValue in
             isShowHabitAdd = newValue != .none
         })
-        .onChange(of: isShowHabitAdd, { _, newValue in
-            if !newValue {
-                habitMenu = .none
-            }
-        })
         .fullScreenCover(isPresented: $isShowHabitAdd) {
-            
+            habitMenu = .none
         } content: {
             switch habitMenu {
             case .edit(nil): HabitEditScreen(viewModel: di.resolve(), id: nil)
