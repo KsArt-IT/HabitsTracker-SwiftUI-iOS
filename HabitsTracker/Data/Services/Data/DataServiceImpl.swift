@@ -12,11 +12,6 @@ import Combine
 final class DataServiceImpl: DataService {
     private let modelContext: ModelContext
     
-    private let updateSubject = PassthroughSubject<HabitModel, Never>()
-    public var updatePublisher: AnyPublisher<HabitModel, Never> {
-        updateSubject.eraseToAnyPublisher()
-    }
-    
     private let needReloadHabitSubject = PassthroughSubject<UUID, Never>()
     public var needReloadHabitPublisher: AnyPublisher<UUID, Never> {
         needReloadHabitSubject.eraseToAnyPublisher()
@@ -160,12 +155,40 @@ final class DataServiceImpl: DataService {
         needReloadHabitSubject.send(id)
     }
     
-    func saveHabit(_ habit: HabitModel) async -> Result<HabitModel, any Error> {
-        print("DataServiceImpl: \(#function) habit=\(habit.title)")
-        modelContext.insert(habit)
-        save()
-        updateSubject.send(habit)
-        return .success(habit)
+    func saveHabit(_ habit: HabitModel) async -> Result<Bool, any Error> {
+        print("DataServiceImpl: \(#function) habit=\(habit.title) - \(habit.id)")
+        do {
+            // Удалим если был такой и добавим новый
+            let id = habit.id
+            let descriptor = FetchDescriptor<HabitModel>(
+                predicate: #Predicate { $0.id == id }
+            )
+            // Проверяем существование привычки
+            if let existingHabit = try fetchData(descriptor).first {
+                // Удаляем старые интервалы
+                for interval in existingHabit.intervals {
+                    modelContext.delete(interval)
+                }
+                modelContext.delete(existingHabit)
+            }
+            // Записываем новый
+            modelContext.insert(habit)
+            
+            // Добавляем интервалы
+            for interval in habit.intervals {
+                interval.habit = habit
+                modelContext.insert(interval)
+            }
+            // Сохраняем изменения
+            save()
+            
+            // Уведомляем об обновлении
+            needReloadHabitSubject.send(habit.id)
+            return .success(true)
+        } catch {
+            print("DataServiceImpl: \(#function) error: \(error)")
+            return .failure(error)
+        }
     }
     
     func deleteHabit(by id: UUID) async -> Result<Bool, any Error> {
@@ -241,14 +264,12 @@ final class DataServiceImpl: DataService {
     }
     
     // MARK: - Delete
-    @MainActor
-    func deleteData<T: PersistentModel>(_ item: T) {
+    private func deleteData<T: PersistentModel>(_ item: T) {
         modelContext.delete(item)
         save()
     }
     
-    @MainActor
-    func deleteData<T: PersistentModel>(_ descriptor: FetchDescriptor<T>) throws {
+    private func deleteData<T: PersistentModel>(_ descriptor: FetchDescriptor<T>) async throws {
         let items = try fetchData(descriptor)
         guard !items.isEmpty else { return }
         for item in items {
