@@ -39,7 +39,7 @@ final class DIManager {
             return DataServiceImpl(modelContext: db.context)
         }.inObjectScope(.weak)
     }
-
+    
     // MARK: DataRepository
     private func registerUserRepository() {
         container.register(UserRepository.self) { resolver in
@@ -79,19 +79,19 @@ final class DIManager {
     }
     
     private func registerHabitWeekViewModel() {
-        container.register(HabitWeekViewModel.self) { c in
-            HabitWeekViewModel()
+        container.register(HabitWeekViewModel.self) { resolver in
+            HabitWeekViewModel(repository: resolver.resolve(HabitRepository.self)!)
         }.inObjectScope(.weak)
     }
     
     private func registerHabitMonthViewModel() {
-        container.register(HabitMonthViewModel.self) { c in
-            HabitMonthViewModel()
+        container.register(HabitMonthViewModel.self) { resolver in
+            HabitMonthViewModel(repository: resolver.resolve(HabitRepository.self)!)
         }.inObjectScope(.weak)
     }
     
     private func registerSettingsViewModel() {
-        container.register(SettingsViewModel.self) { c in
+        container.register(SettingsViewModel.self) { resolver in
             SettingsViewModel()
         }.inObjectScope(.weak)
     }
