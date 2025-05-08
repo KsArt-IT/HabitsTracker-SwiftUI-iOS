@@ -1,5 +1,5 @@
 //
-//  HabitCreateScreen.swift
+//  HabitEditScreen.swift
 //  HabitsTracker
 //
 //  Created by KsArT on 27.03.2025.
@@ -13,7 +13,7 @@ struct HabitEditScreen: View {
     let id: UUID?
     
     var body: some View {
-        VStack {
+        VStack(spacing: Constants.Sizes.medium) {
             // Navigation back
             NavTitleView {
                 dismiss()
@@ -21,7 +21,7 @@ struct HabitEditScreen: View {
             
             if viewModel.edit {
                 ScrollView(showsIndicators: false) {
-                    VStack {
+                    VStack(spacing: Constants.Sizes.medium) {
                         CardNameEditView(text: $viewModel.cardTitle)
                         // How Often
                         PeriodEditView(selected: $viewModel.periodDays) {
@@ -38,7 +38,10 @@ struct HabitEditScreen: View {
                         // Reminder
                         ReminderToggleView(enabled: $viewModel.reminderTimes)
                         
-                        PrimaryButton(label: "Create", disabled: viewModel.cardTitle.isEmpty) {
+                        PrimaryButton(
+                            label: id == nil ? "Create" : "Save",
+                            disabled: viewModel.cardTitle.isEmpty
+                        ) {
                             viewModel.saveHabit()
                         }
                     }
@@ -55,6 +58,7 @@ struct HabitEditScreen: View {
             
         }
         .padding(.horizontal, Constants.Sizes.medium)
+        .padding(.bottom, Constants.Sizes.medium)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onChange(of: viewModel.closed) { _, newValue in
             if newValue { dismiss() }
