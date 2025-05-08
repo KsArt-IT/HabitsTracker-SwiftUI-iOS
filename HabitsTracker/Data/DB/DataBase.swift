@@ -8,25 +8,24 @@
 import SwiftData
 
 final class DataBase {
-    private var container: ModelContainer = {
+    private let container: ModelContainer
+    let context: ModelContext
+    
+    init() {
         let schema = Schema([
             UserModel.self,
             HabitModel.self,
             HourIntervalModel.self,
             HourIntervalCompletedModel.self,
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema)
-
+        let config = ModelConfiguration(schema: schema)
+        
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            self.container = try ModelContainer(for: schema, configurations: [config])
+            self.context = ModelContext(self.container)
+            self.context.autosaveEnabled = false
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
-    }()
-    
-    lazy var context: ModelContext = {
-        let context = ModelContext(self.container)
-        context.autosaveEnabled = false
-        return context
-    }()
+    }
 }
