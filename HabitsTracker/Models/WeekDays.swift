@@ -33,6 +33,20 @@ extension WeekDays {
     }
     
     static let allDays: Int = 127
+    
+    static func from(date: Date) -> Self {
+        switch date.weekDay {
+        case 2 : .monday
+        case 3 : .tuesday
+        case 4 : .wednesday
+        case 5 : .thursday
+        case 6 : .friday
+        case 7 : .saturday
+        case 1 : .sunday
+        default:
+            fatalError("WeekDays unknown!")
+        }
+    }
 }
 
 extension Set where Element == WeekDays {
