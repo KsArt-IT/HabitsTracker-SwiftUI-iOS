@@ -82,6 +82,7 @@ final class HabitEditViewModel: ObservableObject {
     }
     
     public func saveHabit() {
+        print("HabitCreateViewModel: \(#function)")
         guard task == nil else { return }
         let newTask = Task { [weak self] in
             if let habit = self?.habit {
@@ -92,11 +93,11 @@ final class HabitEditViewModel: ObservableObject {
             
             self?.task = nil
         }
-        self.task = newTask
+        task = newTask
     }
     
     private func createHabit() async {
-        print("HabitCreateViewModel: \(#function) periodDays=\(periodDays) - \(weekDays.count)")
+        print("HabitCreateViewModel: \(#function)")
         guard let user = Profile.user else {
             await showMessage("User = nil")
             print("HabitCreateViewModel::loadHabits: User = nil")
@@ -120,15 +121,17 @@ final class HabitEditViewModel: ObservableObject {
     }
     
     private func updateHabit(_ habit: Habit) async {
+        print("HabitCreateViewModel: \(#function)")
         let habit = habit.copyWith(
             title: cardTitle,
-            weekDays: weekDays.isEmpty ? Set<WeekDays>(WeekDays.allCases): weekDays,
+            weekDays: periodDays == 0 ? Set<WeekDays>(WeekDays.allCases): weekDays,
             intervals: intervals,
         )
         await saveHabit(habit)
     }
     
     private func saveHabit(_ habit: Habit) async {
+        print("HabitCreateViewModel: \(#function)")
         let result  = await repository.saveHabit(habit)
         switch result {
         case .success(_):
