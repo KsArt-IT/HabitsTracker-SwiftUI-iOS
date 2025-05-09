@@ -1,3 +1,10 @@
+//
+//  HabitRepositoryImpl.swift
+//  HabitsTracker
+//
+//  Created by KsArT on 13.03.2025.
+//
+
 import Foundation
 import SwiftData
 import Combine

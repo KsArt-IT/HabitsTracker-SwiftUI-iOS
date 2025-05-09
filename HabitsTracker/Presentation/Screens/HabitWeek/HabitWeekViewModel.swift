@@ -24,6 +24,7 @@ final class HabitWeekViewModel: ObservableObject {
     
     init(repository: HabitRepository) {
         self.repository = repository
+        // для инициализации
         dateRange = date.toWeekRange()
         // загрузим данные
         fetchData()

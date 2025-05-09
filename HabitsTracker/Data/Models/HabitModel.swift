@@ -23,7 +23,7 @@ final class HabitModel {
 
     var weekDaysRaw: Int = WeekDays.allDays
 
-    @Relationship(deleteRule: .cascade, inverse: \HourIntervalModel.habit)
+    @Relationship(deleteRule: .cascade)
     var intervals: [HourIntervalModel] = []
 
     @Transient
@@ -31,20 +31,22 @@ final class HabitModel {
 
     init(
         id: UUID = UUID(),
+        userId: UUID,
+
         title: String,
         details: String = "",
 
         createdAt: Date,
-        updatedAt: Date,
-        completedAt: Date,
+        updatedAt: Date = Date.now,
+        completedAt: Date = Date.distantFuture,
         
-        weekDaysRaw: Int,
-        intervals: [HourIntervalModel] = [],
-        completed: [HourIntervalCompletedModel] = [],
-
-        userId: UUID,
+        weekDaysRaw: Int = WeekDays.allDays,
+        intervals: Array<HourIntervalModel> = [],
+        completed: Array<HourIntervalCompletedModel> = [],
     ) {
         self.id = id
+        self.userId = userId
+
         self.title = title
         self.details = details
         
@@ -55,7 +57,5 @@ final class HabitModel {
         self.weekDaysRaw = weekDaysRaw
         self.intervals = intervals
         self.completed = completed
-        
-        self.userId = userId
     }
 }

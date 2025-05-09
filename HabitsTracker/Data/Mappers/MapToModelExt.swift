@@ -21,17 +21,16 @@ extension Habit {
     func toModel() -> HabitModel {
         HabitModel(
             id: id,
+            userId: userId,
+            
             title: title,
             details: details,
             
             createdAt: createdAt,
-            updatedAt: updatedAt,
             completedAt: completedAt,
             
             weekDaysRaw: weekDays.rawValue,
             intervals: intervals.map { $0.toModel() },
-            
-            userId: userId,
         )
     }
 }

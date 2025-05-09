@@ -164,7 +164,7 @@ final class DataServiceImpl: DataService {
         }
     }
     
-    func saveHabit(habit: HabitModel) async -> Result<Bool, any Error> {
+    func saveHabit(_ habit: HabitModel) async -> Result<Bool, any Error> {
         print("DataServiceImpl: \(#function)")
         do {
             // Удалим если был такой и добавим новый

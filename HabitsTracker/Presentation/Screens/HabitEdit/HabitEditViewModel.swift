@@ -37,7 +37,7 @@ final class HabitEditViewModel: ObservableObject {
     }
     
     public func fetchHabit(by id: UUID?) async {
-        print("HabitCreateViewModel: \(#function) habit - \(id == nil ? "Create" : "Edit")")
+        print("HabitEditViewModel: \(#function) habit - \(id == nil ? "Create" : "Edit")")
         guard let id else {
             await startEdit()
             return
@@ -82,7 +82,7 @@ final class HabitEditViewModel: ObservableObject {
     }
     
     public func saveHabit() {
-        print("HabitCreateViewModel: \(#function)")
+        print("HabitEditViewModel: \(#function)")
         guard task == nil else { return }
         let newTask = Task { [weak self] in
             if let habit = self?.habit {
@@ -97,10 +97,10 @@ final class HabitEditViewModel: ObservableObject {
     }
     
     private func createHabit() async {
-        print("HabitCreateViewModel: \(#function)")
+        print("HabitEditViewModel: \(#function)")
         guard let user = Profile.user else {
             await showMessage("User = nil")
-            print("HabitCreateViewModel::loadHabits: User = nil")
+            print("HabitEditViewModel::loadHabits: User = nil")
             await self.close()
             return
         }
@@ -121,7 +121,7 @@ final class HabitEditViewModel: ObservableObject {
     }
     
     private func updateHabit(_ habit: Habit) async {
-        print("HabitCreateViewModel: \(#function)")
+        print("HabitEditViewModel: \(#function)")
         let habit = habit.copyWith(
             title: cardTitle,
             weekDays: periodDays == 0 ? Set<WeekDays>(WeekDays.allCases): weekDays,
@@ -131,7 +131,7 @@ final class HabitEditViewModel: ObservableObject {
     }
     
     private func saveHabit(_ habit: Habit) async {
-        print("HabitCreateViewModel: \(#function)")
+        print("HabitEditViewModel: \(#function) intervals=\(habit.intervals.count)")
         let result  = await repository.saveHabit(habit)
         switch result {
         case .success(_):
@@ -162,12 +162,12 @@ final class HabitEditViewModel: ObservableObject {
     
     @MainActor
     private func showMessage(_ message: String) {
-        print("HabitCreateViewModel: message = \(message)")
+        print("HabitEditViewModel: message = \(message)")
     }
     
     @MainActor
     private func close() {
-        print("HabitCreateViewModel: \(#function)")
+        print("HabitEditViewModel: \(#function)")
         closed = true
     }
 }
