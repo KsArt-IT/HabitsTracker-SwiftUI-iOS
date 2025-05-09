@@ -51,6 +51,7 @@ struct HabitActionScreen: View {
                             .padding(.bottom, Constants.Sizes.medium)
                         }
                 }
+                .padding(.top, Constants.Sizes.small)
             } else {
                 ZStack {
                     ProgressView()
@@ -63,7 +64,6 @@ struct HabitActionScreen: View {
                 }
             }
         }
-        .padding(.top, Constants.Sizes.small)
         .padding(.horizontal, Constants.Sizes.medium)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
