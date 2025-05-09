@@ -129,7 +129,7 @@ extension Habit {
             return .notStarted
         }
         
-        if !habit.weekDays.contains(WeekDays.from(date: day)) {
+        if !habit.weekDays.contains(WeekDays.from(date: day)) || habit.intervals.isEmpty {
             return .skipped
         }
         
@@ -140,7 +140,7 @@ extension Habit {
         let completedCount = habit.completed.filter { $0.completedAt.inSameDay(day) }.count
         
         return switch completedCount {
-        case habit.intervals.count:
+        case habit.intervals.count...:
                 .completed
         case 1...:
                 .partiallyCompleted
