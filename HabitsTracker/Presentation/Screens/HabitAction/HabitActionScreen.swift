@@ -27,26 +27,30 @@ struct HabitActionScreen: View {
             }
             
             if let habit = viewModel.habit {
-                FormTitleAndMenuView(
-                    habit.title,
-                    edit: {
-                        habitMenu = .edit(id: habit.id)
-                    },
-                    delete: {
-                        viewModel.deleteHabit()
-                        close()
-                    }) {
-                        LazyVGrid(columns: columns, spacing: Constants.Sizes.spacingHabit) {
-                            ForEach(habit.intervals) { interval in
-                                CheckBoxView(label: interval.time.toHoursMinutes(), checked: viewModel.check(interval.id)) { _ in
-                                    viewModel.change(interval)
+                ScrollView(showsIndicators: false) {
+                    FormTitleAndMenuView(
+                        habit.title,
+                        edit: {
+                            habitMenu = .edit(id: habit.id)
+                        },
+                        delete: {
+                            viewModel.deleteHabit()
+                            close()
+                        }) {
+                            LazyVGrid(columns: columns, spacing: 0) {
+                                ForEach(habit.intervals) { interval in
+                                    CheckBoxView(
+                                        label: "\(interval.time.toHoursMinutes()) \(interval.time.toHoursAmPm())",
+                                        checked: viewModel.check(interval.id)
+                                    ) { _ in
+                                        viewModel.change(interval)
+                                    }
                                 }
                             }
+                            .padding(.horizontal, Constants.Sizes.medium)
+                            .padding(.bottom, Constants.Sizes.medium)
                         }
-                        .padding(.horizontal, Constants.Sizes.medium)
-                        .padding(.bottom, Constants.Sizes.medium)
-                    }
-                    .padding(.vertical, Constants.Sizes.small)
+                }
             } else {
                 ZStack {
                     ProgressView()
@@ -59,6 +63,7 @@ struct HabitActionScreen: View {
                 }
             }
         }
+        .padding(.top, Constants.Sizes.small)
         .padding(.horizontal, Constants.Sizes.medium)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
