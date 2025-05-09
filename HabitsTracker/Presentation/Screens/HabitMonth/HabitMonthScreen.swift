@@ -27,6 +27,9 @@ struct HabitMonthScreen: View {
                         }
                     }
                 }
+                .refreshable {
+                    await viewModel.fetchHabits()
+                }
             }
         }
         .padding(.top, Constants.Sizes.medium)
