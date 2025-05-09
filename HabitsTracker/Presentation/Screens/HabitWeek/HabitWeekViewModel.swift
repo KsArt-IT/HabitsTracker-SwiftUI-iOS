@@ -33,10 +33,9 @@ final class HabitWeekViewModel: ObservableObject {
     }
     
     // MARK: - Fetch Habits
-    func fetchData() {
+    private func fetchData() {
         print("HabitWeekViewModel: \(#function)")
         guard task == nil else { return }
-        date = Date.now
         let newTask = Task { [weak self] in
             await self?.fetchHabits()
             
@@ -45,9 +44,10 @@ final class HabitWeekViewModel: ObservableObject {
         self.task = newTask
     }
     
-    private func fetchHabits() async {
+    func fetchHabits() async {
         print("HabitWeekViewModel: \(#function) user=\(Profile.user?.id.uuidString ?? "")")
         guard let user = Profile.user else { return }
+        date = Date.now
         let result = await repository.fetchHabits(by: user.id, from: dateRange.start, to: dateRange.end)
         switch result {
         case .success(let habits):
