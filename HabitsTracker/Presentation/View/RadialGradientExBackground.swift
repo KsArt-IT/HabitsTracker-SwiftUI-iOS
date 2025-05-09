@@ -16,7 +16,7 @@ fileprivate struct RadialGradientExBackground: ViewModifier {
                 RoundedRectangle(cornerRadius: Constants.Sizes.habitCornerRadius)
                     .fill(
                         RadialGradient(
-                            colors: [.formBackground, .formBackground.opacity(0.4)],
+                            colors: [.formBackground, .formBackground.opacity(0.5)],
                             center: .topTrailing,
                             startRadius: .zero,
                             endRadius: endRadius

@@ -33,17 +33,7 @@ struct FormTitleAndMenuView<Content> : View where Content : View {
                 .padding(.vertical, Constants.Sizes.small)
             content
         }
-        .background(
-            RoundedRectangle(cornerRadius: Constants.Sizes.habitCornerRadius)
-                .fill(
-                    RadialGradient(
-                        colors: [.formBackground.opacity(0.75), .formBackground],
-                        center: .bottomLeading,
-                        startRadius: .zero,
-                        endRadius: 250
-                    )
-                )
-        )
+        .radialGradientBackground(endRadius: 550)
     }
 }
 
