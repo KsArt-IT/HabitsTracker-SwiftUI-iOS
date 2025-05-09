@@ -38,7 +38,7 @@ struct MainScreen: View {
                 HabitWeekScreen(viewModel: di.resolve(), habitMenu: $habitMenu)
                     .tag(AppTab.week)
                     .transition(.slide)
-                HabitMonthScreen(viewModel: di.resolve())
+                HabitMonthScreen(viewModel: di.resolve(), habitMenu: $habitMenu)
                     .tag(AppTab.month)
                     .transition(.slide)
             }
