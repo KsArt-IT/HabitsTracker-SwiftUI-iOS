@@ -65,6 +65,7 @@ struct HabitActionScreen: View {
             }
         }
         .padding(.horizontal, Constants.Sizes.medium)
+        .padding(.bottom, 1)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
     
