@@ -58,8 +58,7 @@ struct HabitEditScreen: View {
             
         }
         .padding(.horizontal, Constants.Sizes.medium)
-        .padding(.bottom, Constants.Sizes.medium)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onChange(of: viewModel.closed) { _, newValue in
             if newValue { dismiss() }
         }
