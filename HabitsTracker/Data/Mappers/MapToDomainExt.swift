@@ -31,7 +31,7 @@ extension HabitModel {
             completedAt: completedAt,
             
             weekDays: Set<WeekDays>.from(rawValue: weekDaysRaw),
-            intervals: intervals.map { $0.toDomain() },
+            intervals: intervals.map { $0.toDomain() }.sorted(by: <),
             completed: completed.map { $0.toDomain() }
         )
     }
