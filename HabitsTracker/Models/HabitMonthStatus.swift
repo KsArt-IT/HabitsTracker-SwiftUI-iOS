@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HabitMonthStatus {
+struct HabitMonthStatus: Equatable, Identifiable {
     let id: UUID
     let title: String
     let habitStatus: [[HabitDayStatus]]
