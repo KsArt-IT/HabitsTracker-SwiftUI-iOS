@@ -39,17 +39,7 @@ struct HabitItemView: View {
         .padding(.leading, Constants.Sizes.habitPaddingLeading)
         .padding(.vertical, Constants.Sizes.habitPadding)
         .padding(.trailing, Constants.Sizes.habitPadding)
-        .background(
-            RoundedRectangle(cornerRadius: Constants.Sizes.habitCornerRadius)
-                .fill(
-                    RadialGradient(
-                        colors: [.formBackground, .formBackground.opacity(0.4)],
-                        center: .topTrailing,
-                        startRadius: .zero,
-                        endRadius: 150
-                    )
-                )
-        )
+        .radialGradientBackground(endRadius: 150)
     }
 }
 

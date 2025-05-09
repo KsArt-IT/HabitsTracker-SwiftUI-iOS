@@ -25,16 +25,6 @@ struct HabitMonthItemView: View {
             .padding(.horizontal, Constants.Sizes.medium)
             .padding(.bottom, Constants.Sizes.medium)
         }
-        .background(
-            RoundedRectangle(cornerRadius: Constants.Sizes.habitCornerRadius)
-                .fill(
-                    RadialGradient(
-                        colors: [.formBackground, .formBackground.opacity(0.4)],
-                        center: .topTrailing,
-                        startRadius: .zero,
-                        endRadius: 300
-                    )
-                )
-        )
+        .radialGradientBackground(endRadius: 300)
     }
 }
