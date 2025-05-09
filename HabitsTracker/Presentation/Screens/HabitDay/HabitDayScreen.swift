@@ -19,9 +19,7 @@ struct HabitDayScreen: View {
     var body: some View {
         VStack(spacing: 0) {
             if viewModel.habits.isEmpty {
-                Text("No habits")
-                    .font(Constants.Fonts.normalRegular)
-                    .foregroundStyle(Color.textGray)
+                TextNoItem()
             } else {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVGrid(columns: columns, spacing: Constants.Sizes.spacingHabit) {

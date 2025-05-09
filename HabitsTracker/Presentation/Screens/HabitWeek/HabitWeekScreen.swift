@@ -14,9 +14,7 @@ struct HabitWeekScreen: View {
     var body: some View {
         VStack(spacing: 0) {
             if viewModel.habitStatus.isEmpty {
-                Text("No habits")
-                    .font(Constants.Fonts.normalRegular)
-                    .foregroundStyle(Color.textGray)
+                TextNoItem()
             } else {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack(spacing: Constants.Sizes.medium) {
