@@ -62,7 +62,7 @@ extension Habit {
         HabitWeekStatus(
             id: self.id,
             title: self.title,
-            habitStatus: Habit.calculateWeekStatus(
+            habitStatus: Habit.calculateDaysStatus(
                 self,
                 currentDate: current.endOfDay,
                 start: start,
@@ -71,7 +71,40 @@ extension Habit {
         )
     }
     
-    static private func calculateWeekStatus(
+    func toMonthStatus(
+        current: Date,
+        start: Date,
+        end: Date,
+    ) -> HabitMonthStatus {
+        let days = CalendarExt.calendar.dateComponents([.day], from: start, to: end).day ?? 0
+        let status = Habit.calculateDaysStatus(
+            self,
+            currentDate: current.endOfDay,
+            start: start,
+            numberOfDays: days,
+        )
+        return HabitMonthStatus(
+            id: self.id,
+            title: self.title,
+            habitStatus: Habit.cleanAndChunkBySize(status: status, size: 7),
+        )
+    }
+    
+    static private func cleanAndChunkBySize(status: [HabitDayStatus], size: Int) -> [[HabitDayStatus]] {
+        var cleanStatus = status.filter {
+            $0 == .completed ||
+            $0 == .partiallyCompleted ||
+            $0 == .notCompleted ||
+            $0 == .awaitsExecution
+        }
+        let remainder = cleanStatus.count % size
+        if remainder > 0 {
+            cleanStatus += Array(repeating: .skipped, count: size - remainder)
+        }
+        return cleanStatus.chunked(into: size)
+    }
+    
+    static private func calculateDaysStatus(
         _ habit: Habit,
         currentDate: Date,
         start: Date,
@@ -79,11 +112,11 @@ extension Habit {
     ) -> [HabitDayStatus] {
         (0...numberOfDays).map { offset in
             let day = CalendarExt.calendar.date(byAdding: .day, value: offset, to: start)!
-            return getStatus(habit: habit, day: day, currentDate: currentDate)
+            return getDayStatus(habit: habit, day: day, currentDate: currentDate)
         }
     }
     
-    static private func getStatus(
+    static private func getDayStatus(
         habit: Habit,
         day: Date,
         currentDate: Date,
