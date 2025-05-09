@@ -150,38 +150,29 @@ final class DataServiceImpl: DataService {
         }
     }
     
-    func reloadHabit(by id: UUID) {
-        print("DataServiceImpl: \(#function) habit=\(id)")
-        needReloadHabitSubject.send(id)
+    private func deleteHabitOld(_ id: UUID) throws {
+        print("DataServiceImpl: \(#function)")
+        let descriptor = FetchDescriptor<HabitModel>(
+            predicate: #Predicate { $0.id == id }
+        )
+        let items = try fetchData(descriptor)
+        for item in items {
+            for interval in item.intervals {
+                modelContext.delete(interval)
+            }
+            modelContext.delete(item)
+        }
     }
     
-    func saveHabit(_ habit: HabitModel) async -> Result<Bool, any Error> {
-        print("DataServiceImpl: \(#function) habit=\(habit.title) - \(habit.id)")
+    func saveHabit(habit: HabitModel) async -> Result<Bool, any Error> {
+        print("DataServiceImpl: \(#function)")
         do {
             // Удалим если был такой и добавим новый
-            let id = habit.id
-            let descriptor = FetchDescriptor<HabitModel>(
-                predicate: #Predicate { $0.id == id }
-            )
-            // Проверяем существование привычки
-            if let existingHabit = try fetchData(descriptor).first {
-                // Удаляем старые интервалы
-                for interval in existingHabit.intervals {
-                    modelContext.delete(interval)
-                }
-                modelContext.delete(existingHabit)
-            }
+            try deleteHabitOld(habit.id)
             // Записываем новый
             modelContext.insert(habit)
-            
-            // Добавляем интервалы
-            for interval in habit.intervals {
-                interval.habit = habit
-                modelContext.insert(interval)
-            }
             // Сохраняем изменения
             save()
-            
             // Уведомляем об обновлении
             needReloadHabitSubject.send(habit.id)
             return .success(true)
@@ -204,11 +195,16 @@ final class DataServiceImpl: DataService {
             try await deleteData(descriptor)
             try await deleteData(descriptorCompleted)
             // необходимо обновить
-            reloadHabit(by: id)
+            needReloadHabitSubject.send(id)
             return .success(true)
         } catch {
             return .failure(error)
         }
+    }
+    
+    func reloadHabit(by id: UUID) {
+        print("DataServiceImpl: \(#function) habit=\(id)")
+        needReloadHabitSubject.send(id)
     }
     
     // MARK: - HourIntervalCompletedModel
@@ -218,7 +214,6 @@ final class DataServiceImpl: DataService {
         )
         do {
             let completeds = try fetchData(descriptor)
-            print("DataServiceImpl: \(#function) habits=\(completeds.count)")
             return .success(completeds)
         } catch {
             return .failure(error)
@@ -233,7 +228,6 @@ final class DataServiceImpl: DataService {
         )
         do {
             let completed = try fetchData(descriptor)
-            print("DataServiceImpl: \(#function) intervals=\(completed.count)")
             return .success(completed)
         } catch {
             return .failure(error)
