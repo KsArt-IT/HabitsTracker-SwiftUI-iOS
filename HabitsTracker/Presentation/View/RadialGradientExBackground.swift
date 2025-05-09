@@ -5,7 +5,6 @@
 //  Created by KsArT on 09.05.2025.
 //
 
-
 import SwiftUI
 
 fileprivate struct RadialGradientExBackground: ViewModifier {
