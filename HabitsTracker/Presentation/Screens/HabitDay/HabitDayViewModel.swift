@@ -26,7 +26,7 @@ final class HabitDayViewModel: ObservableObject {
     }
     
     // MARK: - Fetch Habits
-    func fetchData() {
+    private func fetchData() {
         print("HabitDayViewModel: \(#function)")
         guard task == nil else { return }
         let newTask = Task { [weak self] in
@@ -37,14 +37,14 @@ final class HabitDayViewModel: ObservableObject {
         self.task = newTask
     }
     
-    private func fetchHabits() async {
+    func fetchHabits() async {
         print("HabitDayViewModel: \(#function) user=\(Profile.user?.id.uuidString ?? "")")
         guard let user = Profile.user else { return }
         date = Date.now
         let result = await habitRepository.fetchHabits(by: user.id, from: date)
         switch result {
         case .success(let habits):
-            sortList(habits)
+            await sortList(habits)
         case .failure(let error):
             await showMessage(error.localizedDescription)
         }
@@ -65,7 +65,7 @@ final class HabitDayViewModel: ObservableObject {
             // удалим из списка
             await setList(habits.filter { $0.id != id })
         case .success(let habit):
-            updateList(habit!)
+            await updateList(habit!)
         case .failure(let error):
             await showMessage(error.localizedDescription)
         }
@@ -95,16 +95,14 @@ final class HabitDayViewModel: ObservableObject {
     }
     
     // MARK: - Update List
-    private func updateList(_ newItem: Habit) {
+    private func updateList(_ newItem: Habit) async {
         var newList = habits.filter { $0.id != newItem.id }
         newList.append(newItem)
-        sortList(newList)
+        await sortList(newList)
     }
     
-    private func sortList(_ newList: [Habit]) {
-        Task { [weak self] in
-            await self?.setList(newList.sorted(by: <))
-        }
+    private func sortList(_ newList: [Habit]) async {
+        await setList(newList.sorted(by: <))
     }
     
     @MainActor
