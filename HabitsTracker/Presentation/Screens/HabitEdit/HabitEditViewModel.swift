@@ -115,7 +115,8 @@ final class HabitEditViewModel: ObservableObject {
             completedAt: Date.distantFuture,
             weekDays: periodDays == 0 ? Set<WeekDays>(WeekDays.allCases) : weekDays,
             intervals: intervals,
-            completed: []
+            completed: [],
+            notifications: [],
         )
         await saveHabit(habit)
     }

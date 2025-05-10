@@ -22,7 +22,9 @@ struct Habit: Identifiable, Equatable, Comparable, Hashable {
     let intervals: [HourInterval]
     let completed: [HourIntervalCompleted]
     
-    var isActive: Bool { completedAt == Date.distantFuture }
+    let notifications: [HabitNotification]
+
+    var isActive: Bool { completedAt >= Date.now }
     
     // MARK: - Comparable
     static func < (lhs: Self, rhs: Self) -> Bool {
@@ -37,6 +39,7 @@ struct Habit: Identifiable, Equatable, Comparable, Hashable {
         weekDays: Set<WeekDays>? = nil,
         intervals: [HourInterval]? = nil,
         completed: [HourIntervalCompleted]? = nil,
+        notifications: [HabitNotification]? = nil,
     ) -> Habit {
         Habit(
             id: id,
@@ -49,6 +52,7 @@ struct Habit: Identifiable, Equatable, Comparable, Hashable {
             weekDays: weekDays ?? self.weekDays,
             intervals: intervals ?? self.intervals,
             completed: completed ?? self.completed,
+            notifications: notifications ?? self.notifications,
         )
     }
 }

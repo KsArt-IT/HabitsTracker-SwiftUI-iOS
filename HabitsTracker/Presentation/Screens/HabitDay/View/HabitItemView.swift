@@ -58,7 +58,7 @@ struct HabitItemView: View {
                 completedAt: Date.distantFuture,
                 weekDays: [WeekDays.monday, WeekDays.tuesday],
                 intervals: [
-                    HourInterval(id: UUID(), time: 180)
+                    HourInterval(id: UUID(), time: 180),
                 ],
                 completed: [
                     HourIntervalCompleted(
@@ -67,7 +67,8 @@ struct HabitItemView: View {
                         time: 180,
                         completedAt: Date.now
                     )
-                ]
+                ],
+                notifications: []
             ),
             action: {},
             edit: {},
@@ -86,7 +87,7 @@ struct HabitItemView: View {
                 weekDays: [WeekDays.monday, WeekDays.tuesday],
                 intervals: [
                     HourInterval(id: UUID(), time: 180),
-                    HourInterval(id: UUID(), time: 200)
+                    HourInterval(id: UUID(), time: 200),
                 ],
                 completed: [
                     HourIntervalCompleted(
@@ -95,7 +96,8 @@ struct HabitItemView: View {
                         time: 180,
                         completedAt: Date.now
                     )
-                ]
+                ],
+                notifications: []
             ),
             action: {},
             edit: {},
