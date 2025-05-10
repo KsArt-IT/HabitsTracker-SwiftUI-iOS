@@ -14,7 +14,7 @@ final class HourIntervalCompletedModel {
     var id: UUID
     var habitId: UUID
     var intervalId: UUID
-    var time: Int // время в секундах
+    var time: Int
     var completedAt: Date
     
     init(

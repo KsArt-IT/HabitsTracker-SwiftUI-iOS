@@ -29,6 +29,9 @@ final class HabitModel {
     @Transient
     var completed: [HourIntervalCompletedModel] = []
 
+    @Relationship(deleteRule: .cascade)
+    var notifications: [HabitNotificationModel] = []
+    
     init(
         id: UUID = UUID(),
         userId: UUID,
@@ -41,8 +44,10 @@ final class HabitModel {
         completedAt: Date = Date.distantFuture,
         
         weekDaysRaw: Int = WeekDays.allDays,
-        intervals: Array<HourIntervalModel> = [],
-        completed: Array<HourIntervalCompletedModel> = [],
+        intervals: [HourIntervalModel] = [],
+        completed: [HourIntervalCompletedModel] = [],
+        
+        notifications: [HabitNotificationModel] = [],
     ) {
         self.id = id
         self.userId = userId
@@ -57,5 +62,7 @@ final class HabitModel {
         self.weekDaysRaw = weekDaysRaw
         self.intervals = intervals
         self.completed = completed
+        
+        self.notifications = notifications
     }
 }
