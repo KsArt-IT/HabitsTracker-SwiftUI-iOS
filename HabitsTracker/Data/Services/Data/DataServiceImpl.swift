@@ -160,6 +160,9 @@ final class DataServiceImpl: DataService {
             for interval in item.intervals {
                 modelContext.delete(interval)
             }
+            for notification in item.notifications {
+                modelContext.delete(notification)
+            }
             modelContext.delete(item)
         }
     }
