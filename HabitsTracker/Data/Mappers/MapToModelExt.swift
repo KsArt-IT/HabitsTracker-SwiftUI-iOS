@@ -55,3 +55,16 @@ extension HourIntervalCompleted {
         )
     }
 }
+
+extension HabitNotification {
+    func toModel(habitId: UUID) -> HabitNotificationModel {
+        HabitNotificationModel(
+            id: id,
+            identifier: identifier,
+            notifiAt: notifiAt,
+            repeats: repeats,
+            habitId: habitId,
+            intervalId: intervalId,
+        )
+    }
+}

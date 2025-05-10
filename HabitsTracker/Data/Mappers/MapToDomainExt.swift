@@ -32,7 +32,8 @@ extension HabitModel {
             
             weekDays: Set<WeekDays>.from(rawValue: weekDaysRaw),
             intervals: intervals.map { $0.toDomain() }.sorted(by: <),
-            completed: completed.map { $0.toDomain() }
+            completed: completed.map { $0.toDomain() },
+            notifications: notifications.map { $0.toDomain() },
         )
     }
 }
@@ -41,7 +42,7 @@ extension HourIntervalModel {
     func toDomain() -> HourInterval {
         HourInterval(
             id: id,
-            time: time
+            time: time,
         )
     }
 }
@@ -53,6 +54,18 @@ extension HourIntervalCompletedModel {
             intervalId: intervalId,
             time: time,
             completedAt: completedAt
+        )
+    }
+}
+
+extension HabitNotificationModel {
+    func toDomain() -> HabitNotification {
+        HabitNotification(
+            id: id,
+            identifier: identifier,
+            notifiAt: notifiAt,
+            repeats: repeats,
+            intervalId: intervalId,
         )
     }
 }
