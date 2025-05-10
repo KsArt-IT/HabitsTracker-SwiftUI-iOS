@@ -17,6 +17,7 @@ final class DataBase {
             HabitModel.self,
             HourIntervalModel.self,
             HourIntervalCompletedModel.self,
+            HabitNotificationModel.self,
         ])
         let config = ModelConfiguration(schema: schema)
         
