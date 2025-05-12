@@ -18,11 +18,11 @@ final class HourIntervalCompletedModel {
     var completedAt: Date
     
     init(
-        id: UUID,
+        id: UUID = UUID(),
         habitId: UUID,
         intervalId: UUID,
         time: Int,
-        completedAt: Date,
+        completedAt: Date = Date.now,
     ) {
         self.id = id
         self.habitId = habitId
