@@ -140,7 +140,7 @@ final class DataServiceImpl: DataService {
                 if case .success(let completed) = await fetchCompleteds(by: habit.id, from: startDate, to: endDate) {
                     habit.completed = completed
                 }
-                print("DataServiceImpl: \(#function) habit=\(habit.title)")
+                print("DataServiceImpl: \(#function) habit=\(habit.title), notification=\(habit.notifications.count)")
                 return .success(habit)
             }
             // если был перед этим удален
@@ -174,10 +174,13 @@ final class DataServiceImpl: DataService {
             try deleteHabitOld(habit.id)
             // Записываем новый
             modelContext.insert(habit)
+            print("DataServiceImpl: \(#function) insert")
             // Сохраняем изменения
             save()
+            print("DataServiceImpl: \(#function) save")
             // Уведомляем об обновлении
             needReloadHabitSubject.send(habit.id)
+            print("DataServiceImpl: \(#function) habit=\(habit.id)")
             return .success(true)
         } catch {
             print("DataServiceImpl: \(#function) error: \(error)")
@@ -210,7 +213,25 @@ final class DataServiceImpl: DataService {
         needReloadHabitSubject.send(id)
     }
     
+    // MARK: - HourIntervalModel
+    func fetchInterval(habitId: UUID, intervalId: UUID) async -> HourIntervalModel? {
+        let descriptor = FetchDescriptor<HourIntervalModel>(
+            predicate: #Predicate { $0.habit?.id == habitId && $0.id == intervalId }
+        )
+        return try? fetchData(descriptor).first
+    }
+    
     // MARK: - HourIntervalCompletedModel
+    func fetchCompleted(habitId: UUID, intervalId: UUID, date: Date) async -> HourIntervalCompletedModel? {
+        let descriptor = FetchDescriptor<HourIntervalCompletedModel>(
+            predicate: #Predicate {
+                $0.habitId == habitId && $0.intervalId == intervalId &&
+                $0.completedAt >= date.startOfDay && $0.completedAt <= date.endOfDay
+            }
+        )
+        return try? fetchData(descriptor).first
+    }
+    
     func fetchCompleteds(by habitId: UUID) async -> Result<[HourIntervalCompletedModel], any Error> {
         let descriptor = FetchDescriptor<HourIntervalCompletedModel>(
             predicate: #Predicate { $0.habitId == habitId }
@@ -252,6 +273,20 @@ final class DataServiceImpl: DataService {
             return .success(true)
         } catch {
             return .failure(error)
+        }
+    }
+    
+    // MARK: - Notifications
+    func fetchNotifications(by habitId: UUID) async -> [HabitNotificationModel] {
+        do {
+            let descriptor = FetchDescriptor<HabitNotificationModel>(
+                predicate: #Predicate { $0.id == habitId }
+            )
+            
+            return try fetchData(descriptor)
+        } catch {
+            print("DataServiceImpl: \(#function) error: \(error)")
+            return []
         }
     }
     
