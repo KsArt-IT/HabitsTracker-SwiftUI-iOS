@@ -31,6 +31,7 @@ extension Habit {
             
             weekDaysRaw: weekDays.rawValue,
             intervals: intervals.map { $0.toModel() },
+            notifications: notifications.map { $0.toModel(habitId: id) },
         )
     }
 }
@@ -61,7 +62,8 @@ extension HabitNotification {
         HabitNotificationModel(
             id: id,
             identifier: identifier,
-            notifiAt: notifiAt,
+            weekDay: weekDay,
+            time: time,
             repeats: repeats,
             habitId: habitId,
             intervalId: intervalId,

@@ -63,7 +63,8 @@ extension HabitNotificationModel {
         HabitNotification(
             id: id,
             identifier: identifier,
-            notifiAt: notifiAt,
+            weekDay: weekDay,
+            time: time,
             repeats: repeats,
             intervalId: intervalId,
         )
