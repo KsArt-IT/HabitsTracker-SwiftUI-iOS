@@ -32,6 +32,18 @@ extension WeekDays {
         }
     }
     
+    var weekDay: Int {
+        switch self {
+        case .monday: 2
+        case .tuesday: 3
+        case .wednesday: 4
+        case .thursday: 5
+        case .friday: 6
+        case .saturday: 7
+        case .sunday: 0
+        }
+    }
+    
     static let allDays: Int = 127
     
     static func from(date: Date) -> Self {
