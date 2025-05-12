@@ -8,6 +8,14 @@
 import Foundation
 
 extension Int {
+    var hours: Int {
+        self / 60
+    }
+
+    var minutes: Int {
+        self % 60
+    }
+
     func toHoursMinutes() -> String {
         let hours = self / 60
         let minutes = self % 60
