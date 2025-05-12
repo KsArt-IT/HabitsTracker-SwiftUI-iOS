@@ -16,42 +16,42 @@ final class HabitModel {
     var userId: UUID
     var title: String
     var details: String = ""
-
+    
     var createdAt: Date = Date.now
     var updatedAt: Date = Date.now
     var completedAt: Date = Date.distantFuture
-
+    
     var weekDaysRaw: Int = WeekDays.allDays
-
+    
     @Relationship(deleteRule: .cascade)
     var intervals: [HourIntervalModel] = []
-
-    @Transient
-    var completed: [HourIntervalCompletedModel] = []
-
+    
     @Relationship(deleteRule: .cascade)
     var notifications: [HabitNotificationModel] = []
+    
+    @Transient
+    var completed: [HourIntervalCompletedModel] = []
     
     init(
         id: UUID = UUID(),
         userId: UUID,
-
+        
         title: String,
         details: String = "",
-
+        
         createdAt: Date,
         updatedAt: Date = Date.now,
         completedAt: Date = Date.distantFuture,
         
         weekDaysRaw: Int = WeekDays.allDays,
         intervals: [HourIntervalModel] = [],
-        completed: [HourIntervalCompletedModel] = [],
-        
         notifications: [HabitNotificationModel] = [],
+        
+        completed: [HourIntervalCompletedModel] = [],
     ) {
         self.id = id
         self.userId = userId
-
+        
         self.title = title
         self.details = details
         
@@ -61,8 +61,9 @@ final class HabitModel {
         
         self.weekDaysRaw = weekDaysRaw
         self.intervals = intervals
-        self.completed = completed
         
         self.notifications = notifications
+
+        self.completed = completed
     }
 }
