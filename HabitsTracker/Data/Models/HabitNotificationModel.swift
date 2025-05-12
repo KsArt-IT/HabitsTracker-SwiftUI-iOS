@@ -14,7 +14,8 @@ final class HabitNotificationModel {
     var id: UUID
     var identifier: String
     
-    var notifiAt: Date // дата срабатывания
+    var weekDay: Int // день недели или все дни
+    var time: Int // время в минутах от 0:00
     var repeats: Bool // повтор каждый день, иначе создается массив для каждого следующего дня
     
     var habitId: UUID
@@ -26,7 +27,8 @@ final class HabitNotificationModel {
         id: UUID,
         identifier: String,
 
-        notifiAt: Date,
+        weekDay: Int,
+        time: Int,
         repeats: Bool,
         
         habitId: UUID,
@@ -34,7 +36,8 @@ final class HabitNotificationModel {
     ) {
         self.id = id
         self.identifier = identifier
-        self.notifiAt = notifiAt
+        self.weekDay = weekDay
+        self.time = time
         self.repeats = repeats
         self.habitId = habitId
         self.intervalId = intervalId
