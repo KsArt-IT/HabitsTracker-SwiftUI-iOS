@@ -75,4 +75,9 @@ extension Date {
     func inSameDay(_ date: Date) -> Bool {
         CalendarExt.calendar.isDate(self, inSameDayAs: date)
     }
+    
+    var nextDay: Date {
+        CalendarExt.calendar.date(byAdding: DateComponents(day: 1), to: self)!
+    }
+
 }
