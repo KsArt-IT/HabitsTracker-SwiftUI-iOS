@@ -11,7 +11,8 @@ struct HabitNotification: Equatable, Hashable, Identifiable {
     let id: UUID
     let identifier: String
     
-    let notifiAt: Date
+    let weekDay: Int
+    let time: Int
     let repeats: Bool
     
     let intervalId: UUID
