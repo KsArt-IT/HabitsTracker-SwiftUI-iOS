@@ -11,13 +11,15 @@ import Combine
 
 final class HabitRepositoryImpl: HabitRepository {
     private let service: DataService
+    private let notificationService: NotificationService
     
     var needReloadHabitPublisher: AnyPublisher<UUID, Never> {
         service.needReloadHabitPublisher
     }
     
-    init(service: DataService) {
+    init(service: DataService, notificationService: NotificationService) {
         self.service = service
+        self.notificationService = notificationService
     }
     
     
@@ -56,11 +58,19 @@ final class HabitRepositoryImpl: HabitRepository {
     }
     
     func saveHabit(_ habit: Habit) async -> Result<Bool, any Error> {
-        await service.saveHabit(habit.toModel())
+        // удалить нотификацию
+        await deleteNotifications(by: habit.id)
+        // добавить новые
+        await notificationService.activate(habit.title, for: habit.notifications)
+        // сохранить
+        return await service.saveHabit(habit.toModel())
     }
     
     func deleteHabit(by id: UUID) async -> Result<Bool, any Error> {
-        await service.deleteHabit(by: id)
+        // удалить нотификацию
+        await deleteNotifications(by: id)
+        // удалить habit
+        return await service.deleteHabit(by: id)
     }
     
     // MARK: - HourIntervalCompleted
@@ -89,6 +99,9 @@ final class HabitRepositoryImpl: HabitRepository {
     }
     
     func saveCompleted(by habitId: UUID, completed: HourIntervalCompleted) async -> Result<HourIntervalCompleted, any Error> {
+        // удалить на сегодня оповещение
+        
+        //
         let result = await service.saveCompleted(completed.toModel(habitId: habitId))
         return switch result {
         case .success(let completed):
@@ -101,6 +114,22 @@ final class HabitRepositoryImpl: HabitRepository {
     
     func deleteCompleted(by id: UUID) async -> Result<Bool, any Error> {
         await service.deleteCompleted(by: id)
+    }
+    
+    // MARK: - Notification
+    func notificationStatus() -> Bool {
+        notificationService.notificationStatus()
+    }
+    
+    func requestPermission() {
+        notificationService.requestPermission()
+    }
+    
+    private func deleteNotifications(by habitId: UUID) async {
+        // получить все оповещения для id
+        let notifications = await service.fetchNotifications(by: habitId)
+        // удалить нотификацию
+        await notificationService.deactivate(for: notifications.map { $0.toDomain() })
     }
     
 }
