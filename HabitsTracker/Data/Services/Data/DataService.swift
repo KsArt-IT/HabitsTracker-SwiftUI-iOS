@@ -18,6 +18,9 @@ protocol DataService: AnyObject {
     func saveHabit(_ habit: HabitModel) async -> Result<Bool, any Error>
     func deleteHabit(by id: UUID) async -> Result<Bool, any Error>
     
+    func fetchInterval(habitId: UUID, intervalId: UUID) async -> HourIntervalModel?
+    
+    func fetchCompleted(habitId: UUID, intervalId: UUID, date: Date) async -> HourIntervalCompletedModel?
     func fetchCompleteds(by habitId: UUID) async -> Result<[HourIntervalCompletedModel], any Error>
     func fetchCompleteds(by habitId: UUID, from startDate: Date, to endDate: Date) async -> Result<[HourIntervalCompletedModel], any Error>
     func saveCompleted(_ completed: HourIntervalCompletedModel) async -> Result<HourIntervalCompletedModel, any Error>
@@ -28,6 +31,8 @@ protocol DataService: AnyObject {
     func fetchUser(by name: String) async -> Result<UserModel?, any Error>
     func deleteUser(by id: UUID) async -> Result<Bool, any Error>
     
+    func fetchNotifications(by habitId: UUID) async -> [HabitNotificationModel]
+
     func reloadHabit(by id: UUID)
     var needReloadHabitPublisher: AnyPublisher<UUID, Never> { get }
 }
