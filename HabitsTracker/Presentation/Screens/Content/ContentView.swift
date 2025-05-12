@@ -25,7 +25,7 @@ struct ContentView: View {
                 .environment(\.diManager, di)
         } else {
             OnboardScreen(viewModel: di.resolve(), name: $userName, initialized: $initialized)
-                .preferredColorScheme(appTheme.scheme(colorScheme))
+//                .preferredColorScheme(appTheme.scheme(colorScheme))
         }
     }
 }
