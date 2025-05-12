@@ -13,6 +13,11 @@ final class DIManager {
     
     init() {
         registerDataBase()
+        
+        registerNotificationService()
+        registerNotificationRepository()
+        registerNotificationDelegate()
+        
         registerUserRepository()
         registerDataRepository()
         
@@ -40,7 +45,26 @@ final class DIManager {
         }.inObjectScope(.weak)
     }
     
-    // MARK: DataRepository
+    // MARK: Notification
+    private func registerNotificationService() {
+        container.register(NotificationService.self) { _ in
+            NotificationServiceImpl()
+        }.inObjectScope(.weak)
+    }
+    
+    private func registerNotificationRepository() {
+        container.register(NotificationRepository.self) { resolver in
+            NotificationRepositoryImpl(service: resolver.resolve(DataService.self)!)
+        }.inObjectScope(.weak)
+    }
+    
+    private func registerNotificationDelegate() {
+        container.register(NotificationDelegate.self) { resolver in
+            NotificationDelegate(repository: resolver.resolve(NotificationRepository.self)!)
+        }.inObjectScope(.container)
+    }
+    
+    // MARK: Repository
     private func registerUserRepository() {
         container.register(UserRepository.self) { resolver in
             UserRepositoryImpl(service: resolver.resolve(DataService.self)!)
@@ -49,7 +73,10 @@ final class DIManager {
     
     private func registerDataRepository() {
         container.register(HabitRepository.self) { resolver in
-            HabitRepositoryImpl(service: resolver.resolve(DataService.self)!)
+            HabitRepositoryImpl(
+                service: resolver.resolve(DataService.self)!,
+                notificationService: resolver.resolve(NotificationService.self)!
+            )
         }.inObjectScope(.container)
     }
     
