@@ -21,13 +21,19 @@ final class HabitEditViewModel: ObservableObject {
     
     @Published private(set) var times: [Int]
     private var intervals: [HourInterval] = [HourInterval(id: UUID(), time: 420)] {
-        didSet  {
+        didSet {
             intervals.sort(by: <)
             times = intervals.map { $0.time }
         }
     }
     
-    @Published var reminderTimes: Bool = false
+    @Published var reminderTimes: Bool = false {
+        didSet {
+            if reminderTimes, !repository.notificationStatus() {
+                repository.requestPermission()
+            }
+        }
+    }
     
     private var task: Task<(), Never>?
     
@@ -105,28 +111,103 @@ final class HabitEditViewModel: ObservableObject {
             return
         }
         
+        let habitId = UUID()
+        let date = Date.now
+        let daysOfWeek = periodDays == 0 ? Set<WeekDays>(WeekDays.allCases) : weekDays
+        let notifications: [HabitNotification] = reminderTimes ? generateNotification(
+            intervals,
+            habitId: habitId,
+            days: periodDays == 0 ? [] : daysOfWeek,
+        ) : []
+        
         let habit = Habit(
-            id: UUID(),
+            id: habitId,
             userId: user.id,
             title: cardTitle,
             details: "",
-            createdAt: Date.now,
-            updatedAt: Date.now,
+            createdAt: date,
+            updatedAt: date,
             completedAt: Date.distantFuture,
-            weekDays: periodDays == 0 ? Set<WeekDays>(WeekDays.allCases) : weekDays,
+            weekDays: daysOfWeek,
             intervals: intervals,
             completed: [],
-            notifications: [],
+            notifications: notifications,
         )
         await saveHabit(habit)
     }
     
+    private func generateNotification(
+        _ intervals: [HourInterval],
+        habitId: UUID,
+        days: Set<WeekDays>,
+    ) -> [HabitNotification] {
+        guard !intervals.isEmpty else { return [] }
+        
+        var notifications: [HabitNotification] = []
+        let repeats = true // повторять всегда, только если это не разовое оповещение
+        
+        for interval in intervals {
+            if days.isEmpty {
+                notifications.append(
+                    getNotification(
+                        habitId: habitId,
+                        intervalId: interval.id,
+                        weekDay: WeekDays.allDays,
+                        time: interval.time,
+                        repeats: repeats
+                    )
+                )
+            } else {
+                // на каждый день
+                for day in days {
+                    notifications.append(
+                        getNotification(
+                            habitId: habitId,
+                            intervalId: interval.id,
+                            weekDay: day.weekDay,
+                            time: interval.time,
+                            repeats: repeats
+                        )
+                    )
+                }
+            }
+        }
+        return notifications
+    }
+    
+    private func getNotification(
+        habitId: UUID,
+        intervalId: UUID,
+        weekDay: Int,
+        time: Int,
+        repeats: Bool = false
+    ) -> HabitNotification {
+        HabitNotification(
+            id: UUID(),
+            // NotificationDelegate change
+            //----------- 0 ---- 1 ------- 2 ------ 3 ------- 4 ---- 5 -----
+            identifier: "habit_\(habitId)_time_\(intervalId)_day_\(weekDay)",
+            weekDay: weekDay,
+            time: time,
+            repeats: repeats,
+            intervalId: intervalId
+        )
+    }
+    
     private func updateHabit(_ habit: Habit) async {
         print("HabitEditViewModel: \(#function)")
+        let daysOfWeek = periodDays == 0 ? Set<WeekDays>(WeekDays.allCases) : weekDays
+        let notifications: [HabitNotification] = reminderTimes ? generateNotification(
+            intervals,
+            habitId: habit.id,
+            days: periodDays == 0 ? [] : daysOfWeek,
+        ) : []
+
         let habit = habit.copyWith(
             title: cardTitle,
-            weekDays: periodDays == 0 ? Set<WeekDays>(WeekDays.allCases): weekDays,
+            weekDays: daysOfWeek,
             intervals: intervals,
+            notifications: notifications,
         )
         await saveHabit(habit)
     }
@@ -156,7 +237,8 @@ final class HabitEditViewModel: ObservableObject {
         weekDays = habit.weekDays
         intervals = habit.intervals
         
-        periodDays = habit.weekDays.rawValue == WeekDays.allDays ? 0 : 1
+        periodDays = weekDays.rawValue == WeekDays.allDays ? 0 : 1
+        reminderTimes = !habit.notifications.isEmpty
         
         self.habit = habit
     }
