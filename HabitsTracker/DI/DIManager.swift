@@ -16,7 +16,7 @@ final class DIManager {
         
         registerNotificationService()
         registerNotificationRepository()
-        registerNotificationDelegate()
+        registerNotificationManager()
         
         registerUserRepository()
         registerDataRepository()
@@ -58,9 +58,12 @@ final class DIManager {
         }.inObjectScope(.weak)
     }
     
-    private func registerNotificationDelegate() {
-        container.register(NotificationDelegate.self) { resolver in
-            NotificationDelegate(repository: resolver.resolve(NotificationRepository.self)!)
+    private func registerNotificationManager() {
+        container.register(LocalNotificationManager.self) { resolver in
+            LocalNotificationManager(
+                repository: resolver.resolve(NotificationRepository.self)!,
+                notification: resolver.resolve(NotificationService.self)!,
+            )
         }.inObjectScope(.container)
     }
     
