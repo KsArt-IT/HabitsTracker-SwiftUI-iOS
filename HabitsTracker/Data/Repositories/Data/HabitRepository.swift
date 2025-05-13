@@ -25,9 +25,6 @@ protocol HabitRepository: AnyObject {
     ) async -> Result<HourIntervalCompleted, any Error>
     func deleteCompleted(by id: UUID) async -> Result<Bool, any Error>
     
-    func notificationStatus() -> Bool
-    func requestPermission()
-    
     func reloadHabit(by id: UUID)
     var needReloadHabitPublisher: AnyPublisher<UUID, Never> { get }
 }

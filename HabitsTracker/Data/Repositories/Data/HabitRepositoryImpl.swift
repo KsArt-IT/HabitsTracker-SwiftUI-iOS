@@ -61,7 +61,7 @@ final class HabitRepositoryImpl: HabitRepository {
         // удалить нотификацию
         await deleteNotifications(by: habit.id)
         // добавить новые
-        await notificationService.activate(habit.title, for: habit.notifications)
+        await notificationService.schedule(habit.title, for: habit.notifications)
         // сохранить
         return await service.saveHabit(habit.toModel())
     }
@@ -117,14 +117,6 @@ final class HabitRepositoryImpl: HabitRepository {
     }
     
     // MARK: - Notification
-    func notificationStatus() -> Bool {
-        notificationService.notificationStatus()
-    }
-    
-    func requestPermission() {
-        notificationService.requestPermission()
-    }
-    
     private func deleteNotifications(by habitId: UUID) async {
         // получить все оповещения для id
         let notifications = await service.fetchNotifications(by: habitId)
