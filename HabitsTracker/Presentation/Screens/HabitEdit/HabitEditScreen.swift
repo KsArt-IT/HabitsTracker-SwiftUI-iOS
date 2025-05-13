@@ -9,7 +9,10 @@ import SwiftUI
 
 struct HabitEditScreen: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.scenePhase) private var scenePhase
+    
     @StateObject var viewModel: HabitEditViewModel
+    @StateObject var notifications: LocalNotificationManager
     let id: UUID?
     
     var body: some View {
@@ -36,7 +39,13 @@ struct HabitEditScreen: View {
                             actionNegative: viewModel.timesDel
                         )
                         // Reminder
-                        ReminderToggleView(enabled: $viewModel.reminderTimes)
+                        ReminderToggleView(
+                            reminder: $viewModel.reminderTimes,
+                            granted: notifications.isGranted,
+                            label: notifications.isPermission ? "Request Permission" : "Open Notification setings",
+                        ) {
+                            notifications.requestPermission()
+                        }
                         
                         PrimaryButton(
                             label: id == nil ? "Create" : "Save",
@@ -55,11 +64,15 @@ struct HabitEditScreen: View {
                     await viewModel.fetchHabit(by: id)
                 }
             }
-            
         }
         .padding(.horizontal, Constants.Sizes.medium)
         .padding(.bottom, 1)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .onChange(of: scenePhase) { _, newValue in
+            if newValue == .active {
+                notifications.checkGranted()
+            }
+        }
         .onChange(of: viewModel.closed) { _, newValue in
             if newValue { dismiss() }
         }
