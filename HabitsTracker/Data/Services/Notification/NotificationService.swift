@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import UserNotifications
 
 protocol NotificationService {
-    func notificationStatus() -> Bool
+    func setDelegate(_ delegate: any UNUserNotificationCenterDelegate)
+    func notificationStatus(_ setStatus: @escaping (Bool) -> Void)
     func requestPermission()
-    func activate(_ title: String, for notifications: [HabitNotification]) async
+    func later(identifier: String, content: UNNotificationContent, minute: Int) async
+    func schedule(_ title: String, for notifications: [HabitNotification]) async
     func deactivate(for notifications: [HabitNotification]) async
 }
