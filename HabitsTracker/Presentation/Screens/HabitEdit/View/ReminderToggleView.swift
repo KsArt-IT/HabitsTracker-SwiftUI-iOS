@@ -8,23 +8,30 @@
 import SwiftUI
 
 struct ReminderToggleView: View {
-    @Binding var enabled: Bool
+    @Binding var reminder: Bool
+    let granted: Bool
+    let label: LocalizedStringKey
+    let action: () -> Void
     
     var body: some View {
         FormTitleView("Reminder") {
             VStack {
-                RadioButton(title: "Without Reminder", selected: !enabled)
-                    .onTapGesture {
-                        withAnimation {
-                            enabled = false
+                if granted {
+                    RadioButton(title: "Without Reminder", selected: !reminder)
+                        .onTapGesture {
+                            withAnimation {
+                                reminder = false
+                            }
                         }
-                    }
-                RadioButton(title: "Enable Reminders", selected: enabled)
-                    .onTapGesture {
-                        withAnimation {
-                            enabled = true
+                    RadioButton(title: "Enable Reminders", selected: reminder)
+                        .onTapGesture {
+                            withAnimation {
+                                reminder = true
+                            }
                         }
-                    }
+                } else {
+                    PrimaryButton(label: label, disabled: false, action: action)
+                }
             }
             .padding(.horizontal, Constants.Sizes.medium)
             .padding(.bottom, Constants.Sizes.medium)
@@ -33,6 +40,6 @@ struct ReminderToggleView: View {
 }
 
 #Preview {
-    @Previewable @State var enabled = false
-    ReminderToggleView(enabled: $enabled)
+    @Previewable @State var reminder = false
+    ReminderToggleView(reminder: $reminder, granted: true, label: "") {}
 }
