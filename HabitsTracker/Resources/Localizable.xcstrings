@@ -326,6 +326,22 @@
         }
       }
     },
+    "Open Notification setings" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть настройки уведомлений"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити налаштування сповіщень"
+          }
+        }
+      }
+    },
     "Please enter your name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -361,6 +377,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Нагадування"
+          }
+        }
+      }
+    },
+    "Request Permission" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запросить разрешение"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запит дозволу"
           }
         }
       }
