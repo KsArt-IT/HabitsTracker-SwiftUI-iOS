@@ -9,9 +9,19 @@ import Foundation
 import UserNotifications
 
 final class NotificationServiceImpl: NotificationService {
+    private let center: UNUserNotificationCenter
+    
+    init(center: UNUserNotificationCenter = UNUserNotificationCenter.current()) {
+        self.center = center
+    }
+    
+    func setDelegate(_ delegate: any UNUserNotificationCenterDelegate) {
+        center.setNotificationCategories(NotificationCategory.categories)
+        center.delegate = delegate
+    }
     
     func requestPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if let error = error {
                 print("Notifications: Error requesting notifications: \(error)")
             } else if granted {
@@ -22,20 +32,13 @@ final class NotificationServiceImpl: NotificationService {
         }
     }
     
-    func notificationStatus() -> Bool {
-        var result = false
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
-            if settings.authorizationStatus == .authorized {
-                print("Notifications: Yes")
-                result = true
-            } else {
-                print("Notifications: No")
-            }
+    func notificationStatus(_ setStatus: @escaping (Bool) -> Void) {
+        center.getNotificationSettings { settings in
+            setStatus(settings.authorizationStatus == .authorized)
         }
-        return result
     }
     
-    func activate(_ title: String, for notifications: [HabitNotification]) async {
+    func schedule(_ title: String, for notifications: [HabitNotification]) async {
         guard !notifications.isEmpty else { return }
         
         for notification in notifications {
@@ -52,7 +55,7 @@ final class NotificationServiceImpl: NotificationService {
             content.title = title
             content.body = "It's time to do it!"
             content.sound = .default
-            content.categoryIdentifier = NotificationDelegate.category
+            content.categoryIdentifier = NotificationCategory.category
             
             let request = UNNotificationRequest(
                 identifier: notification.identifier,
@@ -60,18 +63,30 @@ final class NotificationServiceImpl: NotificationService {
                 trigger: trigger
             )
             print("Notifications: time=\(String(describing: dateComponents.hour)):\(String(describing: dateComponents.minute)) - \(dateComponents)")
-            try? await UNUserNotificationCenter.current().add(request)
+            try? await center.add(request)
         }
+    }
+    
+    func later(identifier: String, content: UNNotificationContent, minute: Int) async {
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(minute * 60), repeats: false)
+        let request = UNNotificationRequest(
+            identifier: identifier,
+            content: content,
+            trigger: trigger
+        )
+        print("Notifications: \(#function): later: \(minute) min")
+        
+        try? await center.add(request)
     }
     
     func deactivate(for notifications: [HabitNotification]) async {
         guard !notifications.isEmpty else { return }
         
         let allIDs = notifications.map { $0.identifier }
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: allIDs)
+        center.removePendingNotificationRequests(withIdentifiers: allIDs)
     }
     
     func deleteAll() {
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        center.removeAllPendingNotificationRequests()
     }
 }
