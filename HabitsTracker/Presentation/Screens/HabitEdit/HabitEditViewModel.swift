@@ -27,13 +27,7 @@ final class HabitEditViewModel: ObservableObject {
         }
     }
     
-    @Published var reminderTimes: Bool = false {
-        didSet {
-            if reminderTimes, !repository.notificationStatus() {
-                repository.requestPermission()
-            }
-        }
-    }
+    @Published var reminderTimes: Bool = false
     
     private var task: Task<(), Never>?
     
