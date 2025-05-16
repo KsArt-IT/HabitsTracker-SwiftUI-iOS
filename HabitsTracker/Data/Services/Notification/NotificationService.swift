@@ -14,5 +14,5 @@ protocol NotificationService {
     func requestPermission()
     func later(identifier: String, content: UNNotificationContent, minute: Int) async
     func schedule(_ title: String, for notifications: [HabitNotification]) async
-    func deactivate(for notifications: [HabitNotification]) async
+    func cancel(for notifications: [HabitNotification]) async
 }

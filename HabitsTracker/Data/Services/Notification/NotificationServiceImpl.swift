@@ -79,7 +79,7 @@ final class NotificationServiceImpl: NotificationService {
         try? await center.add(request)
     }
     
-    func deactivate(for notifications: [HabitNotification]) async {
+    func cancel(for notifications: [HabitNotification]) async {
         guard !notifications.isEmpty else { return }
         
         let allIDs = notifications.map { $0.identifier }

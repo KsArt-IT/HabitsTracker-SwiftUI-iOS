@@ -121,7 +121,7 @@ final class HabitRepositoryImpl: HabitRepository {
         // получить все оповещения для id
         let notifications = await service.fetchNotifications(by: habitId)
         // удалить нотификацию
-        await notificationService.deactivate(for: notifications.map { $0.toDomain() })
+        await notificationService.cancel(for: notifications.map { $0.toDomain() })
     }
     
 }
