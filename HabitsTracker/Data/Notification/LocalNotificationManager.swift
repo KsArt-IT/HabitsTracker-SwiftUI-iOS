@@ -11,16 +11,14 @@ import UIKit
 
 final class LocalNotificationManager: NSObject, ObservableObject {
     private let repository: NotificationRepository
-    private let notification: NotificationService
     
     @Published private(set) var isPermission = true
     @Published private(set) var isGranted = false
     
-    init(repository: NotificationRepository, notification: NotificationService) {
+    init(repository: NotificationRepository) {
         self.repository = repository
-        self.notification = notification
         super.init()
-        notification.setDelegate(self)
+        repository.setDelegate(self)
         checkGranted()
     }
     
@@ -28,7 +26,7 @@ final class LocalNotificationManager: NSObject, ObservableObject {
     func requestPermission() {
         guard !isGranted else { return }
         if isPermission {
-            notification.requestPermission()
+            repository.requestPermission()
             isPermission = false
         } else {
             Task { [weak self] in
@@ -46,7 +44,7 @@ final class LocalNotificationManager: NSObject, ObservableObject {
     
     // MARK: - Granted
     func checkGranted() {
-        self.notification.notificationStatus { granted in
+        self.repository.notificationStatus { granted in
             Task { [weak self] in
                 await self?.setGranted(granted)
             }
@@ -63,7 +61,10 @@ final class LocalNotificationManager: NSObject, ObservableObject {
 // MARK: - NotificationCenterDelegate
 extension LocalNotificationManager: UNUserNotificationCenterDelegate {
     // Показывать уведомления в foreground
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification
+    ) async -> UNNotificationPresentationOptions {
         [.banner, .sound]
     }
     
@@ -79,10 +80,10 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate {
                 case NotificationCategory.completedAction:
                     completed(habitId: habitId, intervalId: intervalId)
                 case NotificationCategory.laterAction:
-                    await notification.later(
+                    await repository.later(
                         identifier: "\(response.notification.request.identifier)_later",
                         content: response.notification.request.content,
-                        minute: 1
+                        minute: 30
                     )
                 default:
                     completed(habitId: habitId, intervalId: intervalId)
