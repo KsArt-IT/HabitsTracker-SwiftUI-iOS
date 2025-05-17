@@ -54,6 +54,14 @@ extension Date {
         return WeekRange(start: startOfWeek.endOfDay, end: endOfWeek.endOfDay)
     }
     
+    func previousWeek() -> Date {
+        CalendarExt.calendar.date(byAdding: .day, value: -7, to: self)!
+    }
+    
+    func nextWeek() -> Date {
+        CalendarExt.calendar.date(byAdding: .day, value: 7, to: self)!
+    }
+
     /// Возвращает начало и конец месяца
     func toMonthRange() -> MonthRange {
         let components = CalendarExt.calendar.dateComponents([.year, .month], from: self)
@@ -72,6 +80,10 @@ extension Date {
         return MonthRange(start: start.endOfDay, end: end.endOfDay)
     }
     
+    func toMonthShort() -> String {
+        CalendarExt.getMonthShort(from: self)
+    }
+    
     func inSameDay(_ date: Date) -> Bool {
         CalendarExt.calendar.isDate(self, inSameDayAs: date)
     }
@@ -79,5 +91,16 @@ extension Date {
     var nextDay: Date {
         CalendarExt.calendar.date(byAdding: DateComponents(day: 1), to: self)!
     }
-
+    
+    func month() -> Int {
+        CalendarExt.calendar.component(.month, from: self)
+    }
+    
+    func previousMonth() -> Date {
+        CalendarExt.calendar.date(byAdding: .month, value: -1, to: self)!
+    }
+    
+    func nextMonth() -> Date {
+        CalendarExt.calendar.date(byAdding: .month, value: 1, to: self)!
+    }
 }
