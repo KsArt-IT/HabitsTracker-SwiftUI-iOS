@@ -35,7 +35,7 @@ final class CalendarExt {
     /// Returns an array of tuples representing the abbreviated weekday symbols and corresponding day numbers for the current week.
     ///
     /// - Returns: An array of tuples where each tuple contains an abbreviated weekday symbol and the corresponding day number.
-    public static func getWeekDaysShort(fromDate: Date = Date()) -> [WeekDaysShort] {
+    public static func getWeekDaysShort(fromDate: Date = Date.now) -> [WeekDaysShort] {
         // Determine the start of the current week
         guard let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: fromDate)?.start else {
             return []
@@ -52,8 +52,13 @@ final class CalendarExt {
         }
     }
 
-    public static func getMonthsShort(fromDate: Date = Date()) -> [MonthsShort] {
-        let month = calendar.component(.month, from: fromDate) - 1
+    public static func getMonthShort(from date: Date = Date.now) -> String {
+        let month = calendar.component(.month, from: date) - 1
+        return monthsShort[month]
+    }
+    
+    public static func getMonthsShort(from date: Date = Date.now) -> [MonthsShort] {
+        let month = calendar.component(.month, from: date) - 1
         // Create an array of tuples (weekday, date)
         return (0..<10).reversed().compactMap { i in
             var index = month - i
