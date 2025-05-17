@@ -54,6 +54,8 @@ enum Constants {
         static let habitIconPadding: CGFloat = 10
         static let habitCornerRadius: CGFloat = 24
         static let habitCircle: CGFloat = 16
+        // Month
+        static let selectorWidth: CGFloat = 50
     }
     
     enum Fonts {
