@@ -35,6 +35,14 @@ extension Date {
         CalendarExt.calendar.date(byAdding: DateComponents(day: 1, second: -1), to: startOfDay)!
     }
     
+    func previousDay() -> Date {
+        CalendarExt.calendar.date(byAdding: .day, value: -1, to: self)!
+    }
+    
+    func nextDay() -> Date {
+        CalendarExt.calendar.date(byAdding: .day, value: 1, to: self)!
+    }
+
     /// Возвращает день недели
     var weekDay: Int {
         CalendarExt.calendar.component(.weekday, from: self)
@@ -86,10 +94,6 @@ extension Date {
     
     func inSameDay(_ date: Date) -> Bool {
         CalendarExt.calendar.isDate(self, inSameDayAs: date)
-    }
-    
-    var nextDay: Date {
-        CalendarExt.calendar.date(byAdding: DateComponents(day: 1), to: self)!
     }
     
     func month() -> Int {
