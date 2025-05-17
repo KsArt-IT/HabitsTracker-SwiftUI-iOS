@@ -13,8 +13,15 @@ struct HabitWeekScreen: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            if viewModel.habitStatus.isEmpty {
-                TextNoItem()
+            if viewModel.habitStatus.isEmpty || viewModel.isLoading {
+                ZStack {
+                    if viewModel.isLoading {
+                        ProgressView()
+                    } else {
+                        TextNoItem()
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             } else {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack(spacing: Constants.Sizes.medium) {
