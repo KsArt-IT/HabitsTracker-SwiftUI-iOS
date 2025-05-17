@@ -11,48 +11,53 @@ import Combine
 final class HabitMonthViewModel: ObservableObject {
     private let repository: HabitRepository
     
+    @Published private(set) var isLoading = false
     @Published var habitStatus: [HabitMonthStatus] = []
-    private var dateRange: MonthRange
-    private var date: Date = Date.now {
-        didSet {
-            dateRange = date.toMonthRange()
-        }
-    }
+    @Published private(set) var date: Date = Date.now
+    private var dateRange: MonthRange = Date.now.toMonthRange()
     
     private var task: Task<(), Never>?
     private var cancellables: Set<AnyCancellable> = []
-
+    
     init(repository: HabitRepository) {
         self.repository = repository
-        // для инициализации
-        dateRange = date.toMonthRange()
-        
         // загрузим данные
         fetchData()
         // наблюдаем за добавлением и изменением записей
-        self.subscribeReload()
+        subscribeReload()
     }
     
     // MARK: - Fetch Habits
-    private func fetchData() {
+    private func fetchData(from newDate: Date = Date.now) {
         print("HabitMonthViewModel: \(#function)")
-        guard task == nil else { return }
+        guard Profile.user != nil else { return }
+        if task != nil {
+            task?.cancel()
+            task = nil
+        }
         let newTask = Task { [weak self] in
-            await self?.fetchHabits()
+            await self?.setLoading()
+            await self?.fetchHabits(from: newDate)
+            await self?.setLoading(false)
             
             self?.task = nil
         }
         self.task = newTask
     }
     
-    func fetchHabits() async {
+    func fetchHabits(from newDate: Date = Date.now) async {
         print("HabitMonthViewModel: \(#function) user=\(Profile.user?.id.uuidString ?? "")")
         guard let user = Profile.user else { return }
-        date = Date.now
-        let result = await repository.fetchHabits(by: user.id, from: dateRange.start, to: dateRange.end)
+        dateRange = newDate.toMonthRange()
+        let result = await repository.fetchHabits(
+            by: user.id,
+            from: dateRange.start,
+            to: dateRange.end,
+        )
         switch result {
         case .success(let habits):
             await filterAndSort(habits)
+            await setDate(newDate)
         case .failure(let error):
             await showMessage(error.localizedDescription)
         }
@@ -96,19 +101,11 @@ final class HabitMonthViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Show Message
-    @MainActor
-    private func showMessage(_ message: String) {
-        print("HabitMonthViewModel: message = \(message)")
-    }
-    
     // MARK: - Update List
     private func filterAndSort(_ habits: [Habit]) async {
-        let start = dateRange.start
-        let end = dateRange.end
-        
+        let current = Date.now
         let list = habits.map {
-            $0.toMonthStatus(current: date, start: start, end: end)
+            $0.toMonthStatus(current: current, start: dateRange.start, end: dateRange.end)
         }
         
         await sortList(list)
@@ -117,7 +114,7 @@ final class HabitMonthViewModel: ObservableObject {
     private func updateList(_ newItem: Habit) async {
         var newList = habitStatus.filter { $0.id != newItem.id }
         newList.append(
-            newItem.toMonthStatus(current: date, start: dateRange.start, end: dateRange.end)
+            newItem.toMonthStatus(current: Date.now, start: dateRange.start, end: dateRange.end)
         )
         await sortList(newList)
     }
@@ -132,6 +129,31 @@ final class HabitMonthViewModel: ObservableObject {
         guard habitStatus != list else { return }
         
         habitStatus = list
+    }
+    
+    // MARK: - Date change
+    func previousMonth() {
+        fetchData(from: date.previousMonth())
+    }
+    
+    func nextMonth() {
+        fetchData(from: date.nextMonth())
+    }
+    
+    @MainActor
+    private func setDate(_ newDate: Date) {
+        date = newDate
+    }
+    
+    @MainActor
+    private func setLoading(_ show: Bool = true) {
+        isLoading = show
+    }
+    
+    // MARK: - Show Message
+    @MainActor
+    private func showMessage(_ message: String) {
+        print("HabitMonthViewModel: message = \(message)")
     }
     
     // MARK: - Subscribe
