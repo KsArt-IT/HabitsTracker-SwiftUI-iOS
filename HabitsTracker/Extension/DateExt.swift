@@ -42,7 +42,11 @@ extension Date {
     func nextDay() -> Date {
         CalendarExt.calendar.date(byAdding: .day, value: 1, to: self)!
     }
-
+    
+    var dayMonthString: String {
+        self.formatted(.dateTime.day(.twoDigits).month(.twoDigits))
+    }
+    
     /// Возвращает день недели
     var weekDay: Int {
         CalendarExt.calendar.component(.weekday, from: self)
@@ -69,7 +73,7 @@ extension Date {
     func nextWeek() -> Date {
         CalendarExt.calendar.date(byAdding: .day, value: 7, to: self)!
     }
-
+    
     /// Возвращает начало и конец месяца
     func toMonthRange() -> MonthRange {
         let components = CalendarExt.calendar.dateComponents([.year, .month], from: self)
