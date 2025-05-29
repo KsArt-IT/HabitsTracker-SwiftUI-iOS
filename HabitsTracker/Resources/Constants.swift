@@ -14,7 +14,7 @@ enum Constants {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ??
         Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "HabitsTracker"
     }()
-
+    
     enum Sizes {
         static let tiny: CGFloat = 4
         static let small: CGFloat = 8
@@ -23,10 +23,10 @@ enum Constants {
         
         static let icon: CGFloat = 24
         static let paddingVertical: CGFloat = 12
-
+        
         static let timeViewHeight: CGFloat = 44
         static let timeViewDivider: CGFloat = 32
-
+        
         static let textFieldHeight: CGFloat = 44
         static let textFieldPaddingHorizontal: CGFloat = 16
         static let textFieldPaddingVertical: CGFloat = 12
@@ -59,26 +59,28 @@ enum Constants {
     }
     
     enum Fonts {
-        static let largeTitle = Font.system(size: 48, weight: .semibold)
+        private static let fontInter = "Inter"
         
-        static let mediumTitle = Font.system(size: 32, weight: .semibold)
+        static let largeTitle = Font.custom(fontInter, size: 48).weight(.semibold)
         
-        static let accentMedium = Font.system(size: 24, weight: .medium)
-
-        static let normalLabel = Font.system(size: 20, weight: .regular)
+        static let mediumTitle = Font.custom(fontInter, size: 32).weight(.semibold)
         
-        static let normalRegular = Font.system(size: 16, weight: .regular)
-        static let normalMedium = Font.system(size: 16, weight: .medium)
+        static let accentMedium = Font.custom(fontInter, size: 24).weight(.medium)
         
-        static let captionRegular = Font.system(size: 14, weight: .regular)
-        static let captionLight = Font.system(size: 14, weight: .light)
+        static let normalLabel = Font.custom(fontInter, size: 20).weight(.regular)
         
-        static let appTab = Font.system(size: 14, weight: .medium)
+        static let normalRegular = Font.custom(fontInter, size: 16).weight(.regular)
+        static let normalMedium = Font.custom(fontInter, size: 16).weight(.medium)
+        
+        static let captionRegular = Font.custom(fontInter, size: 14).weight(.regular)
+        static let captionLight = Font.custom(fontInter, size: 14).weight(.light)
+        
+        static let appTab = Font.custom(fontInter, size: 14).weight(.medium)
     }
     
     enum Times {
         static let maxCount = 12
-
+        
         static let appTabAnimation = 0.15
     }
     
