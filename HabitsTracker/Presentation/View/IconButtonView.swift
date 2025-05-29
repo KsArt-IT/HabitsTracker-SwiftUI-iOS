@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct IconButtonView: View {
-    let systemName: String
+    let name: String
     let clear: Bool
     let disabled: Bool
     let action: () -> Void
@@ -17,10 +17,11 @@ struct IconButtonView: View {
         Button {
             action()
         } label: {
-            Image(systemName: systemName)
+            Image(name)
+                .renderingMode(.template)
                 .font(.system(size: Constants.Sizes.icon))
                 .frame(width: Constants.Sizes.large, height: Constants.Sizes.large)
-                .foregroundStyle(Color.text)
+                .foregroundStyle(disabled ? Color.notCompleted : Color.text)
                 .background(clear ? Color.clear : Color.tabBackground)
                 .clipShape(Capsule(style: .circular))
         }
@@ -29,5 +30,5 @@ struct IconButtonView: View {
 }
 
 #Preview {
-    IconButtonView(systemName: "chevron.backward", clear: false, disabled: false, action: {})
+    IconButtonView(name: "chevron.backward", clear: false, disabled: false, action: {})
 }
