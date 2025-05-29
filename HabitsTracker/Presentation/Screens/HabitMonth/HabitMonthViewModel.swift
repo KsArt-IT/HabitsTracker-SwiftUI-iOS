@@ -132,11 +132,11 @@ final class HabitMonthViewModel: ObservableObject {
     }
     
     // MARK: - Date change
-    func previousMonth() {
+    func previous() {
         fetchData(from: date.previousMonth())
     }
     
-    func nextMonth() {
+    func next() {
         fetchData(from: date.nextMonth())
     }
     
