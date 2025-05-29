@@ -11,18 +11,24 @@ struct MonthSelectorView: View {
     let date: Date
     let previousMonth: () -> Void
     let nextMonth: () -> Void
+
+    private let isFirst: Bool
+    private let isLast: Bool
     
-    private var isFirst: Bool {
-        date.month() == 1
-    }
-    private var isLast: Bool {
-        date.month() == 12
+    init(date: Date, previousMonth: @escaping () -> Void, nextMonth: @escaping () -> Void) {
+        self.date = date
+        self.previousMonth = previousMonth
+        self.nextMonth = nextMonth
+        
+        let month = date.month()
+        self.isFirst = month == 1
+        self.isLast = month == 12
     }
     
     var body: some View {
         HStack(spacing: Constants.Sizes.medium) {
             IconButtonView(
-                systemName: "chevron.backward",
+                name: "arrowLeft",
                 clear: true,
                 disabled: isFirst,
                 action: previousMonth,
@@ -33,7 +39,7 @@ struct MonthSelectorView: View {
             MonthNameView(date: date.nextMonth(), selected: false, disabled: isLast)
             Spacer()
             IconButtonView(
-                systemName: "chevron.forward",
+                name: "arrowRight",
                 clear: true,
                 disabled: isLast,
                 action: nextMonth,
