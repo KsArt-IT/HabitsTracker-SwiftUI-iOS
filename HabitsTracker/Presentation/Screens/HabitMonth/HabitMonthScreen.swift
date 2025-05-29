@@ -15,8 +15,8 @@ struct HabitMonthScreen: View {
         VStack(spacing: 0) {
             MonthSelectorView(
                 date: viewModel.date,
-                previousMonth: viewModel.previousMonth,
-                nextMonth: viewModel.nextMonth,
+                previousMonth: viewModel.previous,
+                nextMonth: viewModel.next
             )
             .padding(Constants.Sizes.medium)
             if viewModel.habitStatus.isEmpty || viewModel.isLoading {
@@ -49,5 +49,5 @@ struct HabitMonthScreen: View {
 }
 
 #Preview {
-//    HabitMonthScreen()
+    //    HabitMonthScreen()
 }
