@@ -20,3 +20,7 @@ Daily flow of habits - Habits Tracker
 - [SwiftUI](https://developer.apple.com/xcode/swiftui/) for UI
 - [SwiftData](https://developer.apple.com/xcode/swiftdata/) for DataBase
 - [DI-Swinject](https://github.com/Swinject/Swinject) for DI
+
+## Design
+
+- [Figma](https://www.figma.com/design/vKZT37YAwo5evihhr2fPDf/Simple-Habits)
