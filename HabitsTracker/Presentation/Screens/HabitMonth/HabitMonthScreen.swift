@@ -18,7 +18,6 @@ struct HabitMonthScreen: View {
                 previousMonth: viewModel.previous,
                 nextMonth: viewModel.next
             )
-            .padding(Constants.Sizes.medium)
             if viewModel.habitStatus.isEmpty || viewModel.isLoading {
                 ZStack {
                     if viewModel.isLoading {
