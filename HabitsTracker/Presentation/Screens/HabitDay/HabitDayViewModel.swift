@@ -11,8 +11,13 @@ import Combine
 final class HabitDayViewModel: ObservableObject {
     private let habitRepository: HabitRepository
     
+    @Published private(set) var isLoading = false
     @Published var habits: [Habit] = []
-    private var date: Date = Date.now
+    @Published var date: Date = Date.now {
+        didSet {
+            fetchData(from: date)
+        }
+    }
     
     private var task: Task<(), Never>?
     private var cancellables: Set<AnyCancellable> = []
@@ -22,26 +27,31 @@ final class HabitDayViewModel: ObservableObject {
         // загрузим данные
         fetchData()
         // наблюдаем за добавлением и изменением записей
-        self.subscribeReload()
+        subscribeReload()
     }
     
     // MARK: - Fetch Habits
-    private func fetchData() {
+    private func fetchData(from newDate: Date = Date.now) {
         print("HabitDayViewModel: \(#function)")
-        guard task == nil else { return }
+        guard Profile.user != nil else { return }
+        if task != nil {
+            task?.cancel()
+            task = nil
+        }
         let newTask = Task { [weak self] in
-            await self?.fetchHabits()
-            
+            await self?.setLoading()
+            await self?.fetchHabits(from: newDate)
+            await self?.setLoading(false)
+
             self?.task = nil
         }
         self.task = newTask
     }
     
-    func fetchHabits() async {
+    func fetchHabits(from newDate: Date = Date.now) async {
         print("HabitDayViewModel: \(#function) user=\(Profile.user?.id.uuidString ?? "")")
         guard let user = Profile.user else { return }
-        date = Date.now
-        let result = await habitRepository.fetchHabits(by: user.id, from: date)
+        let result = await habitRepository.fetchHabits(by: user.id, from: newDate)
         switch result {
         case .success(let habits):
             await sortList(habits)
@@ -88,12 +98,6 @@ final class HabitDayViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Show Message
-    @MainActor
-    private func showMessage(_ message: String) {
-        print("HabitDayViewModel: message = \(message)")
-    }
-    
     // MARK: - Update List
     private func updateList(_ newItem: Habit) async {
         var newList = habits.filter { $0.id != newItem.id }
@@ -111,6 +115,23 @@ final class HabitDayViewModel: ObservableObject {
         guard habits != list else { return }
         
         habits = list
+    }
+    
+    // MARK: - Date change
+    func changeDate(_ newDate: Date) {
+        date = newDate
+        fetchData(from: newDate)
+    }
+    
+    @MainActor
+    private func setLoading(_ show: Bool = true) {
+        isLoading = show
+    }
+    
+    // MARK: - Show Message
+    @MainActor
+    private func showMessage(_ message: String) {
+        print("HabitDayViewModel: message = \(message)")
     }
     
     // MARK: - Subscribe
