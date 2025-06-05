@@ -18,6 +18,7 @@ struct HabitDayScreen: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            DaySelectorView(date: $viewModel.date)
             if viewModel.habits.isEmpty || viewModel.isLoading {
                 ZStack {
                     if viewModel.isLoading {
@@ -46,7 +47,6 @@ struct HabitDayScreen: View {
                 }
             }
         }
-        .padding(.top, Constants.Sizes.medium)
     }
 }
 
