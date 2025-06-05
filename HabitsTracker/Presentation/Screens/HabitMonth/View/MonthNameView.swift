@@ -14,7 +14,7 @@ struct MonthNameView: View {
     
     var body: some View {
         Text(disabled ? "": date.toMonthShort())
-            .font(Constants.Fonts.accentMedium)
+            .font(selected ? Constants.Fonts.accentMedium : Constants.Fonts.normalLabel)
             .foregroundStyle(selected ? Color.text : Color.textGray)
             .frame(width: Constants.Sizes.selectorWidth)
             .lineLimit(1)
