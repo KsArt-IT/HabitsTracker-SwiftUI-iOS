@@ -11,7 +11,7 @@ struct MonthSelectorView: View {
     let date: Date
     let previousMonth: () -> Void
     let nextMonth: () -> Void
-
+    
     private let isFirst: Bool
     private let isLast: Bool
     
@@ -26,7 +26,7 @@ struct MonthSelectorView: View {
     }
     
     var body: some View {
-        HStack(spacing: Constants.Sizes.medium) {
+        HStack(spacing: .zero) {
             IconButtonView(
                 name: "arrowLeft",
                 clear: true,
