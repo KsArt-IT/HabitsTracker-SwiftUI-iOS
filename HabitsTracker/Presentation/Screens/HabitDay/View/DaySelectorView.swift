@@ -13,7 +13,7 @@ struct DaySelectorView: View {
     var body: some View {
         HStack(spacing: .zero) {
             IconButtonView(name: "arrowLeft", clear: true, disabled: false) {
-                withAnimation(.linear(duration: 1)) {
+                withAnimation {
                     date = date.previousDay()
                 }
             }
@@ -23,10 +23,10 @@ struct DaySelectorView: View {
                 DayMonthView(date: date, selected: true, disabled: false)
                 DayMonthView(date: date.nextDay(), selected: false, disabled: false)
             }
-            .animation(.linear, value: date)
+            .animation(.bouncy(duration: 1), value: date)
             Spacer()
             IconButtonView(name: "arrowRight", clear: true, disabled: false) {
-                withAnimation(.linear(duration: 1)) {
+                withAnimation {
                     date = date.nextDay()
                 }
             }
