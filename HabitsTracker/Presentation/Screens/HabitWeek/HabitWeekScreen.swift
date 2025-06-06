@@ -12,7 +12,8 @@ struct HabitWeekScreen: View {
     @Binding var habitMenu: HabitMenu
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: .zero) {
+            WeekSelectorView(date: $viewModel.date)
             if viewModel.habitStatus.isEmpty || viewModel.isLoading {
                 ZStack {
                     if viewModel.isLoading {
@@ -39,7 +40,6 @@ struct HabitWeekScreen: View {
                 }
             }
         }
-        .padding(.top, Constants.Sizes.medium)
     }
 }
 
