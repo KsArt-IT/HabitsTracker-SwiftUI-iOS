@@ -13,8 +13,10 @@ final class HabitDayViewModel: ObservableObject {
     
     @Published private(set) var isLoading = false
     @Published var habits: [Habit] = []
+    private var isUpdateDate = false
     @Published var date: Date = Date.now {
         didSet {
+            guard !isUpdateDate else { return }
             fetchData(from: date)
         }
     }
@@ -55,6 +57,7 @@ final class HabitDayViewModel: ObservableObject {
         switch result {
         case .success(let habits):
             await sortList(habits)
+            await updateDate(newDate)
         case .failure(let error):
             await showMessage(error.localizedDescription)
         }
@@ -118,11 +121,13 @@ final class HabitDayViewModel: ObservableObject {
     }
     
     // MARK: - Date change
-    func changeDate(_ newDate: Date) {
+    @MainActor
+    private func updateDate(_ newDate: Date) async {
+        isUpdateDate = true
         date = newDate
-        fetchData(from: newDate)
+        isUpdateDate = false
     }
-    
+
     @MainActor
     private func setLoading(_ show: Bool = true) {
         isLoading = show
