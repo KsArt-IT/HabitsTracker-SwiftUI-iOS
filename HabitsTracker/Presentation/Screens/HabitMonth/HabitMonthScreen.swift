@@ -12,12 +12,8 @@ struct HabitMonthScreen: View {
     @Binding var habitMenu: HabitMenu
     
     var body: some View {
-        VStack(spacing: 0) {
-            MonthSelectorView(
-                date: viewModel.date,
-                previousMonth: viewModel.previous,
-                nextMonth: viewModel.next
-            )
+        VStack(spacing: .zero) {
+            MonthSelectorView(date: $viewModel.date)
             if viewModel.habitStatus.isEmpty || viewModel.isLoading {
                 ZStack {
                     if viewModel.isLoading {
