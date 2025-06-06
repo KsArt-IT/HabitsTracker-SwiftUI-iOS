@@ -66,6 +66,10 @@ extension Date {
         return WeekRange(start: startOfWeek.endOfDay, end: endOfWeek.endOfDay)
     }
     
+    var weekOfYear: Int {
+        CalendarExt.calendar.component(.weekOfYear, from: self)
+    }
+
     func previousWeek() -> Date {
         CalendarExt.calendar.date(byAdding: .day, value: -7, to: self)!
     }
