@@ -13,7 +13,13 @@ final class HabitMonthViewModel: ObservableObject {
     
     @Published private(set) var isLoading = false
     @Published var habitStatus: [HabitMonthStatus] = []
-    @Published private(set) var date: Date = Date.now
+    private var isUpdateDate = false
+    @Published var date: Date = Date.now {
+        didSet {
+            guard !isUpdateDate else { return }
+            fetchData(from: date)
+        }
+    }
     private var dateRange: MonthRange = Date.now.toMonthRange()
     
     private var task: Task<(), Never>?
@@ -57,7 +63,7 @@ final class HabitMonthViewModel: ObservableObject {
         switch result {
         case .success(let habits):
             await filterAndSort(habits)
-            await setDate(newDate)
+            await updateDate(newDate)
         case .failure(let error):
             await showMessage(error.localizedDescription)
         }
@@ -132,17 +138,11 @@ final class HabitMonthViewModel: ObservableObject {
     }
     
     // MARK: - Date change
-    func previous() {
-        fetchData(from: date.previousMonth())
-    }
-    
-    func next() {
-        fetchData(from: date.nextMonth())
-    }
-    
     @MainActor
-    private func setDate(_ newDate: Date) {
+    private func updateDate(_ newDate: Date) async {
+        isUpdateDate = true
         date = newDate
+        isUpdateDate = false
     }
     
     @MainActor
