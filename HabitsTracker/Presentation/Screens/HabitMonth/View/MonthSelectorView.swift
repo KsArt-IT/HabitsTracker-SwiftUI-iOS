@@ -8,51 +8,33 @@
 import SwiftUI
 
 struct MonthSelectorView: View {
-    let date: Date
-    let previousMonth: () -> Void
-    let nextMonth: () -> Void
-    
-    private let isFirst: Bool
-    private let isLast: Bool
-    
-    init(date: Date, previousMonth: @escaping () -> Void, nextMonth: @escaping () -> Void) {
-        self.date = date
-        self.previousMonth = previousMonth
-        self.nextMonth = nextMonth
-        
-        let month = date.month()
-        self.isFirst = month == 1
-        self.isLast = month == 12
-    }
+    @Binding var date: Date
     
     var body: some View {
         HStack(spacing: .zero) {
-            IconButtonView(
-                name: "arrowLeft",
-                clear: true,
-                disabled: isFirst,
-                action: previousMonth,
-            )
+            IconButtonView(name: "arrowLeft", clear: true, disabled: false) {
+                withAnimation {
+                    date = date.previousMonth()
+                }
+            }
             Spacer()
-            MonthNameView(date: date.previousMonth(), selected: false, disabled: isFirst)
+            HStack(spacing: .zero) {
+            MonthNameView(date: date.previousMonth(), selected: false, disabled: false)
             MonthNameView(date: date, selected: true, disabled: false)
-            MonthNameView(date: date.nextMonth(), selected: false, disabled: isLast)
+            MonthNameView(date: date.nextMonth(), selected: false, disabled: false)
+            }
+            .animation(.bouncy(duration: 1), value: date)
             Spacer()
-            IconButtonView(
-                name: "arrowRight",
-                clear: true,
-                disabled: isLast,
-                action: nextMonth,
-            )
+            IconButtonView(name: "arrowRight", clear: true, disabled: false) {
+                withAnimation {
+                    date = date.nextMonth()
+                }
+            }
         }
     }
 }
 
 #Preview {
     @Previewable @State var date = Date.now
-    MonthSelectorView(
-        date: date,
-        previousMonth: { date = date.previousMonth() },
-        nextMonth: { date = date.nextMonth() },
-    )
+    MonthSelectorView(date: $date)
 }
