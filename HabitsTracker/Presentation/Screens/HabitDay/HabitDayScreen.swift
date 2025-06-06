@@ -17,7 +17,7 @@ struct HabitDayScreen: View {
     @Binding var habitMenu: HabitMenu
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: .zero) {
             DaySelectorView(date: $viewModel.date)
             if viewModel.habits.isEmpty || viewModel.isLoading {
                 ZStack {
