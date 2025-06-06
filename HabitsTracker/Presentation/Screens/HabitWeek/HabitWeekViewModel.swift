@@ -13,7 +13,13 @@ final class HabitWeekViewModel: ObservableObject {
     
     @Published private(set) var isLoading = false
     @Published var habitStatus: [HabitWeekStatus] = []
-    private var date: Date = Date.now
+    private var isUpdateDate = false
+    @Published var date: Date = Date.now {
+        didSet {
+            guard !isUpdateDate else { return }
+            fetchData(from: date)
+        }
+    }
     private var dateRange: WeekRange = Date.now.toWeekRange()
     
     private var task: Task<(), Never>?
@@ -57,7 +63,7 @@ final class HabitWeekViewModel: ObservableObject {
         switch result {
         case .success(let habits):
             await filterAndSort(habits)
-            await setDate(newDate)
+            await updateDate(newDate)
         case .failure(let error):
             await showMessage(error.localizedDescription)
         }
@@ -132,17 +138,11 @@ final class HabitWeekViewModel: ObservableObject {
     }
     
     // MARK: - Date change
-    func previousMonth() {
-        fetchData(from: date.previousWeek())
-    }
-    
-    func nextMonth() {
-        fetchData(from: date.nextWeek())
-    }
-    
     @MainActor
-    private func setDate(_ newDate: Date) {
+    private func updateDate(_ newDate: Date) async {
+        isUpdateDate = true
         date = newDate
+        isUpdateDate = false
     }
     
     @MainActor
