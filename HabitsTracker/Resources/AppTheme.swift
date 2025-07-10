@@ -5,7 +5,7 @@
 //  Created by KsArT on 14.03.2025.
 //
 
-import SwiftUICore
+import SwiftUI
 
 enum AppTheme: Int {
     case device

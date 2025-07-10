@@ -5,7 +5,7 @@
 //  Created by KsArT on 21.03.2025.
 //
 
-import SwiftUICore
+import SwiftUI
 
 enum AppTab: LocalizedStringKey, Identifiable, CaseIterable {
     case day = "Day"

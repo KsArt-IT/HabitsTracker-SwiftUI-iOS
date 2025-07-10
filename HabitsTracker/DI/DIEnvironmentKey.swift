@@ -5,7 +5,7 @@
 //  Created by KsArT on 13.03.2025.
 //
 
-import SwiftUICore
+import SwiftUI
 
 struct DIEnvironmentKey: EnvironmentKey {
     static let defaultValue = DIManager()

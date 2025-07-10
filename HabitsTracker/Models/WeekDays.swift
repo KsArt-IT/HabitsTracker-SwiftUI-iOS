@@ -5,7 +5,7 @@
 //  Created by KsArT on 31.03.2025.
 //
 
-import SwiftUICore
+import SwiftUI
 
 enum WeekDays: LocalizedStringResource, CaseIterable, Identifiable, Hashable {
     case monday    = "Monday"
