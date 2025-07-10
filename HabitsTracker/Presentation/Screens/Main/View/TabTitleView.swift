@@ -19,7 +19,7 @@ struct TabTitleView: View {
                 .truncationMode(.tail)
             Spacer(minLength: Constants.Sizes.medium)
             Button(action: action) {
-                Image("add")
+                Image("PlusSquared")
                     .font(.system(size: Constants.Sizes.icon))
                     .foregroundStyle(Color.text)
             }
